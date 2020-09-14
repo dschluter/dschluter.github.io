@@ -40,8 +40,8 @@ Below is an approximate list of lecture topics and contents. Links to the lectur
 
 <br>
 
-## Graphics<!--
-<a href="lecturepdf/02.Graphics.pdf">Lecture slides</a>
+## Graphics
+<a href="lecturepdf/02.Graphics.pdf">Lecture slides</a><!--
 <br><a href="https://youtu.be/b9oRMiy-CNk">Lecture video</a> -->
 <br>The purpose of graphs
 <br>Principles of effective display
