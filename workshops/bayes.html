@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>Bayesian data analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="workshops.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UBC Biology 501 R workshops</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Biol 501 home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R Workshops
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Main workshops page</a>
+    </li>
+    <li>
+      <a href="workshops-intro.html">1. Introduction to R</a>
+    </li>
+    <li>
+      <a href="graphics.html">2. Graphs and tables</a>
+    </li>
+    <li>
+      <a href="exp-design.html">3. Plan experiments</a>
+    </li>
+    <li>
+      <a href="linearmodels.html">4. Linear models</a>
+    </li>
+    <li>
+      <a href="lme.html">5. Mixed-effects models</a>
+    </li>
+    <li>
+      <a href="likelihood.html">6. Likelihood</a>
+    </li>
+    <li>
+      <a href="glm.html">7. Generalized linear models</a>
+    </li>
+    <li>
+      <a href="modelselection.html">8. Model selection</a>
+    </li>
+    <li>
+      <a href="bayes.html">9. Bayesian inference</a>
+    </li>
+    <li>
+      <a href="resampling.html">10. Bootstrap and permutation</a>
+    </li>
+    <li>
+      <a href="meta.html">11. Meta-analysis</a>
+    </li>
+    <li>
+      <a href="multivariate.html">12. Multivariate methods</a>
+    </li>
+    <li>
+      <a href="phylogenetic.html">13. Phylogenetic comparative methods</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/index.html">R tips home page</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Bayesian data analysis</h1>
+
+</div>
+
+
+<p>This workshop demonstrates principles of data analysis (estimation and model selection) in a Bayesian framework. For probability and likelihood calculations consult the “Prob” tab at the R tips site.</p>
+<div id="estimation-using-maximum-posterior-probability" class="section level4">
+<h4>Estimation using maximum posterior probability</h4>
+<p>Estimation in a Bayesian framework is related to likelihood methods. With likelihood, we treat the data as given and vary the parameter to find that value for which the probability of obtaining the data is highest. Bayesian methods go one step further, treating the parameter (or hypothesis) as a random variable and seeking the value having highest posterior probability, given the data. We need to specify a prior probability distribution for the parameter values.</p>
+</div>
+<div id="bayesian-model-selection" class="section level4">
+<h4>Bayesian model selection</h4>
+<p>Selecting among candidate models requires a criterion for evaluating and comparing models. We’ve already investigated AIC in a previous workshop. Here we demonstrate the superficially similar Bayesian information criterion (BIC). The approach has a tendency to pick a simpler model than does AIC.</p>
+<hr />
+</div>
+<div id="elephant-population-size-estimation" class="section level2">
+<h2>Elephant population size estimation</h2>
+<div id="mark-recapture" class="section level3">
+<h3>Mark-recapture</h3>
+<p>This example continues one from the likelihood workshop. Eggert et al. (2003. Molecular Ecology 12: 1389-1402) used mark-recapture methods to estimate the total number of forest elephants inhabiting Kakum National Park in Ghana by sampling dung and extracting elephant DNA to uniquely identify individuals. Over the first seven days of collecting the researchers identified 27 elephant individuals. Refer to these 27 elephants as <i>marked</i>. Over the next eight days they sampled 74 individuals, of which 15 had been previously marked. Refer to these 15 elephants as <i>recaptured</i>.</p>
+</div>
+<div id="probability-model" class="section level3">
+<h3>Probability model</h3>
+<p>Provided the assumptions are met (no births, deaths, immigrants, or emigrants while the study was being carried out; the dung of every elephant had an equal chance of being sampled, and selection of each individual was independent of the others), then the number of recaptured (previously marked) individuals <i>X</i> in the second sample should have a hypergeometric distribution with parameters <i>k</i> (the size of the second sample of individuals), <i>m</i> (total number of marked individuals in the population when the second sample was taken), and <i>n</i> (total number of unmarked individuals in the population at the time of the second sample).</p>
+</div>
+<div id="likelihood" class="section level3">
+<h3>Likelihood</h3>
+<ol style="list-style-type: decimal">
+<li><p>Using the hypergeometric distribution, calculate the log-likelihood of each of a range of possible values for the number of elephants in the Park. Note that the total number of elephants is <i>n</i> + <i>m</i>, and that <i>m</i> is known (<i>m</i> = 27). Note also that only integer values for <i>n</i> are allowed, and that <i>n</i> cannot be smaller than <i>k</i> - <i>X</i>, the observed number of unmarked individuals in the second sample.</p></li>
+<li><p>Plot the log-likelihood function. Find the value of <i>n</i> that maximizes the likelihood. Add <i>m</i> to this number to obtain the maximum likelihood estimate for population size.*</p></li>
+<li><p>Calculate the likelihood-based 95% confidence interval for the total number of elephants.**</p></li>
+</ol>
+<p><small> * 133 <br>** 104 &lt; <i>N</i> &lt; 193 </small></p>
+<!--
+
+### Answers
+
+
+```r
+# 1. Estimate N
+m <- 27   # total marked individuals in the population
+k <- 74   # size of second sample
+X <- 15   # number of recaptures
+
+# Note that N must be at least 86 = 74 - 15 + 27
+
+N <- 86:200
+loglike <- dhyper(X, m, n = N - 27, k, log = TRUE)
+
+# 2. MLE
+plot(loglike ~ N, type = "l")
+```
+
+<img src="bayes_files/figure-html/unnamed-chunk-1-1.png" width="528" />
+
+```r
+N[loglike == max(loglike)]
+```
+
+```
+## [1] 133
+```
+
+```r
+# 3. 95% confidence interval
+z <- N[loglike < max(loglike) - 1.92]
+c( max(z[z < 133]), min(z[z > 133]) )
+```
+
+```
+## [1] 104 193
+```
+
+[//]: -->
+<p><br></p>
+</div>
+<div id="bayesian-estimate" class="section level3">
+<h3>Bayesian estimate</h3>
+<p>To develop a Bayesian estimate of population size, we will need to come up with prior probabilities for each of the possible values for <i>n</i>. In reality this might be based upon previous information (visual counts; tracks; knowledge of the maximum number of elephants that can be sustained in an area the size of the Park, etc.). In the absence of prior information, the convention is to use a “flat” or non-informative prior. To apply this to the elephant problem we will come up with a realistic minimum and maximum possible population size. Then we give each value within this interval a prior probability equal to 1 divided by the number of integer values within the interval.</p>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Decide on a minimum and maximum possible value for <i>n</i>, the number of unmarked elephants in the Park (or <i>N = n + m</i>, the total number, if that’s how you’re calculating the likelihoods). The minimum <i>n</i> can be as small as 0 but the likelihood will be 0 for values smaller than <i>k - X</i>, so it is practical to set the smallest <i>n</i> to something greater or equal to <i>k - X</i>. For this first exercise don’t set the maximum too high. We’ll explore what happens later when we set the maximum to be a very large number.</p></li>
+<li><p>Create a vector of <i>n</i> values (or <i>N = n + m</i> values) containing all the integers between and including the minimum and maximum values that you decided in (4).</p></li>
+<li><p>Calculate the <strong>likelihoods</strong> of each of these values for <i>n</i>. Plot the likelihoods against <i>n</i> (or <em>N</em>). Plot the likelihood function. (We need the likelihoods rather than the log-likelihoods for the posterior probability calculations.)</p></li>
+<li><p>Create a vector containing the prior probabilities for each of the possible values for <i>n</i> that you included in your vector in (5). If you are using a flat prior then the vector will be the same length as your <i>n</i> vector, and each element will be the same constant. Plot the prior probabilities against <i>n</i>. If all is OK at this stage then the plot should show a flat line. Also, confirm that the prior probabilities sum to 1.</p></li>
+<li><p>Using your two vectors from (6) and (7), calculate the posterior probabilities of all the possible values of <i>n</i> (or of <i>n + m</i>) between your minimum and maximum values. After your calculation, confirm that the posterior probabilities sum to 1. Plot the posterior probabilities against <i>n</i> (or <i>n + m</i>). Compare with the shape of the likelihood curve.</p></li>
+<li><p>What is the most probable value of <i>n + m</i>, given the data? Compare this with your previous maximum likelihood estimate.*</p></li>
+<li><p>Calculate the 95% credible interval for <i>n</i> (or <i>n + m</i>, the total population size).** The pocedure for finding the lower and upper limits of the credible interval is a bit like that for likelihood. The idea is illustrated in the figure below. Starting from the highest point of the posterior probability, slide a horizontal line downward until you reach a point at which the corresponding values for the parameter (indicated below by the dashed vertical lines) bracket an area of 0.95 under the curve.</p></li>
+</ol>
+<p><img src="images/credible.jpg" alt=""></p>
+<p><br> Try to think of a method to find the values for <i>n</i> (or <i>n</i> + <i>m)</i> that correspond to an area under the curve equal to 0.95. Trial and error might work. At the bottom of this section I describe a crude method that worked for me, but try to come up with a method yourself first.</p>
+<ol start="11" style="list-style-type: decimal">
+<li><p>Compare your 95% credible interval for population size with the approximate likelihood-based 95% confidence interval. Which interval is narrower? Also compare the interpretations of the two intervals. How are they different? Are they compatible? Which makes the most sense to you? Why?</p></li>
+<li><p>Repeat the procedures (4)-(10) but using a much larger value for the maximum possible population size. How is your credible interval affected by the increase in the maximum value of the posterior probability distribution?</p></li>
+<li><p>What general implication do you draw from the influence of the prior probability distribution on the interval estimate for population size? Do you consider this implication to be a weakness or a strength of the Bayesian approach?</p></li>
+</ol>
+<p><small>* 133 <br>** lower: 106, upper: 187 </small></p>
+<p>Here is one way to find the approximate lower and upper limits to the credible interval.</p>
+<pre class="r"><code># First, order the posterior probabilities from highest to lowest
+post.ordered &lt;- posterior[order(posterior, decreasing = TRUE)]
+
+# Remember to order the corresponding n values the same way
+N.ordered &lt;- N[order(posterior, decreasing=TRUE)]
+
+# Obtain the cumulative sum of the posterior probabilities from lowest to highest
+post.cumsum &lt;- cumsum(post.ordered)
+
+# Finally, find N corresponding to a cumulative posterior probability of 0.95.
+range(N.ordered[post.cumsum &lt;= 0.95])</code></pre>
+<p>The area under the curve corresponding to this interval will actually sum to slightly less than 0.95. To be conservative, subtract 1 from the lower limit, or add 1 to upper limit, whichever first brings us over 0.95 cumulative posterior probability.</p>
+<!--
+
+### Answers
+
+
+```r
+# 5. Vector with possible values for N.
+N <- 86:200
+
+# 6. Likelihoods
+like <- dhyper(X, m, n = N - 27, k, log = FALSE)
+plot(like ~ N, type="l")
+```
+
+<img src="bayes_files/figure-html/unnamed-chunk-3-1.png" width="528" />
+
+```r
+# 7. Prior probabilities
+Pprior <- rep(1/length(N), length(N))
+sum(Pprior)
+```
+
+```
+## [1] 1
+```
+
+```r
+# 8. Posterior probabilities
+Ppost <- like * Pprior / sum(like*Pprior)
+plot(N, Ppost, type="l")
+```
+
+<img src="bayes_files/figure-html/unnamed-chunk-3-2.png" width="528" />
+
+```r
+# 9. Most probable value of N = n + m
+N[Ppost == max(Ppost)]
+```
+
+```
+## [1] 133
+```
+
+```r
+# 10. Credible interval
+
+# Cumulative posterior probability, from top down
+Pordered <- Ppost[order(Ppost, decreasing = TRUE)]
+Pcumsum <- cumsum(Pordered)
+
+# Corresponding N
+Nordered <- N[order(Ppost, decreasing=TRUE)]
+
+# N corresponding to cumulative Ppost of 0.95.
+range(Nordered[Pcumsum <= 0.95])
+```
+
+```
+## [1] 106 186
+```
+
+```r
+# Adjust 
+Nordered[Pcumsum == min(Pcumsum[Pcumsum > 0.95])]
+```
+
+```
+## [1] 187
+```
+
+```r
+# 12. Repeat with larger value maximum possible population size
+N <- 86:2000
+like <- dhyper(X, m, n = N - 27, k, log = FALSE)
+Pprior <- rep(1/length(N), length(N))
+Ppost <- like * Pprior / sum(like*Pprior)
+N[Ppost == max(Ppost)]
+```
+
+```
+## [1] 133
+```
+
+```r
+Pordered <- Ppost[order(Ppost, decreasing = TRUE)]
+Pcumsum <- cumsum(Pordered)
+Nordered <- N[order(Ppost, decreasing=TRUE)]
+range(Nordered[Pcumsum <= 0.95])
+```
+
+```
+## [1] 103 198
+```
+
+```r
+Nordered[Pcumsum == min(Pcumsum[Pcumsum > 0.95])]
+```
+
+```
+## [1] 199
+```
+
+[//]: -->
+<hr />
+</div>
+</div>
+<div id="biodiversity-and-ecosystem-function" class="section level2">
+<h2>Biodiversity and ecosystem function</h2>
+<p>In this second example we will compare the fit of linear and nonlinear models to a data set using a Bayesian model selection criterion. Consult the “Fit model” tab of the R tips pages for information on how to calculate the Bayesian Information Criterion (BIC).</p>
+<p>We haven’t discussed nonlinear model fitting before. Information on how to fit a nonlinear model using <code>nls</code> in R is also provided on the “Fit model” tab at the R tips web site.</p>
+<p>We will investigate the relationship between an ecosystem function variable, CO<sub>2</sub> flux, and the number of eukaryote species (protists and small metazoans) in an experimental aquatic microcosms. (An average of 24 bacterial species was present but not included in the species counts.)</p>
+<p>The data are from J. McGrady-Steed, P. M. Harris &amp; P. J. Morin (1997, Nature 390: 162-165). Download it from <a href="https://www.zoology.ubc.ca/~bio501/R/data/biodiv.csv">here</a>.</p>
+The variables are:
+<ul>
+<li>
+realized number of species, ranging from 2 to 19; may be lower than the number of species initially introduced by the experiments because of local extinctions.
+</li>
+<li>
+cumulative CO<sub>2</sub> flux, a measure of total ecosystem respiration.
+</li>
+</ul>
+<p>There are 82 data points representing replicate mesocosms. For this exercise we will assume that each replicate is independent, even though there is overlap in the species composition of different assemblages.</p>
+<div id="models" class="section level3">
+<h3>Models</h3>
+<p>These data can be used to test two alternative models to desceribe the role of biodiversity in ecosystem function:</p>
+<p><b>H<sub>1</sub></b>: Each new species added makes the same contribution to ecosystem respiration regardless of how many species are already present. In this case, a linear relationship is expected between community respiration and the number of species.</p>
+<p><b>H<sub>2</sub></b>: Multi-species communities include species that are functionally redundant, at least for univariate measures of ecosystem function. Under this view, as the number of species increases in a community, each new species makes a smaller and smaller contribution to ecosystem respiration until an asymptote is reached. In this case, the relationship might be described by a Michaelis-Menten curve (see Fit Model page).</p>
+</div>
+<div id="bayesian-model-selection-1" class="section level3">
+<h3>Bayesian model selection</h3>
+<ol style="list-style-type: decimal">
+<li><p>Download and read the data from the file.</p></li>
+<li><p>Plot CO<sub>2</sub> flux against number of species.</p></li>
+<li><p>Fit a simple linear regression to the data. Add the regression line to the plot. Judging by eye, is it a good fit?</p></li>
+<li><p>Fit a Michaelis-Menten model to the data. You’ll need to use the version of the formula having a non-zero y-intercept. (Note: When I tried to fit the model to the data the estimation process did not converge, perhaps because 2 rather than 0 or 1 is the smallest value for the explanatory variable. I had better luck when I used the number of species minus 2 rather than number of species as the explanatory variable in the model formula). Add the fitted line to the plot. Judging by eye, is it a good fit?</p></li>
+<li><p>Calculate BIC for both the linear and nonlinear models that you fit in (3) and (4)*. Which hypothesis has the lowest BIC? Does this accord with your visual judgements of model fit?</p></li>
+<li><p>Calculate the BIC differences for the two models, and then the BIC weights**. These weights can be interpreted as Bayesian posterior probabilities of the models if both the linear and Michaelis-Menten models have equal prior probabilities, and if we assume that one of these two models is the “true” model. Of course, we can never know whether either of these models is “true”, but we can nevertheless use the weights as a measure of evidence in support of both model, if we are considering only these two.</p></li>
+<li><p>Compare the models using AIC instead of BIC. Do you get the same “best” model using this criterion instead?</p></li>
+<li><p>Which hypothesis about the role of biodiversity in ecosystem function receives strongest support from these data?</p></li>
+<li><p>Assuming that it were possible, would conventional null hypothesis significance testing be a poorer, equivalent, or superior approach to the one used above to decide between the two models? Why?</p></li>
+<li><p>Will ecosystem respiration really reach an asymptote or might it continue to increase, albeit at a slower and slower rate, as the number of species increases? The power function can be used to model the latter situation. Which function, the Michaelis-Menten or the power function, has strongest support? Use the number of species minus 2 rather than number of species as the explanatory variable in the model formula.</p></li>
+</ol>
+<p><small>* linear = 1300.878, non-linear = 1294.914 <br>** weight: 0.04823876 and 0.95176124 respectively</small></p>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(ggplot2))
+
+# 1. Download and read data
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/biodiv.csv"), 
+      stringsAsFactors = FALSE)
+head(x)
+```
+
+```
+##   species co2flux
+## 1       2    -928
+## 2       2   -1034
+## 3       2   -1066
+## 4       2   -1151
+## 5       2   -1215
+## 6       3    -854
+```
+
+```r
+# 2. Plot 
+ggplot(x, aes(x = species, y = co2flux)) + 
+    geom_point(size = 3, col = "firebrick", alpha = 0.5) + 
+    labs(x = "Number of species", y = "CO2 flux") + 
+    theme_classic()
+```
+
+<img src="bayes_files/figure-html/unnamed-chunk-4-1.png" width="528" />
+
+```r
+# 3. Linear regression
+z1 <- lm(co2flux ~ species, data=x)
+summary(z1)
+```
+
+```
+## 
+## Call:
+## lm(formula = co2flux ~ species, data = x)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1062.0  -423.5   -96.6   386.4  1940.4 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  -438.24     144.59  -3.031 0.003283 ** 
+## species        63.46      16.40   3.870 0.000221 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 629.5 on 80 degrees of freedom
+## Multiple R-squared:  0.1577, Adjusted R-squared:  0.1472 
+## F-statistic: 14.98 on 1 and 80 DF,  p-value: 0.0002206
+```
+
+```r
+ggplot(x, aes(x = species, y = co2flux)) + 
+    geom_point(size = 3, col = "firebrick", alpha = 0.5) + 
+    geom_smooth(method = "lm", size = 1, se = FALSE) + 
+    labs(x = "Number of species", y = expression(paste(CO[2], " flux"))) + 
+    theme_classic()
+```
+
+<img src="bayes_files/figure-html/unnamed-chunk-4-2.png" width="528" />
+
+```r
+# 4. Michaelis-Menten model 
+z2 <- nls(co2flux ~ a + b*(species-2)/(c+(species-2)), data = x, 
+  start = list(a = 0, b = 100, c = 1))
+summary(z2)
+```
+
+```
+## 
+## Formula: co2flux ~ a + b * (species - 2)/(c + (species - 2))
+## 
+## Parameters:
+##     Estimate Std. Error t value Pr(>|t|)    
+## a -1054.3443   263.3068  -4.004  0.00014 ***
+## b  1490.2317   284.8087   5.232 1.34e-06 ***
+## c     1.0317     0.6672   1.546  0.12604    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 594.7 on 79 degrees of freedom
+## 
+## Number of iterations to convergence: 6 
+## Achieved convergence tolerance: 3.804e-06
+```
+
+```r
+x$predictMM <- predict(z2)
+ggplot(x, aes(x = species, y = co2flux)) + 
+    geom_point(size = 3, col = "firebrick", alpha = 0.5) + 
+    geom_smooth(method = "lm", size = 1, se = FALSE) + 
+    geom_line(aes(y = predictMM), size = 1) +
+    labs(x = "Number of species", y = expression(paste(CO[2], " flux"))) + 
+    theme_classic()
+```
+
+<img src="bayes_files/figure-html/unnamed-chunk-4-3.png" width="528" />
+
+```r
+# 5. BIC
+BIC(z1)
+```
+
+```
+## [1] 1300.878
+```
+
+```r
+BIC(z2)
+```
+
+```
+## [1] 1294.914
+```
+
+```r
+# 6. BIC weights
+delta <- c(BIC(z1), BIC(z2)) - min(c(BIC(z1), BIC(z2)))
+L <- exp(-0.5 * delta)
+w <- L/sum(L)
+w
+```
+
+```
+## [1] 0.04823876 0.95176124
+```
+
+```r
+# 7. AIC
+AIC(z1)
+```
+
+```
+## [1] 1293.658
+```
+
+```r
+AIC(z2)
+```
+
+```
+## [1] 1285.287
+```
+
+```r
+# 10. Michaelis-Menten vs power function
+z3 <- nls(co2flux ~ a + b*(species-2)^c, data = x, start=list(a = 1, b = 500, c = 1))
+summary(z3)
+```
+
+```
+## 
+## Formula: co2flux ~ a + b * (species - 2)^c
+## 
+## Parameters:
+##     Estimate Std. Error t value Pr(>|t|)    
+## a -1.082e+03  2.644e+02  -4.091 0.000103 ***
+## b  8.545e+02  2.862e+02   2.985 0.003771 ** 
+## c  2.157e-01  9.113e-02   2.367 0.020366 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 592.4 on 79 degrees of freedom
+## 
+## Number of iterations to convergence: 6 
+## Achieved convergence tolerance: 1.109e-06
+```
+
+```r
+BIC(z1)
+```
+
+```
+## [1] 1300.878
+```
+
+```r
+BIC(z2)
+```
+
+```
+## [1] 1294.914
+```
+
+```r
+BIC(z3)
+```
+
+```
+## [1] 1294.275
+```
+
+```r
+x$predictPWR <- predict(z3)
+ggplot(x, aes(x = species, y = co2flux)) + 
+    geom_point(size = 3, col = "firebrick", alpha = 0.5) + 
+    geom_smooth(method = "lm", size = 1, se = FALSE) + 
+    geom_line(aes(y = predictMM), size = 1) +
+    geom_line(aes(y = predictPWR), size = 1, col = "red") +
+    labs(x = "Number of species", y = expression(paste(CO[2], " flux"))) + 
+    theme_classic()
+```
+
+<img src="bayes_files/figure-html/unnamed-chunk-4-4.png" width="528" />
+
+[//]:  -->
+</div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

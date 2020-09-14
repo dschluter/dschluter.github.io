@@ -1,0 +1,60 @@
+---
+title: "Biol 501 R workshops"
+author:
+
+<!--  output: html_document -->
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+
+Workshops are held on Zoom (link will be sent via email). 
+
+Use the <b>R Workshops</b> dropdown menu to navigate to the R workshops. 
+
+For help, access the <b>R tips pages</b> menu.
+
+<br>
+
+***
+
+## Install R on your own computer
+Install the latest version of R. Obtain <a href="https://cran.r-project.org/">here</a>.
+
+Mac users will need to install <a href="http://www.xquartz.org">XQuartz</a> for some R commands to work (e.g., <code>fix()</code>).
+
+<!-- ## Bring your laptop
+Bring your own laptop, with the latest version of R installed from <a href="https://cran.r-project.org/">here</a>. Students without a laptop will be loaned one for the duration of the workshop. Let me know ahead of time if you require one, there is a limited number available (Mac only).
+-->
+
+***
+
+## Install packages
+You will need to install the following extra R packages for the workshops this semester (see the Rtips start page for information on how to install add-on packages).
+Packages: <code>ape</code>, <code>binom</code>, <code>car</code>, <code>emmeans</code>, <code>lmerTest</code>, <code>metafor</code>, <code>pwr</code>, <code>visreg</code>.
+
+***
+
+## Work at your own speed
+Use a text file to write and edit your R commands. This keeps a record of your analyses for later use, and makes it easier to rerun and modify analyses as data collection continues.
+
+Work at your own speed and don't worry if you cannot finish in the 2 hours allotted. Some of the workshops are intentionally made long to to allow you to come back in the future if you want more practice on a particular topic.
+
+***
+
+## Get help
+First ask the persons in your Zoom breakout rooms for suggestions if you are stuck. Also make use of the online help at the <a href="https://www.zoology.ubc.ca/~schluter/R">R tips</a> page. Ask me if you are still stumped.
+
+***
+
+## Get answers
+To give you enough time to work through the workshops in R, I'll post my own answer code after a week delay. R often provides more than one way to solve a problem, so my code isn't necessarily the only code that will get you to the same answer. 

@@ -1,0 +1,26 @@
+---
+title: "Calendar"
+author:
+
+<!--  output: html_document -->
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- ****Need to view in browser rather than in popup RStudio web page**** -->
+
+***
+
+## Calendar
+
+<div class="h_iframe">
+<iframe src="https://calendar.google.com/calendar/embed?src=ubcbio501%40gmail.com&ctz=America%2FVancouver" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+</div>

@@ -1,0 +1,252 @@
+---
+title: "Phylogenetic comparative methods"
+author:
+
+<!--  output: html_document -->
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5.5, fig.height=4.5)
+```
+
+In this workshop will explore some of the tools available in R for analyzing species as data points. For help with R commands to carry out resampling, see the <span style="font-weight: bold;">phylogeny</span> tab on the R tips help pages.
+
+***
+
+## Rockfish evolution
+Rockfish (genus <span style="font-style: italic;">Sebastes</span>) are a hugely diverse group of mainly Pacific Ocean fishes. There are over 100 recognized species inhabiting everything from the intertidal zone to waters over 2000 m deep. They have some of the highest longevities of any fish, with a maximum reported age of 205 years. Data on maximum body size (length), age (lifespan) and habitat depth of 56 species is provided <a href="https://www.zoology.ubc.ca/~bio501/R/data/rockfish.csv">here</a> in a .csv file. The data were gathered from FishBase, from Love (2002), and by Travis Ingram.
+
+A phylogenetic tree of the 56 species is provided in a text file <a href="https://www.zoology.ubc.ca/~bio501/R/data/rockfish.phy">here</a>. The tree, from Hyde & Vetter (2007), is a consensus Bayesian tree based on 7 mitochondrial and 2 nuclear genes.
+
+1. Download the file containing the phylogenetic tree. Inspect to determine whether it is in newick or nexus format and read into R using the appropriate command.
+
+2. Plot commands in ```ape``` will change the graphical parameters from the defaults. Save a copy of the default values by executing the following command: ```old.par <- par()```. We'll make use of ```old.par``` later.
+
+3. Plot the phylogeny. You may have to adjust an option to minimize overlapping the labels. Take a moment to admire the structure of the tree. Branch lengths are intended to reflect time. Does it look like the genus diversified mainly in a sudden early burst, a recent explosion, or a steady growth in the number of species through time? Notice that all the tips are contemporaneous.
+
+4. Obtain the species measurements from the data file and input to a data frame. Check that the species names in the trait file and in the phylogenetic tree are identical and are listed in the same order (this is a requirement for the methods we will be using from the ape package).
+
+5. Which of the traits show strong phylogenetic signal? First, use a method that places dots at the tips of the tree, with dot size reflecting the value for the trait. Is there a tendency for closely related species to be more similar in their trait values than more distantly related species?
+
+6. Next, calculate Pagel's $\lambda$ for each trait. Which traits show strong phylogenetic signal, according to this metric?
+
+
+<!--
+
+### Answers
+
+```{r eval = TRUE}
+suppressPackageStartupMessages(library(ape))
+suppressPackageStartupMessages(library(phytools))
+
+# 1. Download tree file 
+rtree <- read.tree(url("https://www.zoology.ubc.ca/~bio501/R/data/rockfish.phy"))
+rtree
+
+# 2. Save default graphical parameters
+old.par <- par()
+```
+
+```{r eval = TRUE, fig.width = 7, fig.height = 7}
+# 3. Plot phylogeny
+plot(rtree, cex = 0.6)
+```
+
+```{r eval = TRUE}
+# 4. Input species measurements
+rockfish <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/rockfish.csv"), 
+    stringsAsFactors = FALSE)
+rownames(rockfish) <- rockfish$species
+rockfish <- rockfish[ match(rtree$tip.label, rownames(rockfish)), ]
+
+# 5. Plot traits
+x <- rockfish[, c("maxlength.cm", "maxage.y", "maxdepth.m")]
+dotTree(rtree, as.matrix(x)[,c("maxlength.cm")], cex = 0.5)
+dotTree(rtree, as.matrix(x)[,c("maxage.y")], cex = 0.5)
+dotTree(rtree, as.matrix(x)[,c("maxdepth.m")], cex = 0.5)
+
+# 6. Pagel's $\lambda$
+phylosig(rtree, as.matrix(x)[,c("maxlength.cm")], method = "lambda")
+phylosig(rtree, as.matrix(x)[,c("maxage.y")], method = "lambda")
+phylosig(rtree, as.matrix(x)[,c("maxdepth.m")], method = "lambda")
+
+```
+
+[//]: -->
+
+***
+
+## TIPS analysis
+Let's begin with an analysis that ignores phylogeny, so that we have a baseline for comparison.
+
+1. Restore the default graphical parameters by executing ```par(old.par)```. It is not a huge issue if you skip this step (give it a try and see what happens). 
+
+2. Inspect scatter plots of the species data. Make any necessary transformations here to help meet the assumptions of linear models*.
+
+3. Choose one pair of variables in the data set to compare (suitably transformed). Carry out a linear model fit ignoring phylogeny for now.
+
+4. Examine the diagnostic plots in (3) to check your assumptions. 
+
+5. Extract the regression coefficients and standard errors from the model object created in (3). Take note of the values for the slope estimate.
+
+6. Obtain the correlation coefficient between the variables used in (3). Take note of the value of the estimate.
+
+<small> * Log-transforming the traits seems to be a good idea. </small>
+
+<!--
+
+### Answers
+
+```{r eval = TRUE}
+
+# Restore graphical parameters
+suppressWarnings(par(old.par))
+
+# 2. Inspect and transform
+pairs(rockfish[, c("maxlength.cm", "maxage.y", "maxdepth.m")])
+pairs(log(rockfish[, c("maxlength.cm", "maxage.y", "maxdepth.m")]))
+rockfish$log.maxlength <- log(rockfish$maxlength.cm)
+rockfish$log.maxage <- log(rockfish$maxage.y)
+rockfish$log.maxdepth <- log(rockfish$maxdepth.m)
+
+# 3. Linear model
+z <- lm(log.maxage ~ log.maxlength, data = rockfish)
+
+# 4. Diagnostic plots
+plot(z)
+
+# 5. Estimate
+summary(z)
+
+# 6. Correlation
+cor(rockfish$log.maxage, rockfish$log.maxlength)
+
+```
+
+[//]: -->
+
+***
+
+## PICs
+Let's use the same variables and apply phylogenetically independent contrasts (PICs) instead.
+
+1. Convert the same two variables used in your TIPS analysis to phylogenetically independent contrasts. Create a scatter plot of the contrasts in your two variables. Are they associated?
+
+2. Fit a linear model to the independent contrasts you created in (1). Use the contrasts corresponding to the same response and explanatory variables as in your TIPS analysis. Examine the diagnostic plots to check the linear model assumptions.
+
+3. Extract the regression coefficients and standard errors from the model object created in (2). How does the slope* compare with that obtained in your TIPS analysis? Is the standard error from the PICs analysis greater than, less than, or the same as in your TIPS analysis? (Meta-analyses have often found that PICs yield a similar answer to an analysis that ignores phylogeny, but your specific case might or might not.)
+
+4. Calculate the correlation coefficient** on the independent contrasts (consult the R tips pages if necessary).
+
+<small>
+* 1.19 when explanatory variable is log(maxlength.cm) and response variable is log(maxage.y)
+<br>** 0.625
+</small>
+
+<!--
+
+### Answers
+
+```{r eval = TRUE}
+
+# 1. Contrasts
+contrast.log.maxlength <- pic(rockfish$log.maxlength, rtree) 
+contrast.log.maxage <- pic(rockfish$log.maxage, rtree)
+plot(contrast.log.maxage ~ contrast.log.maxlength)
+
+# 2. Linear model independent contrasts
+z1 <- lm(contrast.log.maxage ~ contrast.log.maxlength - 1)
+plot(z1)
+
+# 3. Estimate
+summary(z1)
+
+# 4. Correlation
+sum(contrast.log.maxlength*contrast.log.maxage) / 
+    (sqrt(sum(contrast.log.maxlength^2))*sqrt(sum(contrast.log.maxage^2))) 
+
+```
+
+[//]: -->
+
+***
+
+## General least squares
+
+1. Carry out the equivalent analysis to PICs using general least squares instead. Confirm that the slope coefficient and its standard error are identical to that obtained in the analysis of independent contrasts.
+
+2. Examine the residual plot from the model fit in (1). Notice that the mean of the residuals is not zero (calculate the mean of the residuals to confirm this). This is because the GLS analysis does not weight each of the observations equally.
+
+3. (In effect, GLS fits a linear model to the variables after transforming them according to values computed from the phylogenetic correlation matrix. A disadvantage of the residual plot here is that we aren't seeing the diagnostic plot for the transformed variables, which would be nice. These can be calculated "by hand" but it is no fun*.)
+
+<small>* Actually, it is quite fun.</small>
+
+<!--
+
+### Answers
+
+```{r eval = TRUE}
+suppressPackageStartupMessages(library(nlme))
+
+# 1. GLS
+z2 <- gls(log.maxage ~ log.maxlength, data= rockfish, correlation=corBrownian(1, rtree))
+summary(z2)
+
+# 2. Residual plot
+plot(z2)
+
+```
+
+[//]: -->
+
+***
+
+## Adjusting for Pagel's $\lambda$
+
+1. Does incorporating phylogeny result in a better fit to the data than ignoring phylogeny? Use Pagel's $\lambda$ to help decide this. Using GLS, fit your model again while fixing Pagel's $\lambda$ = 1. Refit, but this time using  $\lambda$ = 0. Which lambda fits best? How large is the difference in their AIC scores?
+
+2. Find the maximum-likelihood estimate of $\lambda$*. Is the AIC score improved when a linear model is fitted using this maximum likelihood value for $\lambda$ ?
+
+3. Repeat the analyses with the other pairs of variables to decide whether including phylogeny generally improves the fit of linear models to these data.
+
+<small>*0.583 This value is lower than the largest value you calculated earlier on one of the traits. This is likely because $\lambda$ is now a compromise between the phylogenetic signals in two traits evolving together. </small>
+
+<!--
+
+### Answers
+
+```{r eval = TRUE}
+suppressPackageStartupMessages(library(ape))
+
+# 1. Pagel's lambda
+z3 <- gls(log.maxage ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(1,rtree, fixed = TRUE))
+z4 <- gls(log.maxage ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(0,rtree, fixed = TRUE))
+AIC(z3, z4)
+
+# 2. ML estimate of lambda
+z5 <- gls(log.maxage ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(1,rtree, fixed = FALSE))
+summary(z5)
+AIC(z5)
+
+# 3. Same for other pairs of variables
+z6 <- gls(log.maxdepth ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(1,rtree, fixed = TRUE))
+z7 <- gls(log.maxdepth ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(0,rtree, fixed = TRUE))
+z8 <- gls(log.maxdepth ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(1,rtree, fixed = FALSE))
+summary(z8)
+AIC(z6, z7, z8)
+
+```
+
+[//]: -->

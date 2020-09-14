@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Handouts</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="workshops.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biology 501 &mdash; The University of British Columbia</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Biol 501 pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Home page</a>
+    </li>
+    <li>
+      <a href="lectures.html">Lectures</a>
+    </li>
+    <li>
+      <a href="handouts.html">Handouts</a>
+    </li>
+    <li>
+      <a href="calendar.html">Calendar</a>
+    </li>
+    <li>
+      <a href="homework.html">Homework</a>
+    </li>
+    <li>
+      <a href="books.html">Books</a>
+    </li>
+    <li>
+      <a href="workshops/index.html">R workshops page</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="workshops/index.html">R workshops home</a>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~schluter/R/">R tips home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Handouts</h1>
+
+</div>
+
+
+<p>This page lists and links to the required readings for the term. Readings might change as the term progresses. Refresh the page on your browser to see the latest version.</p>
+<p>Dates indicate when the paper is to be <strong>discussed</strong>, so read well beforehand.</p>
+<p><br></p>
+<div id="discussion-dates-and-papers" class="section level2">
+<h2>Discussion dates and papers</h2>
+<div id="september-15" class="section level3">
+<h3>September 15</h3>
+<p><a href="readings/wainer%201984%20amer%20stat%20-%20how%20to%20display%20data%20badly.pdf">Wainer: How to display data badly</a></p>
+</div>
+<div id="september-22" class="section level3">
+<h3>September 22</h3>
+<p><a href="readings/hurlbert 1984 ecol monogr - pseudoreplication.pdf">Hurlbert: Pseudoreplication and the design of experiments</a></p>
+</div>
+<div id="september-29" class="section level3">
+<h3>September 29</h3>
+<p><a href="readings/colegrave & ruxton 2003 behav ecol - use confidence intervals not post-hoc power when Ho not rejected.pdf">Colegrave &amp; Ruxton: Confidence intervals</a></p>
+<p>Optional additional reading: <a href="readings/hoenig & heisey 2001 am stat - fallacy of power calculations for data analysis.pdf" rel="">Hoenig &amp; Heisey 2001</a>)</p>
+</div>
+<div id="october-6" class="section level3">
+<h3>October 6</h3>
+<p><a href="readings/kelly & price 2005 am nat - regression toward the mean.pdf">Kelly and Price: Correcting for regression to the mean</a></p>
+<p>Optional additional reading: <a href="readings/forstmeier 2011 anat rec - brain size fallacy.pdf" rel="">Forstmeier 2011</a> and <a href="https://www.zoology.ubc.ca/~schluter/reprints/schluter%201992%20nature%20-%20brain%20size%20differences.pdf" rel="">Schluter 1992</a> on a brain size fallacy.</p>
+</div>
+<div id="october-13" class="section level3">
+<h3>October 13</h3>
+<p><a href="readings/murtaugh 2007 ecology - simplicity and complexity in data analysis.pdf">Murtaugh: Simplicity in data analysis</a></p>
+</div>
+<div id="october-20" class="section level3">
+<h3>October 20</h3>
+<p><a href="readings/verhoeven et al 2005 oikos - controlling the false discovery rate.pdf">Verhoeven et al: Controlling false discovery rate</a></p>
+</div>
+<div id="october-27" class="section level3">
+<h3>October 27</h3>
+<p><a href="readings/whittingham et al 2006 jae - why not to use stepwise modeling.pdf">Whittingham et al: Why do we still use stepwise regression?</a></p>
+<p>Optional additional reading: <a href="readings/mundry et al 2009 am nat - more on why not to use stepwise model fitting.pdf">Mundry &amp; Nunn: more on stepwise regression</a></p>
+</div>
+<div id="november-3" class="section level3">
+<h3>November 3</h3>
+<p><a href="readings/cohen 1994 am psych - the earth is round.pdf">Cohen: The earth is round (p &lt; 0.05)</a></p>
+</div>
+<div id="november-10" class="section level3">
+<h3>November 10</h3>
+<p><a href="readings/dochtermann & jenkins 2011 bes - developing multiple hypotheses in behavioural ecology.pdf">Dochtermann &amp; Jenkins: Working with multiple hypotheses</a></p>
+<p>Optional additional reading: <a href="readings/bettini et al 2017 rsos - why are we not testing multiple hypotheses.pdf">Betini et al: why are we not testing multiple hypotheses</a></p>
+</div>
+<div id="november-17" class="section level3">
+<h3>November 17</h3>
+<p><a href="readings/palmer 1999 metaanalysis of fluctuating asymmetry and sexual selection.pdf">Palmer: Publication bias in fluctuating asymmetry</a></p>
+</div>
+<div id="november-24" class="section level3">
+<h3>November 24</h3>
+<p><a href="readings/longmuir et al 2007 ecology - diversity gradients in plankton.pdf">Longmuir et al: Multivariate biodiversity gradients</a> <!-- <a href="readings/richman & price 1992 nature - evolution leaf warblers.pdf" rel="">Richman and Price: Evolution of ecological differences in warblers</a>. 
+Optional additional reading: <a href="readings/price 1991 jae - ecology of leaf warblers.pdf">Price 1991</a> which shows the process of PCA more clearly. --></p>
+</div>
+<div id="december-1" class="section level3">
+<h3>December 1</h3>
+<p><a href="readings/jetz et al 2014 curr biol - conservation and phylogenetic distinctness.pdf">Jetz et al: Phylogenetic distinctness and conservation</a></p>
+<!--
+### December 6
+tba 
+<a href="readings/longmuir et al 2007 ecology - diversity gradients in plankton.pdf">Longmuir et al: Diversity gradients in lake plankton</a>
+-->
+</div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

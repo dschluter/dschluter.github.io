@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>Generalized linear models</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="workshops.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UBC Biology 501 R workshops</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Biol 501 home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R Workshops
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Main workshops page</a>
+    </li>
+    <li>
+      <a href="workshops-intro.html">1. Introduction to R</a>
+    </li>
+    <li>
+      <a href="graphics.html">2. Graphs and tables</a>
+    </li>
+    <li>
+      <a href="exp-design.html">3. Plan experiments</a>
+    </li>
+    <li>
+      <a href="linearmodels.html">4. Linear models</a>
+    </li>
+    <li>
+      <a href="lme.html">5. Mixed-effects models</a>
+    </li>
+    <li>
+      <a href="likelihood.html">6. Likelihood</a>
+    </li>
+    <li>
+      <a href="glm.html">7. Generalized linear models</a>
+    </li>
+    <li>
+      <a href="modelselection.html">8. Model selection</a>
+    </li>
+    <li>
+      <a href="bayes.html">9. Bayesian inference</a>
+    </li>
+    <li>
+      <a href="resampling.html">10. Bootstrap and permutation</a>
+    </li>
+    <li>
+      <a href="meta.html">11. Meta-analysis</a>
+    </li>
+    <li>
+      <a href="multivariate.html">12. Multivariate methods</a>
+    </li>
+    <li>
+      <a href="phylogenetic.html">13. Phylogenetic comparative methods</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/index.html">R tips home page</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Generalized linear models</h1>
+
+</div>
+
+
+<p>In this workshop we will fit general linear models to data, implemented in the R command <code>glm()</code>. See the “Fit model” tab of the R tips pages for help.</p>
+<p>A generalized linear model is useful when the response variable has a specified distribution other than the normal distribution, and when a transformation of the data is undesirable or impossible. Example situations include binary response data (1 or 0, dead or alive) or data that are counts (number of offspring, leaves, or tattoos). The approach is also useful in the analysis of contingency tables.</p>
+<hr />
+<div id="natural-selection-in-song-sparrows" class="section level2">
+<h2>Natural selection in song sparrows</h2>
+<p>The song sparrow population on the island of Mandarte has been studied for many years by Jamie Smith, Peter Arcese, and collaborators. The birds were measured and banded and their fates on the island have recorded over many years. Here we will look for evidence of natural selection using the relationship between phenotypes and survival.</p>
+<p>The data file, located <a href="https://www.zoology.ubc.ca/~bio501/R/data/songsparrow.csv">here</a>, gives survival of young-of-the-year females over their first winter (1=survived, 0=died). The file includes measurements of beak and body dimensions: body mass (g), wing length, tarsus length, beak length, beak depth, beak width (all in mm), year of birth, and survival. These data were analyzed previously in D. Schluter and J. N. M Smith (1986, Evolution 40: 221-231).</p>
+<p><br></p>
+<div id="read-and-examine-the-data" class="section level3">
+<h3>Read and examine the data</h3>
+<ol style="list-style-type: decimal">
+<li>Read the data from the file and inspect the first few lines to make sure it was read correctly.</li>
+<li>We’ll be comparing survival probabilities among different years. To this end, make sure that year is a categorical variable in your data frame.</li>
+<li>Plot survival against tarsus length of female sparrows. Use a method to reduce the overlap of points (the response variable is 0 or 1) to see the patterns more clearly.</li>
+<li>Examine the plot. Can you visualize a trend? Use a smoothing method to see if any trend is present (most methods won’t constrain the curve to lie between 0 and 1, but at least you’ll get an idea).</li>
+</ol>
+<p><br></p>
+</div>
+<div id="fit-a-generalized-linear-model" class="section level3">
+<h3>Fit a generalized linear model</h3>
+<p>Let’s start by ignoring the fact that the data are from multiple years. If time permits we can add year to the model to see how much difference it makes.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>The response variable is binary. What probability distribution is appropriate to describe the error distribution around a model fit? What is an appropriate link function?</li>
+<li>Fit a generalized linear model to the data on survival and tarsus length.</li>
+<li>Use <code>visreg</code> to visualize the model fit.</li>
+<li>Obtain the estimated regression coefficients for the fitted model. What is the interpretation of these coefficients? On a piece of paper, write down the complete formula for the model shown in the <code>visreg</code> plot.</li>
+<li>Use the coefficients to calculate the predicted survival probability of a song sparrow having tarsus length 20.5 mm*. Does the result agree with your plot of the fitted regression curve?</li>
+<li>The ratio (-intercept/slope) estimates the point at which probability of survival is changing most rapidly. In toxicology this point is known as the LD<sub>50</sub>. Calculate this value** and compare it visually with the fitted curve. Does it agree? Finally, the slope of the curve at a given value for the explanatory variable <code>x</code> is b * <i>p</i>(x) * ( 1 - <i>p</i>(x) ), where b is the slope coefficient of the fitted logistic regression model and <i>p</i>(x) is the predicted probability of survival at that <code>x</code>.</li>
+<li>Calculate the likelihood-based 95% confidence interval for the logistic regression coefficients.</li>
+<li>The <code>summary(z)</code> output for the regression coefficients also includes “z values” and <em>P</em>-values. What caution would you take when interpreting these <em>P</em>-values? Use a more accurate method to test the null hypothesis of zero slope. <!-- 13. If time permits, add year to your logistic regression model (make sure that year is a categorical variable in your data set). Never mind the interaction between year and tarsus length. Plot the resulting curves. Is there any evidence of a difference among years in the relationship between survival and tarsus length in these data? Use <code>emmeans()</code> to calculate the model estimates of mean survival in each year. --></li>
+</ol>
+<p><small> * -1.148577; 0.2407491</p>
+<p>** 19.58683</small></p>
+<!--
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(visreg))
+suppressPackageStartupMessages(library(MASS))
+
+# 1.Read the data
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/songsparrow.csv"), 
+        stringsAsFactors = FALSE)
+head(x)
+```
+
+```
+##   mass wing tarsus blength bdepth bwidth year sex survival
+## 1 23.7 67.0   17.7     9.1    5.9    6.8 1978   f        1
+## 2 23.1 65.0   19.5     9.5    5.9    7.0 1978   f        0
+## 3 21.8 65.2   19.6     8.7    6.0    6.7 1978   f        0
+## 4 21.7 66.0   18.2     8.4    6.2    6.8 1978   f        1
+## 5 22.5 64.3   19.5     8.5    5.8    6.6 1978   f        1
+## 6 22.9 65.8   19.6     8.9    5.8    6.6 1978   f        1
+```
+
+```r
+# 2. Year as categorical variable
+x$year <- as.character(x$year)
+
+# 3. Plot survival against tarsus length
+ggplot(x, aes(tarsus, survival)) +
+    geom_jitter(color = "firebrick", size = 3, height = 0.04, width = 0, alpha = 0.5) +
+    labs(x = "Tarsus length (mm)", y = "Survival") + 
+    theme_classic()
+```
+
+<img src="glm_files/figure-html/unnamed-chunk-1-1.png" width="528" />
+
+```r
+# 4. Examine the plot. Can you visualize a trend? Use a smoothing method to see if any trend is present (most methods won't constrain the curve to lie between 0 and 1, but at least you'll get an idea).
+ggplot(x, aes(tarsus, survival)) +
+    geom_jitter(color = "firebrick", size = 3, height = 0.04, width = 0, alpha = 0.5) +
+  geom_smooth(method = "loess", size = 1, col = "black", se = FALSE) +
+    labs(x = "Tarsus length (mm)", y = "Survival") + 
+    theme_classic()
+```
+
+<img src="glm_files/figure-html/unnamed-chunk-1-2.png" width="528" />
+
+```r
+# 5. Binomial distribution. Logit link function
+
+# 6. Fit generalized linear model
+z <- glm(survival ~ tarsus, family = binomial(link="logit"), data = x)
+
+# 7. Visualize model fit (I added the points in a second step)
+visreg(z, xvar = "tarsus", scale = 'response', rug = FALSE, ylim = c(-.1, 1.1))
+points(jitter(survival, 0.1) ~ tarsus, data = x, pch = 1, col = "firebrick", lwd = 1.5)
+```
+
+<img src="glm_files/figure-html/unnamed-chunk-1-3.png" width="528" />
+
+```r
+# 8. Estimated regression coefficients of the linear predictor
+summary(z)
+```
+
+```
+## 
+## Call:
+## glm(formula = survival ~ tarsus, family = binomial(link = "logit"), 
+##     data = x)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.7292  -1.0659  -0.6273   1.0794   1.8003  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)  24.6361     6.7455   3.652 0.000260 ***
+## tarsus       -1.2578     0.3437  -3.659 0.000253 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 200.95  on 144  degrees of freedom
+## Residual deviance: 185.04  on 143  degrees of freedom
+## AIC: 189.04
+## 
+## Number of Fisher Scoring iterations: 4
+```
+
+```r
+# 9. Predicted survival probability of a song sparrow having tarsus length 20.5 mm
+predict(z, newdata = data.frame(tarsus = 20.5), type = "response")
+```
+
+```
+##         1 
+## 0.2407491
+```
+
+```r
+# 10. LD50
+dose.p(z)
+```
+
+```
+##              Dose        SE
+## p = 0.5: 19.58683 0.1398026
+```
+
+```r
+# 11. Likelihood-based 95% confidence intervals (logit scale)
+confint(z)
+```
+
+```
+## Waiting for profiling to be done...
+```
+
+```
+##                 2.5 %     97.5 %
+## (Intercept) 12.035020 38.6162515
+## tarsus      -1.970217 -0.6157285
+```
+
+```r
+# 12. Test null hypothesis of zero slope
+anova(z, test = "Chi")
+```
+
+```
+## Analysis of Deviance Table
+## 
+## Model: binomial, link: logit
+## 
+## Response: survival
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##        Df Deviance Resid. Df Resid. Dev Pr(>Chi)    
+## NULL                     144     200.95             
+## tarsus  1   15.908       143     185.04 6.65e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+[//]: -->
+<hr />
+</div>
+</div>
+<div id="crab-satellites" class="section level2">
+<h2>Crab satellites</h2>
+<p>The horseshoe crab, <i>Limulus polyphemus</i>, has two alternative male reproductive morphs. Some males attach to females with a special appendage. The females bring these males with them when they crawl onto beaches to dig a nest and lay eggs, which the male then fertilizes. Other males are satellites, which are unattached to females but crowd around nesting pairs and obtain fertilizations. What attributes of a female horseshoe crab determine the number of satellite males she attracts on the beaches?</p>
+<p>The data <a href="https://www.zoology.ubc.ca/~bio501/R/data/satellites.csv">here</a> provide measurements of 173 female horseshoe crabs and record the number of satellites she attracted. The data were gathered by Brockman (1996. Satellite male groups in horseshoe crabs, <i>Limulus polyphemus</i>. Ethology 102:1-21) and were published by Agresti (2002, Categorical data analysis, 2nd ed. Wiley). The variables are female color, spine condition, carapace width (cm), mass (kg), and number of satellite males.</p>
+<p><br></p>
+<div id="read-and-examine-the-data-1" class="section level3">
+<h3>Read and examine the data</h3>
+<ol style="list-style-type: decimal">
+<li>Read the data from the file. View the first few lines of data to make sure it was read correctly. Use the <code>str</code> command to see the variables and groups.</li>
+<li>Plot the number of satellites against the width of the carapace, a measure of female body size. Fit a smooth curve to examine the trend.</li>
+</ol>
+<p><br></p>
+</div>
+<div id="fit-a-generalized-linear-model-1" class="section level3">
+<h3>Fit a generalized linear model</h3>
+<ol start="3" style="list-style-type: decimal">
+<li>Fit a generalized linear model to the relationship between number of satellite males and female carapace width. What type of variable is the number of satellites? What probability distribution might be appropriate to describe the error distribution around a model fit? What is the appropriate link function?</li>
+<li>Visualize the model fit on the transformed scale, including confidence bands. This plot reminds us that on the transformed scale, <code>glm()</code> is fitting a straight line relationship. (Don’t worry about the points – they aren’t the transformed data, but rather are “working values” for the response variable from the last iteration of model fitting, which <code>glm()</code> uses behind the scenes to fit the model on the transformed scale.)</li>
+<li>Visualize the model fit on the original data scale. Note that is it curvilinear.</li>
+<li>Extract the estimated regression coefficients from your model object. What is the interpretation of these coefficients? On a piece of paper, write down the complete formula for your fitted model.</li>
+<li>Calculate the likelihood-based 95% confidence interval for the regression coefficients. The most useful estimate is that for the slope: <code>exp(slope)</code> represents the multiple to the response variable accompanying a 1-unit change in the explanatory variable. In other words, if the slope were found to be 1.2, this would indicate that a 1 cm increase in carapace width of a female is accompanied by a 1.2-fold increase in the number of male satellites.</li>
+<li>Test the null hypothesis of no relationship between number of satellite males and female carapace width. Notice how small the <i>P</i>-value is for the null hypothesis test for the slope. I’m afraid that this is a little optimistic. Why? Read on.</li>
+<li>When you extracted the regression coefficients from your model object, you probably saw the following line of output: “(Dispersion parameter for poisson family taken to be 1)”. What are we really assuming* here?</li>
+<li>If you did not want to rely on this assumption (or you wanted to estimate the dispersion parameter), what option is available to you? Refit a generalized linear model without making the assumption that the dispersion parameter is 1.</li>
+<li>Extract and examine the coefficients of the new <code>glm</code> model object. Examine the estimated dispersion parameter. Is it close to 1? On this basis, which of the two <code>glm</code> fits to the same data would you regard as the more reliable?</li>
+<li>How do the regression coefficients of this new fit compare with the estimates from the earlier model fit? How do the standard errors compare? Why are they larger** this time?</li>
+<li>Visualize the new model fit and compare with the plot of the earlier fit. What difference do you notice?</li>
+<li>Redo the test of significance for the slope of the relationship between number of satellite mates and female carapace width. Remember to use the <i>F</i> test rather than the likelihood ratio test in the <code>anova</code> command. How do the results compare with those from the previous fit?</li>
+</ol>
+<!--
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(visreg))
+suppressPackageStartupMessages(library(MASS))
+
+# 1. Read data
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/satellites.csv"), 
+          stringsAsFactors = FALSE)
+head(x)
+```
+
+```
+##          color    spine width.cm nsatellites mass.kg
+## 1       medium both.bad     28.3           8    3.05
+## 2  dark-medium both.bad     22.5           0    1.55
+## 3 light-medium     good     26.0           9    2.30
+## 4  dark-medium both.bad     24.8           0    2.10
+## 5  dark-medium both.bad     26.0           4    2.60
+## 6       medium both.bad     23.8           0    2.10
+```
+
+```r
+# 2. Plot
+ggplot(x, aes(width.cm, nsatellites)) +
+    geom_jitter(color = "firebrick", size = 3, height = 0.2, width = 0, alpha = 0.5) +
+  geom_smooth(method = "loess", size = 1, col = "black", se = FALSE) +
+    labs(x = "Carapace width (mm)", y = "No. satellites") + 
+    theme_classic()
+```
+
+<img src="glm_files/figure-html/unnamed-chunk-2-1.png" width="528" />
+
+```r
+# 3. Fit model to count data, Poisson distribution, log link function
+z <- glm(nsatellites ~ width.cm, family = poisson(link = "log"), data = x)
+
+# 4. Visualize model fit (transformed scale)
+visreg(z, xvar = "width.cm")
+```
+
+<img src="glm_files/figure-html/unnamed-chunk-2-2.png" width="528" />
+
+```r
+# 5. Visualize model fit (original scale), points overlaid
+visreg(z, xvar = "width.cm", scale = "response", rug = FALSE)
+points(jitter(nsatellites, 0.2) ~ width.cm, data = x, pch = 1, 
+    col = "firebrick", lwd = 1.5)
+```
+
+<img src="glm_files/figure-html/unnamed-chunk-2-3.png" width="528" />
+
+```r
+# 6. Eestimated regression coefficients
+summary(z)
+```
+
+```
+## 
+## Call:
+## glm(formula = nsatellites ~ width.cm, family = poisson(link = "log"), 
+##     data = x)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.8526  -1.9884  -0.4933   1.0970   4.9221  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(>|z|)    
+## (Intercept) -3.30476    0.54224  -6.095  1.1e-09 ***
+## width.cm     0.16405    0.01997   8.216  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 632.79  on 172  degrees of freedom
+## Residual deviance: 567.88  on 171  degrees of freedom
+## AIC: 927.18
+## 
+## Number of Fisher Scoring iterations: 6
+```
+
+```r
+# 7. Likelihood-based 95% confidence interval
+confint(z)
+```
+
+```
+## Waiting for profiling to be done...
+```
+
+```
+##                  2.5 %     97.5 %
+## (Intercept) -4.3662326 -2.2406858
+## width.cm     0.1247244  0.2029871
+```
+
+```r
+# 8. Optimistic test
+anova(z, test = "Chi")
+```
+
+```
+## Analysis of Deviance Table
+## 
+## Model: poisson, link: log
+## 
+## Response: nsatellites
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##          Df Deviance Resid. Df Resid. Dev  Pr(>Chi)    
+## NULL                       172     632.79              
+## width.cm  1   64.913       171     567.88 7.828e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```r
+# 10. Refit 
+z2 <- glm(nsatellites ~ width.cm, family = quasipoisson(link = "log"), data = x)
+
+# 11. Coefficients
+summary(z2)
+```
+
+```
+## 
+## Call:
+## glm(formula = nsatellites ~ width.cm, family = quasipoisson(link = "log"), 
+##     data = x)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.8526  -1.9884  -0.4933   1.0970   4.9221  
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -3.30476    0.96729  -3.417 0.000793 ***
+## width.cm     0.16405    0.03562   4.606 7.99e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for quasipoisson family taken to be 3.182205)
+## 
+##     Null deviance: 632.79  on 172  degrees of freedom
+## Residual deviance: 567.88  on 171  degrees of freedom
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 6
+```
+
+```r
+# 13. Visualize
+visreg(z2, xvar = "width.cm", scale = "response", rug = FALSE)
+points(jitter(nsatellites, 0.2) ~ width.cm, data = x, pch = 1, 
+    col = "firebrick", lwd = 1.5)
+```
+
+<img src="glm_files/figure-html/unnamed-chunk-2-4.png" width="528" />
+
+```r
+# 14. Redo test
+anova(z2, test = "F")
+```
+
+```
+## Analysis of Deviance Table
+## 
+## Model: quasipoisson, link: log
+## 
+## Response: nsatellites
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##          Df Deviance Resid. Df Resid. Dev      F    Pr(>F)    
+## NULL                       172     632.79                     
+## width.cm  1   64.913       171     567.88 20.399 1.168e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+[//]: -->
+<p><small> * By using the Poisson distribution to model the residuals, we assume that for any given value of the <code>x</code>-variable, the variance of <code>y</code> is equal to the mean of <code>y</code>. Typically, however, in real data the variance of <code>y</code> is greater than the mean of <code>y</code> at any given <code>x</code> (“overdispersion”). One reason is that a variety of factors cause variation in <code>y</code>, and most aren’t included in the model being fitted.</p>
+<p>** Because the model is now taking account of the actual amount of variance in <code>y</code> for each <code>x</code>, which is larger than that assumed by the first model you fitted.</small></p>
+<hr />
+</div>
+</div>
+<div id="prion-resistance-not-futile" class="section level2">
+<h2>Prion resistance not futile</h2>
+<p>This last exercise is to demonstrate the use of <code>glm()</code> to model frequencies of different combinations of two (or more) variables in a contingency table. The presence of an interaction between the variables indicates that the relative frequencies of different categories for one variable differ between categories of the other variable. In other words, the two variables are then not independent.</p>
+<p>Kuru is a prion disease (similar to Creutzfeldt–Jakob disease) of the Fore people of highland New Guinea. It was once transmitted by the consumption of deceased relatives at mortuary feasts, a ritual that was ended by about 1960. Using archived tissue samples, Mead et al. (2009, New England Journal of Medicice 361: 2056-2065) investigated genetic variants that might confer resistance to kuru. The data are genotypes at codon 129 of the prion protein gene of young and elderly individuals all having the disease. Since the elderly individuals have survived long exposure to kuru, unusually common genotypes in this group might indicate resistant genotypes. The data are <a href="https://www.zoology.ubc.ca/~bio501/R/data/kurudata.csv">here</a>.</p>
+<p><br></p>
+<div id="read-and-examine-the-data-2" class="section level3">
+<h3>Read and examine the data</h3>
+<ol style="list-style-type: decimal">
+<li>Read the data from the file. View the first few lines of data to make sure it was read correctly.</li>
+<li>Create a contingency table comparing the frequency of the three genotypes at codon 129 of the prion protein gene of young and elderly individuals (all having the disease). Notice any pattern? By comparing the frequencies between young people and older people, which genotype is likely to be more resistant to the disease?</li>
+<li>(Optional) Create a grouped bar graph illustrating the relative frequencies of the three genotypes between afflicted individuals in the two age categories.</li>
+</ol>
+<p><br></p>
+</div>
+<div id="fit-a-generalized-linear-model-2" class="section level3">
+<h3>Fit a generalized linear model</h3>
+<ol start="4" style="list-style-type: decimal">
+<li>To model the frequencies you will first need to convert the contingency table to a “flat” frequency table using <code>data.frame()</code>.</li>
+<li>FIt a generalized linear model to the frequency table. To begin, fit the additive model, i.e., use a model formula without an interaction between the two variables genotype and age.</li>
+<li>Visualize the fit of the additive model to the frequency data. Notice how the additive model is constrained from fitting the exact frequencies in each category.</li>
+<li>Repeat the model fitting but include the interaction term as well. Visualize the fit of the model to the data. Notice how this “full” model really is full – it fits the frequencies exactly.</li>
+<li>Test whether the relative frequencies of the three genotypes differs between the two age groups (i.e., whether there is a significant interaction between age and genotype).</li>
+</ol>
+<!--
+### Answers
+
+
+```r
+# 1. Read the data
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/kurudata.csv"), 
+          stringsAsFactors = FALSE)
+head(x)
+```
+
+```
+##   Genotype Cohort
+## 1       MM    old
+## 2       MM    old
+## 3       MM    old
+## 4       MM    old
+## 5       MM    old
+## 6       MM    old
+```
+
+```r
+# 2. Contingency table
+x$Cohort <- factor(x$Cohort, levels = c("young","old")) 
+kurutable <- table(x)
+kurutable
+```
+
+```
+##         Cohort
+## Genotype young old
+##       MM    22  13
+##       MV    12  77
+##       VV    14  14
+```
+
+```r
+# 3. (Optional) Grouped bar graph 
+ggplot(x, aes(x = Cohort, fill = Genotype)) + 
+    geom_bar(stat = "count", position = position_dodge2(preserve="single")) +
+    labs(x = "Cohort", y = "Frequency") +
+    theme_classic()
+```
+
+<img src="glm_files/figure-html/unnamed-chunk-3-1.png" width="528" />
+
+```r
+# 4. Model the frequencies
+x1 <- data.frame(kurutable)
+x1
+```
+
+```
+##   Genotype Cohort Freq
+## 1       MM  young   22
+## 2       MV  young   12
+## 3       VV  young   14
+## 4       MM    old   13
+## 5       MV    old   77
+## 6       VV    old   14
+```
+
+```r
+# 5. Fit additive model
+z <- glm(Freq ~ Genotype + Cohort, family = poisson(link = "log"), data = x1)
+
+# 6. Visualize model fit
+visreg(z, xvar = "Genotype", by = "Cohort", scale = "response")
+```
+
+<img src="glm_files/figure-html/unnamed-chunk-3-2.png" width="528" />
+
+```r
+# 7. Fit model with interaction and visualize
+z <- glm(Freq ~ Genotype * Cohort, family = poisson(link = "log"), data = x1)
+visreg(z, xvar = "Genotype", by = "Cohort", scale = "response") 
+```
+
+<img src="glm_files/figure-html/unnamed-chunk-3-3.png" width="528" />
+
+```r
+# 8. Test interaction
+anova(z, test = "Chi")
+```
+
+```
+## Analysis of Deviance Table
+## 
+## Model: poisson, link: log
+## 
+## Response: Freq
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##                 Df Deviance Resid. Df Resid. Dev  Pr(>Chi)    
+## NULL                                5     96.501              
+## Genotype         2   41.174         3     55.327 1.146e-09 ***
+## Cohort           1   21.126         2     34.202 4.301e-06 ***
+## Genotype:Cohort  2   34.202         0      0.000 3.743e-08 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+[//]: -->
+</div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

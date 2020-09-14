@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>Meta-analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="workshops.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UBC Biology 501 R workshops</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Biol 501 home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R Workshops
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Main workshops page</a>
+    </li>
+    <li>
+      <a href="workshops-intro.html">1. Introduction to R</a>
+    </li>
+    <li>
+      <a href="graphics.html">2. Graphs and tables</a>
+    </li>
+    <li>
+      <a href="exp-design.html">3. Plan experiments</a>
+    </li>
+    <li>
+      <a href="linearmodels.html">4. Linear models</a>
+    </li>
+    <li>
+      <a href="lme.html">5. Mixed-effects models</a>
+    </li>
+    <li>
+      <a href="likelihood.html">6. Likelihood</a>
+    </li>
+    <li>
+      <a href="glm.html">7. Generalized linear models</a>
+    </li>
+    <li>
+      <a href="modelselection.html">8. Model selection</a>
+    </li>
+    <li>
+      <a href="bayes.html">9. Bayesian inference</a>
+    </li>
+    <li>
+      <a href="resampling.html">10. Bootstrap and permutation</a>
+    </li>
+    <li>
+      <a href="meta.html">11. Meta-analysis</a>
+    </li>
+    <li>
+      <a href="multivariate.html">12. Multivariate methods</a>
+    </li>
+    <li>
+      <a href="phylogenetic.html">13. Phylogenetic comparative methods</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/index.html">R tips home page</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Meta-analysis</h1>
+
+</div>
+
+
+<p>In this workshop we explore the “analysis of analyses”. The first exercise will require you to make the step-by-step calculations for fixed and random effects models. The goal is to give a sense of why the two models yield different results. It would be truly wonderful if <code>lm</code> and <code>lmer</code> could take care of all the gritty calculations in a familiar setting, but it is not easy to get the correct variances using these programs. So we’ll start by going step by step. See the “Meta-analysis” tab at the R tips pages for help.</p>
+<hr />
+<div id="aggressive-bibs" class="section level2">
+<h2>Aggressive bibs</h2>
+<p>The black throat patch or bib of male house sparrows, <i>Passer domesticus</i>, is called a “badge” because bib size seems to be correlated with male social status. Sanchez-Tojar et al. (2018) compiled results of published and unpublished studies that investigated the relationship between male badge size and measurements of male size, behavior and reproductive success (<i>Meta-analysis challenges a textbook example of status signalling and demonstrates publication bias</i>. eLife 2018;7:e37385). The data are <a href="https://www.zoology.ubc.ca/~bio501/R/data/sparrow.csv">here</a>.</p>
+<p>The correlation coefficient <span class="math inline">\(r\)</span> was the effect size measuring association between bib size and these other traits. 87 estimates of the correlation between bib size and male fighting ability (“status”) are included. The study included both published and unpublished data obtained from researchers. These data are from the Supplement file “Meta4.csv” of Sanchez-Tojar et al. (2018). Most of the correlations were obtained from behavioral observations made of birds in aviaries.</p>
+<ol style="list-style-type: decimal">
+<li><p>View the data and examine it closely. The data set is not large, but it has aspects in common with larger compilations used in meta-analyses, and raises many of the same questions. First, there are many more entries than published studies. Repeated entries from the same study represent different nearby populations, or measurements taken in different years or on different interacting groups of individuals from the same population. Often these groups are small. Can the 87 effect sizes in the table therefore be considered independent? Should we average all the values from the same population, or from the same study, before continuing? Welcome to meta-analysis. <br><br>For the purposes of this exercise, let’s treat the 87 effect sizes as though they are independent and belong to a single fixed class. I hope this does not shock you.</p></li>
+<li><p>Create a simple scatter or “funnel” plot depicting the relationship between effect size and sample size for the house sparrow data. Include a dashed line in the plot for <span class="math inline">\(r = 0\)</span>. Does it show the expected funnel shape? Why?</p></li>
+<li><p>Statistical analysis of correlations begins by converting <span class="math inline">\(r\)</span> to the Fisher’s <span class="math inline">\(z\)</span>-scale. The reason is that on the <span class="math inline">\(z\)</span>-scale, the sampling distribution for the correlation is approximately normal and the standard error is independent of <span class="math inline">\(z\)</span>. The transformed variable is indicated by the variable <span class="math inline">\(Zr\)</span>. The transformation is <br><span class="math inline">\(z = 0.5 \ln((1 + r)/(1 - r))\)</span>, or equivalently, <span class="math inline">\(z = \tanh^{-1}(r)\)</span>.</p></li>
+<li><p>A convenient feature of the Fisher <span class="math inline">\(z\)</span> is that the approximate standard error of an estimate depends only on the sample size <span class="math inline">\(N\)</span> (i.e., number of birds) used in each study. The squared standard error is indicated by the variable <span class="math inline">\(VZr\)</span>. The formula is <span class="math inline">\(\textrm{SE}_z=1/\sqrt{N-3}\)</span>.</p></li>
+</ol>
+<!--
+
+### Answers
+
+
+```r
+# 1.
+sparrow <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/sparrow.csv"), stringsAsFactors = FALSE)
+head(sparrow)
+```
+
+```
+##          paperID            study  authorID groupID year Ttri Ttri_pvalue
+## 1 Andersson_1991 1991_x_Andersson Andersson  pooled 1991   NA          NA
+## 2    Bokony_2006    2006_a_Bokony    Bokony       a 2006 0.90           0
+## 3    Bokony_2006    2006_b_Bokony    Bokony       b 2006 0.86           0
+## 4    Bokony_2010    2010_a_Bokony    Bokony       a 2010 0.80           0
+## 5    Bokony_2010    2010_b_Bokony    Bokony       b 2010 0.91           0
+## 6    Bokony_2010    2010_c_Bokony    Bokony       c 2010 0.68           0
+##   repeatability.sim ratio prop.unknowndyads  N bib_type originalestimate
+## 1                NA    NA                NA 20  visible               no
+## 2             0.944  33.4              0.09  9  visible               no
+## 3             0.970  40.4              0.06 10  visible               no
+## 4             0.947  86.8              0.04  7  visible               no
+## 5             0.964  75.2              0.29  7  visible               no
+## 6             0.909  81.0              0.48  6  visible               no
+##   published rawdata typeofestimate           r     Zr        VZr  id popID
+## 1        no      no        Pearson  0.00000000  0.000 0.05882353 119     3
+## 2       yes     yes       Spearman  0.60141160  0.695 0.16666667  39     5
+## 3       yes     yes       Spearman  0.56955183  0.647 0.14285714  40     5
+## 4        no     yes       Spearman -0.55367102 -0.624 0.25000000  44     5
+## 5        no     yes       Spearman -0.03739773 -0.037 0.25000000  45     5
+## 6        no     yes       Spearman  0.08972966  0.090 0.33333333  46     5
+##   popID2 groupID2 experimental location      season interactions
+## 1      3        5            0  captive nonbreeding         both
+## 2      5       39            0  captive nonbreeding         both
+## 3      5       40            0  captive nonbreeding         both
+## 4      5       44            0  captive nonbreeding         both
+## 5      5       45            0  captive nonbreeding         both
+## 6      5       46            0  captive nonbreeding         both
+##   interactiontype
+## 1      aggressive
+## 2      aggressive
+## 3      aggressive
+## 4             mix
+## 5             mix
+## 6             mix
+```
+
+```r
+# 2.
+plot(r ~ N, data = sparrow, las = 1)
+abline(0, 0)
+```
+
+<img src="meta_files/figure-html/unnamed-chunk-1-1.png" width="528" />
+
+[//]: -->
+<p><br></p>
+<div id="fixed-effects-meta-analysis" class="section level3">
+<h3>Fixed effects meta-analysis</h3>
+<p>Under the <b>fixed effects</b> model, we assume that all studies in the meta-analysis share the same true effect size. The variation among the studies are assumed to result only from sampling error (i.e., chance). For the purposes of this exercise, let’s begin by fitting the fixed effects model to the sparrow data. Perhaps the fixed effects model is reasonable: the different studies were all carried out on the same species (house sparrow), and they correlated the same variables measured in similar (though not identical) ways. Fitting the fixed effects model involves calculating a weighted average of the separate correlations to yield an estimate the one true effect size.</p>
+<ol style="list-style-type: decimal">
+<li><p>To estimate the mean effect size, we will weight each correlation according to the magnitude of its sampling variance, which takes into account the different sample sizes of the studies. Each weight is the inverse of the squared standard error. Calculate the weights for Fisher’s <span class="math inline">\(z\)</span> for the sparrow data. The formula for the standard error is given above.</p></li>
+<li><p>Fit the model by calculating the weighted mean, <span class="math inline">\(\bar z\)</span>, of the <span class="math inline">\(z\)</span>-transformed correlations. R will calculate a weighted mean if you ask it. The result is your estimate of the true mean effect size. In what way does it differ from the unweighted mean of the <span class="math inline">\(z\)</span>-transformed correlations?</p></li>
+<li><p>Calculate the standard error of the weighted mean. This standard error measures uncertainty of the estimate of true effect size.</p></li>
+<li><p>Calculate an approximate 95% confidence interval for the effect size using the normal approximation.</p></li>
+<li><p>Convert your estimated mean effect size from (2) back to the untransformed correlation, to obtain the mean effect size <span class="math inline">\(\bar r\)</span>. This requires back-transforming,* <span class="math inline">\(\bar r = \tanh(\bar z)\)</span> or, equivalently, <span class="math inline">\(\bar r = (e^{2\bar z} - 1)/(e^{2\bar z} + 1)\)</span>. Add a horizontal line indicating the mean effect size to your funnel plot created in the previous section.</p></li>
+<li><p>Apply the same back-transformation to the lower and upper limits of your confidence interval in (4) to yield the 95% confidence interval for the mean correlation coefficient.**</p></li>
+</ol>
+<p><small>* 0.162 <br>** (0.086 0.236)</small></p>
+<!--
+
+### Answers
+
+
+```r
+# 1. Calculate weights
+sparrow$w <- sparrow$N - 3
+
+# 2. Weighted mean of z
+zbar.fix <- weighted.mean(sparrow$Zr, w = sparrow$w)
+zbar.fix
+```
+
+```
+## [1] 0.1635484
+```
+
+```r
+# 3. Standard error of the weighted mean
+se.fix <- sqrt(1/sum(sparrow$w))
+se.fix
+```
+
+```
+## [1] 0.03952847
+```
+
+```r
+# 4. Approximate 95% confidence interval
+c(zbar.fix - se.fix*1.96, zbar.fix + se.fix*1.96)
+```
+
+```
+## [1] 0.08607263 0.24102424
+```
+
+```r
+# 5. Back-transform effect size
+tanh(zbar.fix)
+```
+
+```
+## [1] 0.1621057
+```
+
+```r
+plot(r ~ N, data = sparrow, las = 1)
+abline(0, 0)
+abline(tanh(zbar.fix), 0, lty=2)
+```
+
+<img src="meta_files/figure-html/unnamed-chunk-2-1.png" width="528" />
+
+```r
+# 6. Back-transform confidence limits
+tanh( c(zbar.fix - se.fix*1.96, zbar.fix + se.fix*1.96) )
+```
+
+```
+## [1] 0.08586071 0.23646295
+```
+
+[//]: -->
+<p><br></p>
+</div>
+<div id="random-effects-meta-analysis" class="section level3">
+<h3>Random effects meta-analysis</h3>
+<p>Under the <b>random effects</b> model we assume that each study estimates a system-specific effect size. There is no “one true” effect size under this model, only a mean effect size. This is more realistic than the fixed effects model for most data in ecology and evolution. Even though each study of male bibs was carried out on the same species (house sparrow), there is nevertheless likely to be heterogeneity from population to population, year to year, and even researcher to researcher if study methods are not the same.</p>
+<ol style="list-style-type: decimal">
+<li><p>To fit the random effects model we need to estimate the variance among the system-specific effect sizes, <span class="math inline">\(\tau^2\)</span> (“tau squared”). One way to estimate it involves calculating the heterogeneity among the observed effect sizes (<span class="math inline">\(Q\)</span>), and then “correcting” by subtracting the within-study sampling variance. The correction is needed because the variance among the observed effect sizes among studies is inflated by within-study sampling error. To begin, calculate <span class="math inline">\(Q\)</span>, the weighted heterogeneity among the observed <span class="math inline">\(Zr\)</span> values.</p></li>
+<li><p>Then estimate <span class="math inline">\(\tau^2\)</span> by subtraction, being careful not to allow a negative value (since <span class="math inline">\(\tau^2\)</span> is a variance, which can’t be negative).*</p></li>
+<li><p>Using <span class="math inline">\(\tau^2\)</span>, calculate new weights for the effect sizes of each study under the random effects model. Examine these new weights <span class="math inline">\(w&#39;\)</span> and compare them to the weights <span class="math inline">\(w\)</span> under the fixed effects model. How are they different? Is as much weight given to large-sample studies, relative to small-sample studies, in the random effects model as in the fixed effects model?</p></li>
+<li><p>Calculate the weighted mean effect size <span class="math inline">\(\bar z\)</span> under the random effects model. The procedure is the same as that used before for the fixed effects model except that here we will use the new weights <span class="math inline">\(w&#39;\)</span> calculated in the previous step. Back-transform to get the estimated mean correlation <span class="math inline">\(\bar r\)</span>.** Add the estimated mean correlation to your funnel plot. Compare your result to the effect size estimated under the fixed effects model. Is it the same?</p></li>
+<li><p>Calculate the standard error (SE) of the mean <span class="math inline">\(\bar z\)</span>. The formula is the same as that in the fixed-effects model except that here we will use the new weights.</p></li>
+<li><p>Calculate the 95% confidence interval for the mean effect size under the random effects model. Is the confidence interval narrower, about the same, or wider than that calculated under the fixed effects model? Why?</p></li>
+<li><p>Finally, back-transform to get the lower and upper limits of the 95% confidence interval for the mean correlation <span class="math inline">\(\bar r\)</span>. ***</p></li>
+</ol>
+<!--
+8. Optional: make a function. Now that you've done the hard work of programming R to calculate effect sizes for random and fixed effects models, why don't you try to make a function that would carry it out on any set of data? There are a few notes on how to write a function on the "Vector" tab of the R tips page.
+-->
+<p><small>* 0.1342 <br>** 0.1513 <br>*** (0.0224 0.2752)</small></p>
+<!--
+
+### Answers
+
+
+```r
+# 1. Calculate $Q$
+Q <- sum(sparrow$w * (sparrow$Zr- zbar.fix)^2)
+Q
+```
+
+```
+## [1] 169.3522
+```
+
+```r
+# 2. Calcualte tau^2
+if (Q <= (nrow(sparrow) - 1)) tau.sq <- 0 else
+    tau.sq <- (Q - (nrow(sparrow) - 1))/(sum(sparrow$w) - sum(sparrow$w^2)/sum(sparrow$w))
+tau.sq
+```
+
+```
+## [1] 0.1342367
+```
+
+```r
+# 3. Random effects weights
+sparrow$w.ran <- 1/(sparrow$VZr + tau.sq)
+
+# 4. Weighted mean effect size
+zbar.ran <- weighted.mean(sparrow$Zr, w = sparrow$w.ran)
+zbar.ran
+```
+
+```
+## [1] 0.1524359
+```
+
+```r
+tanh(zbar.ran)
+```
+
+```
+## [1] 0.1512661
+```
+
+```r
+# 5. SE of zbar
+se.ran <- sqrt(1/sum(sparrow$w.ran))
+se.ran
+```
+
+```
+## [1] 0.0663553
+```
+
+```r
+# 6. Calculate 95% confidence interval
+c(zbar.ran - se.ran*1.96, zbar.ran + se.ran*1.96)
+```
+
+```
+## [1] 0.02237953 0.28249229
+```
+
+```r
+# 7. Back-transform limits
+tanh( c(zbar.ran - se.ran*1.96, zbar.ran + se.ran*1.96) )
+```
+
+```
+## [1] 0.02237579 0.27521018
+```
+
+[//]: -->
+<p><br></p>
+</div>
+<div id="publication-bias" class="section level3">
+<h3>Publication bias?</h3>
+<p>Use the <code>metafor</code> package to examine and compare correlations from published and unpublished studies.</p>
+<ol style="list-style-type: decimal">
+<li><p>To begin, use the package to recalculate the quantities that you obtained “by hand” in the above random effects meta-analysis. Analyze the quantities on the Fisher-transformed (<span class="math inline">\(z\)</span>) scale (You’ll have to back-transform to obtain the results on the <span class="math inline">\(r\)</span> scale). Did you get the same results? So much easier!</p></li>
+<li><p>Redo the above analysis but use the restricted maximum likelihood estimates instead (the default) from now on.</p></li>
+<li><p>Produce a funnel plot of the data.</p></li>
+<li><p>Produce a forest plot of the data.</p></li>
+<li><p>Fit a meta-analysis model that includes the moderator variable “publication”. Use the summary command to estimate the difference between the means for published and unpublished studies. (Note that these values are computed on the z-transformed scale.) Do published and unpublished studies yield different results?</p></li>
+</ol>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(metafor))
+
+# 1. Random effects meta-analysis
+z <- rma.uni(Zr ~ 1, vi = VZr, data = sparrow, method = "DL")
+summary(z)
+```
+
+```
+## 
+## Random-Effects Model (k = 87; tau^2 estimator: DL)
+## 
+##   logLik  deviance       AIC       BIC      AICc 
+## -98.8443  141.5693  201.6887  206.6205  201.8315   
+## 
+## tau^2 (estimated amount of total heterogeneity): 0.1342 (SE = 0.0489)
+## tau (square root of estimated tau^2 value):      0.3664
+## I^2 (total heterogeneity / total variability):   49.22%
+## H^2 (total variability / sampling variability):  1.97
+## 
+## Test for Heterogeneity:
+## Q(df = 86) = 169.3522, p-val < .0001
+## 
+## Model Results:
+## 
+## estimate      se    zval    pval   ci.lb   ci.ub 
+##   0.1524  0.0664  2.2973  0.0216  0.0224  0.2825  * 
+## 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```r
+# 2. Redo using REML
+z <- rma.uni(Zr ~ 1, vi = VZr, data = sparrow)
+summary(z)
+```
+
+```
+## 
+## Random-Effects Model (k = 87; tau^2 estimator: REML)
+## 
+##   logLik  deviance       AIC       BIC      AICc 
+## -98.3627  196.7254  200.7254  205.6341  200.8700   
+## 
+## tau^2 (estimated amount of total heterogeneity): 0.1498 (SE = 0.0509)
+## tau (square root of estimated tau^2 value):      0.3871
+## I^2 (total heterogeneity / total variability):   51.96%
+## H^2 (total variability / sampling variability):  2.08
+## 
+## Test for Heterogeneity:
+## Q(df = 86) = 169.3522, p-val < .0001
+## 
+## Model Results:
+## 
+## estimate      se    zval    pval   ci.lb   ci.ub 
+##   0.1516  0.0684  2.2175  0.0266  0.0176  0.2856  * 
+## 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```r
+# 3. Funnel plot
+funnel(z, addtau2 = TRUE)
+```
+
+<img src="meta_files/figure-html/unnamed-chunk-4-1.png" width="576" />
+
+```r
+# 4. Produce a forest plot of the data.
+forest(z, slab = sparrow$paperID)
+```
+
+<img src="meta_files/figure-html/unnamed-chunk-4-2.png" width="576" />
+
+```r
+# 5. Fit to publication state
+table(sparrow$published)
+```
+
+```
+## 
+##  no yes 
+##  34  53
+```
+
+```r
+z <- rma.uni(Zr ~ published, vi = VZr, data = sparrow)
+summary(z)
+```
+
+```
+## 
+## Mixed-Effects Model (k = 87; tau^2 estimator: REML)
+## 
+##   logLik  deviance       AIC       BIC      AICc 
+## -92.0745  184.1491  190.1491  197.4770  190.4454   
+## 
+## tau^2 (estimated amount of residual heterogeneity):     0.0715 (SE = 0.0332)
+## tau (square root of estimated tau^2 value):             0.2674
+## I^2 (residual heterogeneity / unaccounted variability): 33.61%
+## H^2 (unaccounted variability / sampling variability):   1.51
+## R^2 (amount of heterogeneity accounted for):            52.29%
+## 
+## Test for Residual Heterogeneity:
+## QE(df = 85) = 137.0156, p-val = 0.0003
+## 
+## Test of Moderators (coefficient 2):
+## QM(df = 1) = 15.3274, p-val < .0001
+## 
+## Model Results:
+## 
+##               estimate      se     zval    pval    ci.lb   ci.ub 
+## intrcpt        -0.0528  0.0779  -0.6784  0.4975  -0.2055  0.0998      
+## publishedyes    0.4459  0.1139   3.9150  <.0001   0.2227  0.6692  *** 
+## 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+[//]: -->
+<hr />
+</div>
+</div>
+<div id="latitudinal-diversity-gradient" class="section level2">
+<h2>Latitudinal diversity gradient</h2>
+<p>There are more species in the tropics than in the temperate zone, but how strong and how general is this pattern? The latitudinal gradient is steeper for some taxa than for others, and may even be reversed in some groups. It may also vary longitudinally and between the northern and southern hemispheres. There is no consensus on the causes of the latitudinal gradient in species diversity.</p>
+<p>Hillebrand (2004; On the generality of the latitudinal diversity gradient. American Naturalist 163:192-211) combed the literature for studies that measured the relationship between diversity and latitude. His database is <a href="https://www.zoology.ubc.ca/~bio501/R/data/hillebrand.csv">HERE</a>. Download and read into R. The data file was obtained from Table A1 in <a href="https://www.journals.uchicago.edu/doi/full/10.1086/381004">Hillebrand (2004)</a>.</p>
+<p>Inspect the variables in the Hillebrand data set. They include measures of the latitudinal gradient and some grouping variables that will allow us to compare the gradient between situations. His <a href="https://www.journals.uchicago.edu/doi/full/10.1086/381004">Table B2</a> explains the various grouping variables. For this exercise, we’ll focus on the estimate from each study of the steepness of the relationship between species diversity and latitude, described by the variables:</p>
+<p><code>Slope.b</code>: The regression slope of the relationship between species diversity and absolute latitude, per degree latitude. A negative slope implies that diversity declines with increasing latitude (from the equator to the poles), whereas a positive slope represents a reversed gradient.</p>
+<p><code>SE.b</code>: The associated standard error of slope.</p>
+<p><code>Measure</code>: The measure of species diversity used in the calculation of regression slope. The most frequent is <i>S</i>, simply species richness (number of species), but studies using other metrics were also included. See Table B2 in the <a href="https://www.journals.uchicago.edu/doi/full/10.1086/381004">original article</a> for details.</p>
+<p><code>N</code>: The number of sample points used to calculate the slope.</p>
+<p>Use the <code>metafor</code> package to examine and compare latitudinal gradients. See the “Meta” tab at the R tips web site for help.</p>
+<ol style="list-style-type: decimal">
+<li><p>Retain only those studies having a non-missing value for the slope variable, and for which the measure of species diversity is species richness. How many estimates of slope (latitudinal gradients) are included in this data set* ? From how many unique studies are these estimates obtained (as indicated by the variable “Source”)* ? How many unique types of organisms are included, according to the variable “Organisms”* ? What do these numbers indicate about the likelihood that the many estimates of slope included in the meta-analysis represent an independent sample of estimates from nature?</p></li>
+<li><p>Produce a funnel plot of the relationship between the effect size (slope) and its standard error. You’ll notice that there are some crazy outliers, and I have confirmed from the source that at least one is a mistake. For the purposes of this exercise, retain only those studies having an absolute value of slope less than 40. An estimated rate of change in species diversity of more than 40 species per degree latitude seems a bit unrealistic.</p></li>
+<li><p>Is the mean slope of the latitudinal gradient positive or negative? Use the <code>metafor</code> package and the REML method to find out**. Should you use the fixed effects or the random effects model? Why? Does your answer agree with the conventional picture of the latitudinal gradient? Note that the confidence interval assumes a normal distribution of effect sizes, so you should take these upper and lower limits with the appropriate degree of skepticism.</p></li>
+<li><p>Would you expect homeotherms or ectotherms to have a steeper average latitudinal gradient? Analyze the Hillebrand data set to find out. Start by making a table of the frequencies of cases in each category of the variable “Thermoregulation”. When fitting the meta-analysis model, leave out the two cases whose thermoregulation state is blank. Did the answer agree with your expectation?</p></li>
+<li><p>Is the mean latitudinal gradient in species diversity steepest in marine, terrestrial, or freshwater realms? Leave out the category “Aquatic”, which is ambiguous.</p></li>
+<li><p>Is the mean latitudinal gradient in species diversity steeper in the northern or southern hemisphere?</p></li>
+</ol>
+<!--
+7. Is the mean gradient steeper in the Old World or the New World? Use the categories of the variable "Longitude" to find out.
+
+8. Which trophic groups show a particularly weak mean latitudinal gradient?
+-->
+<p><small>* 385; 175; 134. The 385 estimates are unlikely to represent a random sample of estimates from nature. <br>** -1.8025. On average, species richness drops about 1.8 species per degree latitude. You should use the random effects model, because each taxon is expected to have a different “true” mean latitudinal gradient. </small></p>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(metafor))
+
+# 1. Read and filter
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/hillebrand.csv"), 
+        stringsAsFactors = FALSE)
+head(x)
+```
+
+```
+##                                 Source              Reference Organisms
+## 1                           Abele 1974     Ecology 55:156-161  Decapods
+## 2                           Abele 1974     Ecology 55:156-161  Decapods
+## 3 Abensperg\x89ېTraun and Stevens 1997 Aust J Ecol 22:471-476  Termites
+## 4                           Angel 1993 Conserv Biol 7:760-772  Decapods
+## 5                           Angel 1993 Conserv Biol 7:760-772      Fish
+## 6                           Angel 1993 Conserv Biol 7:760-772 Ostracods
+##   Thermoregulation Log.body.mass Dispersal.type Trophic.position
+## 1             Ecto         -0.65 Pelagic larvae        Omnivores
+## 2             Ecto         -0.65 Pelagic larvae        Omnivores
+## 3             Ecto         -2.30         Flying       Herbivores
+## 4             Ecto         -0.65 Pelagic larvae        Omnivores
+## 5             Ecto          2.43       Mobility        Omnivores
+## 6             Ecto         -4.20 Pelagic larvae        Omnivores
+##         Realm    Habitat.type Hemisphere   Longitude    Scale
+## 1      Marine Benthos coastal          N    Atlantic    Local
+## 2      Marine Benthos coastal          N    Atlantic    Local
+## 3 Terrestrial All terrestrial          S Australasia Regional
+## 4      Marine   Pelagic ocean          N    Atlantic Regional
+## 5      Marine   Pelagic ocean          N    Atlantic Regional
+## 6      Marine   Pelagic ocean          N    Atlantic Regional
+##   Grain.log.area.kmsq Diversity.type Range Significance
+## 1               -4.00          Alpha    20           No
+## 2               -4.00          Alpha    20           No
+## 3                4.91         Ranges    35          Yes
+## 4                  NA          Alpha    49          Yes
+## 5                  NA          Alpha    49          Yes
+## 6                  NA          Alpha    56          Yes
+##   Global.richness.log.S Measure   N Slope.b SE.b Intercept    rz Var.rz
+## 1                  3.92       S  10   -0.95 0.87     45.93 -0.37   0.14
+## 2                  3.92   Index  10   -0.02 0.01      1.23 -0.44   0.14
+## 3                  3.42       S 137   -0.61 0.16     36.75 -0.32   0.01
+## 4                  3.92       S   6   -0.58 0.15     56.52 -1.40   0.33
+## 5                  4.40       S   6   -1.71 0.36    167.37 -1.61   0.33
+## 6                  3.90       S   7   -0.94 0.24     91.61 -1.31   0.25
+```
+
+```r
+x <- x[!is.na(x$Slope.b), ]
+x <- x[x$Measure == "S", ]
+nrow(x)
+```
+
+```
+## [1] 385
+```
+
+```r
+length(unique(x$Source))
+```
+
+```
+## [1] 175
+```
+
+```r
+length(unique(x$Organisms))
+```
+
+```
+## [1] 134
+```
+
+```r
+# 2. Funnel plot
+plot(Slope.b ~ SE.b, data = x, las = 1)
+```
+
+<img src="meta_files/figure-html/unnamed-chunk-5-1.png" width="528" />
+
+```r
+x <- subset(x, abs(Slope.b) <= 40 & SE.b < 200)
+plot(Slope.b ~ SE.b, data = x, las = 1)
+```
+
+<img src="meta_files/figure-html/unnamed-chunk-5-2.png" width="528" />
+
+```r
+# 3. Mean slope
+z <- rma.uni(Slope.b ~ 1, vi = SE.b^2, data=x)
+summary(z)
+```
+
+```
+## 
+## Random-Effects Model (k = 367; tau^2 estimator: REML)
+## 
+##    logLik   deviance        AIC        BIC       AICc 
+## -979.4958  1958.9915  1962.9915  1970.7968  1963.0246   
+## 
+## tau^2 (estimated amount of total heterogeneity): 7.5389 (SE = 0.6114)
+## tau (square root of estimated tau^2 value):      2.7457
+## I^2 (total heterogeneity / total variability):   99.93%
+## H^2 (total variability / sampling variability):  1446.71
+## 
+## Test for Heterogeneity:
+## Q(df = 366) = 17951.2050, p-val < .0001
+## 
+## Model Results:
+## 
+## estimate      se      zval    pval    ci.lb    ci.ub 
+##  -1.8025  0.1527  -11.8063  <.0001  -2.1018  -1.5033  *** 
+## 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```r
+# 4. Homeotherms vs ectotherms
+table(x$Thermoregulation)
+```
+
+```
+## 
+##        Ecto Homeo 
+##     2   281    84
+```
+
+```r
+z <- rma.uni(Slope.b ~ Thermoregulation, vi = SE.b^2, data=x, subset = Thermoregulation !="")
+```
+
+```
+## Warning in rma.uni(Slope.b ~ Thermoregulation, vi = SE.b^2, data = x,
+## subset = Thermoregulation != : Redundant predictors dropped from the model.
+```
+
+```r
+summary(z)
+```
+
+```
+## 
+## Mixed-Effects Model (k = 365; tau^2 estimator: REML)
+## 
+##    logLik   deviance        AIC        BIC       AICc 
+## -955.6189  1911.2378  1917.2378  1928.9210  1917.3046   
+## 
+## tau^2 (estimated amount of residual heterogeneity):     7.0866 (SE = 0.5779)
+## tau (square root of estimated tau^2 value):             2.6621
+## I^2 (residual heterogeneity / unaccounted variability): 99.93%
+## H^2 (unaccounted variability / sampling variability):   1335.71
+## R^2 (amount of heterogeneity accounted for):            0.00%
+## 
+## Test for Residual Heterogeneity:
+## QE(df = 363) = 17309.5696, p-val < .0001
+## 
+## Test of Moderators (coefficient 2):
+## QM(df = 1) = 0.7861, p-val = 0.3753
+## 
+## Model Results:
+## 
+##                       estimate      se     zval    pval    ci.lb    ci.ub 
+## intrcpt                -1.9836  0.3056  -6.4902  <.0001  -2.5826  -1.3845 
+## ThermoregulationEcto    0.3101  0.3497   0.8866  0.3753  -0.3754   0.9956 
+##  
+## intrcpt               *** 
+## ThermoregulationEcto 
+## 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```r
+# 5. Marine vs terrestrial vs freshwater
+table(x$Realm)
+```
+
+```
+## 
+##     Aquatic  Freshwater      Marine Terrestrial 
+##           2          42         129         194
+```
+
+```r
+z <- rma.uni(Slope.b ~ Realm, vi = SE.b^2, data=x, subset = Realm != "Aquatic")
+```
+
+```
+## Warning in rma.uni(Slope.b ~ Realm, vi = SE.b^2, data = x, subset = Realm !
+## = : Redundant predictors dropped from the model.
+```
+
+```r
+summary(z)
+```
+
+```
+## 
+## Mixed-Effects Model (k = 365; tau^2 estimator: REML)
+## 
+##    logLik   deviance        AIC        BIC       AICc 
+## -963.3399  1926.6797  1934.6797  1950.2463  1934.7917   
+## 
+## tau^2 (estimated amount of residual heterogeneity):     7.2919 (SE = 0.5940)
+## tau (square root of estimated tau^2 value):             2.7003
+## I^2 (residual heterogeneity / unaccounted variability): 99.92%
+## H^2 (unaccounted variability / sampling variability):   1322.11
+## R^2 (amount of heterogeneity accounted for):            3.40%
+## 
+## Test for Residual Heterogeneity:
+## QE(df = 362) = 17529.3017, p-val < .0001
+## 
+## Test of Moderators (coefficients 2:3):
+## QM(df = 2) = 12.8652, p-val = 0.0016
+## 
+## Model Results:
+## 
+##                  estimate      se     zval    pval    ci.lb    ci.ub 
+## intrcpt           -1.9612  0.2073  -9.4629  <.0001  -2.3674  -1.5550  *** 
+## RealmFreshwater    1.5916  0.4742   3.3562  0.0008   0.6621   2.5210  *** 
+## RealmMarine       -0.0951  0.3281  -0.2898  0.7720  -0.7382   0.5481      
+## 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+```r
+# 6. Northern vs southern hemisphere
+table(x$Hemisphere)
+```
+
+```
+## 
+##      Both    N    S 
+##    2   30  217  118
+```
+
+```r
+z <- rma.uni(Slope.b ~ Hemisphere, vi = SE.b^2, data=x, 
+      subset = Hemisphere != "" & Hemisphere != "Both")
+```
+
+```
+## Warning in rma.uni(Slope.b ~ Hemisphere, vi = SE.b^2, data = x, subset =
+## Hemisphere != : Redundant predictors dropped from the model.
+```
+
+```r
+summary(z)
+```
+
+```
+## 
+## Mixed-Effects Model (k = 335; tau^2 estimator: REML)
+## 
+##    logLik   deviance        AIC        BIC       AICc 
+## -889.1645  1778.3290  1784.3290  1795.7534  1784.4019   
+## 
+## tau^2 (estimated amount of residual heterogeneity):     7.8590 (SE = 0.6614)
+## tau (square root of estimated tau^2 value):             2.8034
+## I^2 (residual heterogeneity / unaccounted variability): 99.93%
+## H^2 (unaccounted variability / sampling variability):   1473.92
+## R^2 (amount of heterogeneity accounted for):            0.00%
+## 
+## Test for Residual Heterogeneity:
+## QE(df = 333) = 16386.2854, p-val < .0001
+## 
+## Test of Moderators (coefficient 2):
+## QM(df = 1) = 0.7904, p-val = 0.3740
+## 
+## Model Results:
+## 
+##              estimate      se     zval    pval    ci.lb    ci.ub 
+## intrcpt       -1.6439  0.2726  -6.0309  <.0001  -2.1781  -1.1096  *** 
+## HemisphereN   -0.3011  0.3387  -0.8891  0.3740  -0.9650   0.3627      
+## 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+[//]: -->
+<!--
+## Natural selection
+How strong is natural selection, typically? Kingsolver et al. surveyed studies published between 1984 and 1997 and tallied up a total of 1364 measurements of directional selection on quantitative phenotypic traits (2001, <i>The strength of phenotypic selection in natural populations</i>. Am. Nat. 157: 245-261). Their database on directional selection is <a href="https://www.zoology.ubc.ca/~bio501/R/data/selection.csv">here</a>. (Their additional summaries of non-linear selection are not included). Download and read into R. 
+
+Effect sizes were selection coefficients, estimated on traits standardized to have mean 0 and variance 1 before selection. The measures of selection are <i>s</i> and <i>beta</i> (&beta;). <i>s</i> is the directional selection differential, which for survival data is the population mean of the survivors minus the mean before selection (in units of standard deviations). <i>beta</i> is a partial regression coefficient from a multiple regression of relative fitness on a suite of traits. It attempts to estimate selection directly on a trait, while removing those changes to a trait caused by its correlation with other traits under selection. Most other variables are self-explanatory. The following is not a full list:
+<ul>
+    <li>fit.comp = fitness component (F = Fecundity/Fertility, M = mating success, S= survival, T = total fitness, N = Net reproductive rate, O = parasite burden)</li>
+    <li>traitclass = trait type (MO = Morphology, LH = life history or phenology, BE = behavior, PC = principal component, I = interaction)</li>
+    <li>studytype = study type (C = cross-sectional, L = longitudinal)</li>
+    <li>N = sample size</li>
+</ul>
+<ol>
+    <li>Examine the first few lines of the data to get a feel for how the data is made up of measurements from many traits and studies. Notice that the same study might be listed multiple times, for example once for each trait measured.</li>
+    <li>Draw a funnel plot of the selection differential, <i>s</i>. Notice the a huge range of sample sizes. Since the precision of an estimate (standard error, confidence interval) in general scales not with $N$ but with the square root of $N$, try plotting <i>s</i> against the square root of $N$ or the log of $N$ to better see the patterns. You can also plot <i>s</i> against the inverse of the standard error of <i>s</i> ("se.s"), but you will notice that standard errors are missing for many estimates.</li>
+    <li>Calculate the mean selection differential. For now, use the ordinary, unweighted mean. Consider that this represents the average shift in the mean of traits before and after selection, in units of standard deviations, averaged over many measurements and studies. Examine the result. If nature was in balance, we might expect the mean to be close to zero (just as much selection upward on traits as downward, overall). How should we interpret the fact that the mean <i>s</i> is not close to zero? (This is a biological question, not a statistics question!)</li>
+    <li>Let's look at this data in a slightly different way. Draw a funnel plot of the <b>absolute value</b> of the selection coefficient <i>s</i>. What is the mean of the absolute values? This is even larger than before because we are averaging each shift regardless of direction.</li>
+    <li>Plot the regression line to describe how the absolute value of the selection coefficient changes with sample size (use the measure of sample size from your funnel plot). Notice the pattern of declining selection with increasing sample size. Can publication bias explain this result?(Nobody has come up with a really satisfactory explanation for this pattern.)</li>
+    <li>Is the absolute value of selection on traits likely to be stronger in association with <b>reproduction</b> or with <b>survival</b>? Why? To test your answer, calculate the median selection differential for different fitness components (median is probably more reliable than mean because the values are skewed). Also calculate the sample sizes in each category for reference. Repeat the calculation for the selection gradient -- are they the same as for the selection differentials?</li>
+    <li>If time permits, explore other patterns in the data. Is selection just as strong in plants as in animals? Does selection strength differ depending on whether the study was cross-sectional or longitudinal? Does selection differ among types of traits?  Examine also the sample sizes in each group (plants vs animals, type of study, type of trait). Are some groups overrepresented in the data compared to others?</li>
+</ol>
+Postscript: We haven't had a chance to carry out any serious quantitative meta-analyses on these data, as we did with the sparrow data above, because the shortage of standard errors here means that we wouldn't get very far. If we were going to go this route we would at some point want to take stock of the multiple measurements from each study. It might be prudent to include analyses of summary measures made on data from individual studies to reduce the amount of non-independence in the data.
+-->
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>Multivariate methods</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="workshops.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UBC Biology 501 R workshops</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Biol 501 home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R Workshops
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Main workshops page</a>
+    </li>
+    <li>
+      <a href="workshops-intro.html">1. Introduction to R</a>
+    </li>
+    <li>
+      <a href="graphics.html">2. Graphs and tables</a>
+    </li>
+    <li>
+      <a href="exp-design.html">3. Plan experiments</a>
+    </li>
+    <li>
+      <a href="linearmodels.html">4. Linear models</a>
+    </li>
+    <li>
+      <a href="lme.html">5. Mixed-effects models</a>
+    </li>
+    <li>
+      <a href="likelihood.html">6. Likelihood</a>
+    </li>
+    <li>
+      <a href="glm.html">7. Generalized linear models</a>
+    </li>
+    <li>
+      <a href="modelselection.html">8. Model selection</a>
+    </li>
+    <li>
+      <a href="bayes.html">9. Bayesian inference</a>
+    </li>
+    <li>
+      <a href="resampling.html">10. Bootstrap and permutation</a>
+    </li>
+    <li>
+      <a href="meta.html">11. Meta-analysis</a>
+    </li>
+    <li>
+      <a href="multivariate.html">12. Multivariate methods</a>
+    </li>
+    <li>
+      <a href="phylogenetic.html">13. Phylogenetic comparative methods</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/index.html">R tips home page</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Multivariate methods</h1>
+
+</div>
+
+
+<p>In this workshop will explore three commonly used methods for visualizing multivariate data, ordination, and classification: principal components analysis, simple correspondence analysis, and discriminant function analysis.</p>
+<hr />
+<div id="anolis-lizard-variation" class="section level2">
+<h2><i>Anolis</i> lizard variation</h2>
+<p><i>Anolis</i> lizards have undergone a dramatic ecological and morphological radiation on large islands of the Greater Antilles in the Caribbean ocean. The species perch on a diversity of substrates, including tree trunks, twigs, and grass, and show adaptations in body size, limbs, and tail dimensions to these substrates. We encountered the beasts in the very first workshop. Here we will use principal component to visualize and describe major directions of variation in the group.</p>
+<p><img src="images/anolis%20cybotes.jpg" alt=""> <small><br><i>Anolis cybotes</i>, a Trunk-Ground species from Hispaniola. Photo from J. Losos</small></p>
+<p>Mahler et al (2013, Science 341: 292-295) investigated patterns of morphological convergence in body form among unrelated species of <i>Anolis</i> using similar perch types. Mean measurements of all species are <a href="https://www.zoology.ubc.ca/~bio501/R/data/anolis.convergence.csv">here</a>. They were obtained from the Dryad depository (Mahler DL, Ingram T, Revell LJ, Losos JB (2013) Data from: Exceptional convergence on the macroevolutionary landscape in island lizard radiations. Dryad Digital Repository. <a href="doi:10.5061/dryad.9g182" class="uri">doi:10.5061/dryad.9g182</a>).</p>
+<p>The following variables are included. Most are self-explanatory. SVLength is snout-vent length. “Foot” refers to hindlimb and “hand” to forelimb. “Fingers” and “toes” refer to forelimb and hindlimb 4th digits. Lamellae are adhesive toe pads. All length variables are in mm, whereas the lamellae traits refer to counts.</p>
+<p><code> <br>Species <br>Island <br>Ecomorph <br>SVLength <br>FemurLength <br>TibiaLength <br>FootLength <br>ToeLength <br>HumerusLength <br>RadiusLength <br>FingerLength <br>FootLamellae <br>HandLamellae <br>TailLength </code></p>
+<p>The data were log-transformed to put them on a comparable scale. This worked reasonably well for all the length traits, but FootLamellae and HandLamellae have a much lower variance than the length traits. (This is one instance in which using the correlation matrix might be advised, but to keep things simple, let’s not go there yet.)</p>
+<ol style="list-style-type: decimal">
+<li><p>Read the data from the file and inspect the variables. Most of the species are classified into 6 “ecomorph” categories according to ecological similarity, especially on the basis of the type of perch used. Species not belonging to any specific category are labeled “Unique”.</p></li>
+<li><p>Use pairwise scatter plots to examine associations among variables. Which variables are most strongly correlated with one another? Positively or negatively?</p></li>
+<li><p>Carry out a principal components analysis on the <i>Anolis</i> species mean measurements.</p></li>
+<li><p>Examine the proportion of variance explained by each principal component. What proportion of the variance is accounted for by the first principal component? By the first two? How many components are needed to capture 99% of the total variance among species?</p></li>
+<li><p>What are eigenvalues? Create a scree plot to visualize the magnitudes of the eigenvalues.</p></li>
+<li><p>Create a biplot to visualize the contribution of traits to the first two principal components. Which traits contribute most to PC1? Which vary most with PC2?</p></li>
+<li><p>What are eigenvectors? Examine and interpret the eigenvectors for the first two principal components. Which variables contribute the most to the first two principal components? Can any of the principal components be interpreted as a general “size” variable? Which one? How much of the variance does it account for?</p></li>
+<li><p>Compare the eigenvectors for the first two principal components to the biplot you generated for these same two components. Do you see a correspondence?</p></li>
+<li><p>Do the other eigenvectors have as straightforward an interpretation? For example, which traits contribute to principal components 3 and 4?</p></li>
+<li><p>Save the scores for the first four principal components, the measurements of every individual along these principal axes, into the <i>Anolis</i> data frame.</p></li>
+<li><p>Illustrate the range of phenotypes on the four islands of the Greater Antilles in a scatter plot of the first two principal components. (If you use the option <code>pch = Island</code> in your <code>plot</code> command, the symbol plotted for each species will be the first letter of the name of the island on which it occurs. Make sure that “Island” is a character, not a factor) Do all islands have the same range of phenotypes? Jamaica is the youngest island and has the fewest species. How does the range of phenotypes on this island compare with that on the older islands?</p></li>
+<li><p>Re-plot the first two principal components, but this time use different symbols for the different ecomorphs. The principal components analysis is blind to the ecomorphs of the species, yet species of the same ecomorph tend to cluster together. What does this imply about the body forms of species utilizing similar ecological resources?</p></li>
+<li><p>On the basis of the differences observed, and your earlier interpretation of the eigenvectors, which ecomorph seems to have the largest overall body size? Which ecomorphs are the smallest?</p></li>
+<li><p>On the basis of the differences observed, and your earlier interpretation of the eigenvectors, which ecomorphs likely have the longest tails, relative to other dimensions? Which likely have the shortest tails? Confirm your answer by comparing the mean tail lengths of the different ecomorphs.</p></li>
+<li><p>Optional: Repeat the principal components analysis but this time use the correlation matrix rather than the covariance matrix (i.e., standardize all the traits). How are the results changed? Look especially at the change to the importance of the lamellae traits to the eigenvectors.</p></li>
+</ol>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(ggbiplot))
+suppressPackageStartupMessages(library(dplyr))
+
+# 1. Read and inspect
+anolis <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/Anolis.convergence.csv"), 
+            stringsAsFactors = FALSE)
+head(anolis)
+```
+
+```
+##    Species     Island     Ecomorph SVLength FemurLength TibiaLength
+## 1     ahli       Cuba Trunk-Ground 4.039125    2.741378    2.686032
+## 2  alayoni       Cuba         Twig 3.815705    2.065121    2.016402
+## 3  alfaroi       Cuba   Grass-Bush 3.526655    2.172476    2.094946
+## 4 aliniger Hispaniola  Trunk-Crown 4.036557    2.475445    2.344015
+## 5 allisoni       Cuba  Trunk-Crown 4.375390    2.795145    2.687734
+## 6  allogus       Cuba Trunk-Ground 4.040138    2.739175    2.684476
+##   FootLength ToeLength HumerusLength RadiusLength FingerLength
+## 1   2.254620  2.553344      2.460728     2.268511     1.943288
+## 2   1.535253  1.875258      1.947873     1.687093     1.403029
+## 3   1.547563  1.732540      1.628260     1.401183     1.040277
+## 4   1.867176  2.256541      2.298878     2.091864     1.702199
+## 5   2.178155  2.533697      2.618551     2.341565     1.983412
+## 6   2.217314  2.494900      2.459994     2.267176     1.919010
+##   FootLamellae HandLamellae TailLength
+## 1     3.279600     2.866197   4.406652
+## 2     3.432372     3.075269   4.002788
+## 3     3.198016     2.733866   4.369448
+## 4     3.582875     3.156774   4.441203
+## 5     3.721185     3.239211   5.039851
+## 6     3.335990     2.808270   4.510920
+```
+
+
+```r
+# 2. Pairwise scatter plots
+pairs(anolis[, 4:14], pch = ".", cex = 2, col = "red")
+```
+
+<img src="multivariate_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+
+
+```r
+# 3. Principal components analysis
+z <- prcomp(anolis[, 4:14]) 
+
+# 4. Proportion of variance explained
+summary(z)
+```
+
+```
+## Importance of components:
+##                           PC1     PC2    PC3     PC4     PC5     PC6
+## Standard deviation     1.4377 0.27561 0.2194 0.10847 0.07451 0.06750
+## Proportion of Variance 0.9322 0.03426 0.0217 0.00531 0.00250 0.00205
+## Cumulative Proportion  0.9322 0.96644 0.9881 0.99345 0.99595 0.99800
+##                            PC7     PC8     PC9    PC10    PC11
+## Standard deviation     0.04629 0.03225 0.02377 0.01982 0.01688
+## Proportion of Variance 0.00097 0.00047 0.00025 0.00018 0.00013
+## Cumulative Proportion  0.99897 0.99944 0.99969 0.99987 1.00000
+```
+
+```r
+# 5. Scree plot.
+screeplot(z, type = "barplot", col = "firebrick", las = 1, npcs = 10)
+mtext(paste(colnames(z$x)[1:10], collapse = " "), side = 1, cex = 1.1)
+```
+
+<img src="multivariate_files/figure-html/unnamed-chunk-3-1.png" width="528" />
+
+```r
+# 6. Create a biplot to visualize the contribution of traits to the first two principal components. Which traits contribute most to PC1? Which vary most with PC2?
+biplot(z, las = 1, choices = c(1,2))
+```
+
+<img src="multivariate_files/figure-html/unnamed-chunk-3-2.png" width="528" />
+
+```r
+# or
+ggbiplot(z, ellipse = TRUE, choices = c(1,2), groups = anolis$Ecomorph) + 
+    theme_classic()
+```
+
+<img src="multivariate_files/figure-html/unnamed-chunk-3-3.png" width="528" />
+
+```r
+# 7. Eigenvectors
+z$rotation[,1:2]
+```
+
+```
+##                     PC1         PC2
+## SVLength      0.2970870  0.28247382
+## FemurLength   0.3253090 -0.08331239
+## TibiaLength   0.3148261 -0.19886396
+## FootLength    0.3195441 -0.24507260
+## ToeLength     0.3367467 -0.15946111
+## HumerusLength 0.3360171  0.27086700
+## RadiusLength  0.3415222  0.23339378
+## FingerLength  0.3536699  0.17061632
+## FootLamellae  0.1488922  0.18651590
+## HandLamellae  0.1598114  0.43440058
+## TailLength    0.2982537 -0.63858338
+```
+
+```r
+# 9. More eigenvectors
+z$rotation[,1:5]
+```
+
+```
+##                     PC1         PC2        PC3          PC4         PC5
+## SVLength      0.2970870  0.28247382  0.1716583 -0.672189493 -0.04661029
+## FemurLength   0.3253090 -0.08331239 -0.1145954 -0.015522652  0.36458031
+## TibiaLength   0.3148261 -0.19886396 -0.1487213  0.269056329  0.40687196
+## FootLength    0.3195441 -0.24507260 -0.1404043  0.266906907  0.01639027
+## ToeLength     0.3367467 -0.15946111 -0.1203631  0.209286316 -0.63904533
+## HumerusLength 0.3360171  0.27086700 -0.1273088 -0.212062434  0.06117604
+## RadiusLength  0.3415222  0.23339378 -0.2588973  0.034791378  0.27076796
+## FingerLength  0.3536699  0.17061632 -0.1753091  0.009677922 -0.43350152
+## FootLamellae  0.1488922  0.18651590  0.5149968  0.360430683 -0.08681994
+## HandLamellae  0.1598114  0.43440058  0.5031685  0.321577582  0.13119752
+## TailLength    0.2982537 -0.63858338  0.5183762 -0.284415134  0.03137621
+```
+
+```r
+# 10. Scores for the first four principal components
+anolis[, c("pc1","pc2","pc3","pc4")] <- predict(z)[, 1:4]
+head(anolis)
+```
+
+```
+##    Species     Island     Ecomorph SVLength FemurLength TibiaLength
+## 1     ahli       Cuba Trunk-Ground 4.039125    2.741378    2.686032
+## 2  alayoni       Cuba         Twig 3.815705    2.065121    2.016402
+## 3  alfaroi       Cuba   Grass-Bush 3.526655    2.172476    2.094946
+## 4 aliniger Hispaniola  Trunk-Crown 4.036557    2.475445    2.344015
+## 5 allisoni       Cuba  Trunk-Crown 4.375390    2.795145    2.687734
+## 6  allogus       Cuba Trunk-Ground 4.040138    2.739175    2.684476
+##   FootLength ToeLength HumerusLength RadiusLength FingerLength
+## 1   2.254620  2.553344      2.460728     2.268511     1.943288
+## 2   1.535253  1.875258      1.947873     1.687093     1.403029
+## 3   1.547563  1.732540      1.628260     1.401183     1.040277
+## 4   1.867176  2.256541      2.298878     2.091864     1.702199
+## 5   2.178155  2.533697      2.618551     2.341565     1.983412
+## 6   2.217314  2.494900      2.459994     2.267176     1.919010
+##   FootLamellae HandLamellae TailLength        pc1         pc2        pc3
+## 1     3.279600     2.866197   4.406652  0.1203567  0.02490547 -0.4861726
+## 2     3.432372     3.075269   4.002788 -1.4613044  0.44615090  0.1202315
+## 3     3.198016     2.733866   4.369448 -1.8450830 -0.28167450  0.1379761
+## 4     3.582875     3.156774   4.441203 -0.3964258  0.29115751  0.1137580
+## 5     3.721185     3.239211   5.039851  0.6136201  0.04364092  0.2755356
+## 6     3.335990     2.808270   4.510920  0.1087984 -0.04173605 -0.4146030
+##            pc4
+## 1  0.096240905
+## 2  0.063295418
+## 3  0.006254225
+## 4  0.063314999
+## 5 -0.086205857
+## 6  0.044902614
+```
+
+```r
+# 11. Range of phenotypes on Greater Antilles islands
+ggplot(anolis, aes(pc1, pc2, colour = Island, shape = Island)) + 
+    geom_point(size = 2) + 
+    theme_classic() + 
+    theme(legend.position="top")
+```
+
+<img src="multivariate_files/figure-html/unnamed-chunk-3-4.png" width="528" />
+
+```r
+ggplot(anolis, aes(pc3, pc4, colour = Island, shape = Island)) + 
+    geom_point(size = 2) + 
+    theme_classic() + 
+    theme(legend.position="top")
+```
+
+<img src="multivariate_files/figure-html/unnamed-chunk-3-5.png" width="528" />
+
+```r
+# 12. Identifying ecomorphs
+ggplot(anolis, aes(pc1, pc2, colour = Ecomorph)) + 
+    geom_point(size = 2) + 
+    theme_classic() + 
+    theme(legend.position="top")
+```
+
+<img src="multivariate_files/figure-html/unnamed-chunk-3-6.png" width="528" />
+
+```r
+# 13. Smallest and largest ecomorphs
+pcMeans <- summarize(group_by(anolis, Ecomorph), 
+               pc1 = mean(pc1, na.rm = TRUE),
+               pc2 = mean(pc2, na.rm = TRUE))
+pcMeans$Ecomorph[pcMeans$pc1==max(pcMeans$pc1)]
+```
+
+```
+## [1] "Crown-Giant"
+```
+
+```r
+pcMeans$Ecomorph[pcMeans$pc1==min(pcMeans$pc1)]
+```
+
+```
+## [1] "Twig"
+```
+
+```r
+# 14. Longest and shortest tailed ecomorphs
+pcMeans$Ecomorph[pcMeans$pc2==min(pcMeans$pc2)]
+```
+
+```
+## [1] "Grass-Bush"
+```
+
+```r
+pcMeans$Ecomorph[pcMeans$pc2==max(pcMeans$pc2)]
+```
+
+```
+## [1] "Twig"
+```
+
+```r
+# 15. Using the correlation matrix rather than the covariance matrix
+z2 <- prcomp(anolis[, 4:14], scale = TRUE) 
+ggbiplot(z2, ellipse = TRUE, choices = c(1,2), groups = anolis$Ecomorph) + 
+    theme_classic()
+```
+
+<img src="multivariate_files/figure-html/unnamed-chunk-3-7.png" width="528" />
+
+```r
+z2$rotation[,1:2]
+```
+
+```
+##                     PC1          PC2
+## SVLength      0.3075540 -0.127228451
+## FemurLength   0.3126457  0.170130522
+## TibiaLength   0.3094171  0.237932138
+## FootLength    0.3087867  0.257632322
+## ToeLength     0.3108861  0.200147036
+## HumerusLength 0.3115470 -0.006006734
+## RadiusLength  0.3099749  0.052776277
+## FingerLength  0.3127946  0.056972501
+## FootLamellae  0.2790235 -0.527188492
+## HandLamellae  0.2666799 -0.674335171
+## TailLength    0.2827830  0.230435813
+```
+
+[//]: -->
+<hr />
+</div>
+<div id="rodent-ordination" class="section level2">
+<h2>Rodent ordination</h2>
+<p>Correspondence analysis is used to ordinate species assemblages based on species composition and similarity in species abundances. The data for this exercise are rodent species abundance from 28 sites in California (Bolger et al. 1997, <i>Response of rodents to habitat fragmentation in coastal Southern California</i>, Ecological Applications 7: 552-563). The file in contingency table format is located <a href="https://www.zoology.ubc.ca/~bio501/R/data/rodent.csv">here</a>. I modified the data table downloaded from the <a href="http://www.zoology.unimelb.edu.au/qkstats/data.html">web site</a> of Quinn and Keough (2002, Experimental Design and Data Analysis for Biologists, Cambridge Univ. Press, Cambridge, UK).</p>
+<p>The 9 species are indicated by variable (column) names. Genus abbreviations are: Rt (<i>Rattus</i>), Rs (<i>Reithrodontomys</i>), Mus (<i>Mus</i>), Pm (<i>Peromyscus</i>), Pg (<i>Perognathus</i>), N (<i>Neotoma</i>) and M (<i>Microtus</i>). <i>Rattus</i> and <i>Mus</i> are invasive species, whereas the others are native.</p>
+<ol style="list-style-type: decimal">
+<li><p>Download the file and read into a data frame in R. Inspect the data frame to get a sense of which species are abundant and which are rare, which are widely distributed and which occur infrequently. The first column of this data frame will have the site variable. Make sure not to include the site variable in the correspondence analysis. Also, the plots will use the row names of the data frame as the site names. If you want to see the actual site names rather than row numbers in your plots, rename the row names accordingly.</p></li>
+<li><p>Carry out a correspondence analysis using these data. Extract two axes from the species abundance data at sites. How strongly are the site and species data correlated along the two axes?</p></li>
+<li><p>Plot the results from (2). Overlap of points may make it difficult to identify some plots and species (unfortunately there’s no built-in “jitter” option for this plot). You can use the species scores to help identify them.</p></li>
+<li><p>Use the plot in (3) and the species scores to interpret the results of your analysis. How are each of the species contributing to the correspondence axes? Do you notice any differences between the invasive and native species in their distributions?</p></li>
+<li><p>As you probably surmised, the results of the first round of analysis were chiefly driven by the introduced species. To examine the native species as well, create a new data frame with <i>Rattus</i> and <i>Mus</i> deleted. This will generate some sites with no species present. Delete these sites from the new data frame.</p></li>
+<li><p>Carry out a correspondence analysis on the native species. Extract two axes from the species abundance data at sites. How strongly are the species and site data correlated?</p></li>
+<li><p>Plot the results from your analysis in (6). Is the plot useful in helping you to identify which species tend to co-occur? And which species tend not to occur together? Confirm this by looking at the original data. Are your interpretations correct?</p></li>
+<li><p>Based on the plot in (7), which sites tend to have similar species composition and abundances? Which have different species assemblages? Confirm this by looking at the original data.</p></li>
+<li><p>Based on the same plot, can you match the species to specific sites? Confirm this by looking at the original data. It would be easier to compare the plot of the correspondence analysis with the abundance data in the data frame if the rows and columns of the data frame were reordered according to the position of sites (rows) and species (columns) along the first axis from the correspondence analysis. Print the data frame with this reordering. The positions of the sites and species along the first axis are given in the first columns of the rscore and cscore matrices in your correspondence model object. Your results should look like the following:</p></li>
+</ol>
+<pre class="r"><code>            N.lepida Pm.eremicus M.californicus Rs.megalotis Pm.californicus N.fuscipes Pg.fallax
+Sandmark           8          65              3            9              57         16         2
+Altalajolla       12          35              2           12              48          8         2
+Katesess           0          21              0           11              63         16         0
+Delmarmesa         0           1              0            0              10          1         0
+Florida            0           1              0            1               3          2         0
+Oakcrest           0           1              0            0              27          0         0
+Spruce             0           0              0            0               1          0         0
+34street           0           0              0            2              36          9         0
+Edison             0           0              0           10              78         14         4
+Tec2               0           0              0           10              29          9         1
+Syracuse           0           0              0            4              39         12         0
+Tec1               0           0              0            0              22         11         2
+Balboaterr         0           1              3            5              53         30        18
+Montanosa          0           0              0            2               0          8         2
+Solanadrive        0           0              0            5               1         16         7</code></pre>
+<p>With this ordering of the original abundance data, you can see how the different sites (rows) might lie along some environmental gradient. However, this is inferred only from the ordering of species abundances among the sites. No environmental variable has been included in this analysis.</p>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(MASS))
+
+# 1. Download and inspect
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/rodent.csv"), 
+        stringsAsFactors = FALSE)
+rownames(x) <- x$site
+x
+```
+
+```
+##                    site Rt.rattus Mus.musculus Pm.californicus Pm.eremicus
+## Florida         Florida         0           13               3           1
+## Sandmark       Sandmark         0            1              57          65
+## 34street       34street         0            4              36           0
+## Balboaterr   Balboaterr         0            4              53           1
+## Katesess       Katesess         0            2              63          21
+## Altalajolla Altalajolla         0            1              48          35
+## Laurel           Laurel         0           11               0           0
+## Canon             Canon         0           16               0           0
+## Zena               Zena         3            8               0           0
+## Baja               Baja         1            2               0           0
+## Washington   Washington         0            9               0           0
+## Solanadrive Solanadrive         0            3               1           0
+## Syracuse       Syracuse         0            4              39           0
+## 32streetsth 32streetsth         1            3               0           0
+## 60th               60th         0           11               0           0
+## Juan               Juan         0            4               0           0
+## Acuna             Acuna         3            0               0           0
+## Edison           Edison         0            2              78           0
+## Spruce           Spruce         0            0               1           0
+## Oakcrest       Oakcrest         3            0              27           1
+## 54street       54street         2            1               0           0
+## Titus             Titus         0            3               0           0
+## Montanosa     Montanosa         0            0               0           0
+## Elmac             Elmac         1            0               0           0
+## 32streetnth 32streetnth         0            5               0           0
+## Tec1               Tec1         0            0              22           0
+## Tec2               Tec2         0            0              29           0
+## Delmarmesa   Delmarmesa         0            0              10           1
+##             Rs.megalotis N.fuscipes N.lepida Pg.fallax M.californicus
+## Florida                1          2        0         0              0
+## Sandmark               9         16        8         2              3
+## 34street               2          9        0         0              0
+## Balboaterr             5         30        0        18              3
+## Katesess              11         16        0         0              0
+## Altalajolla           12          8       12         2              2
+## Laurel                 0          0        0         0              0
+## Canon                  0          0        0         0              0
+## Zena                   0          0        0         0              0
+## Baja                   0          0        0         0              0
+## Washington             0          0        0         0              0
+## Solanadrive            5         16        0         7              0
+## Syracuse               4         12        0         0              0
+## 32streetsth            0          0        0         0              0
+## 60th                   0          0        0         0              0
+## Juan                   0          0        0         0              0
+## Acuna                  0          0        0         0              0
+## Edison                10         14        0         4              0
+## Spruce                 0          0        0         0              0
+## Oakcrest               0          0        0         0              0
+## 54street               0          0        0         0              0
+## Titus                  0          0        0         0              0
+## Montanosa              2          8        0         2              0
+## Elmac                  0          0        0         0              0
+## 32streetnth            0          0        0         0              0
+## Tec1                   0         11        0         2              0
+## Tec2                  10          9        0         1              0
+## Delmarmesa             0          1        0         0              0
+```
+
+```r
+# 2. Correspondence analysis
+z <- corresp(x[, -1], nf = 2)
+names(z)
+```
+
+```
+## [1] "cor"    "rscore" "cscore" "Freq"
+```
+
+```r
+z$cor
+```
+
+```
+## [1] 0.8639130 0.6775561
+```
+
+```r
+# 3. Plot results
+biplot(z, las = 1, xlab = "First axis", ylab = "Second axis")
+```
+
+<img src="multivariate_files/figure-html/unnamed-chunk-5-1.png" width="528" />
+
+```r
+# 4. Species (column) scores
+z$cscore
+```
+
+```
+##                       [,1]        [,2]
+## Rt.rattus        3.0167376  7.82037720
+## Mus.musculus     2.6501948 -1.14326455
+## Pm.californicus -0.3554966  0.07497694
+## Pm.eremicus     -0.4783495  0.03669773
+## Rs.megalotis    -0.3653138 -0.06211601
+## N.fuscipes      -0.3163246 -0.11308540
+## N.lepida        -0.5170769  0.04102837
+## Pg.fallax       -0.3178842 -0.15209533
+## M.californicus  -0.4443527 -0.02489329
+```
+
+```r
+# 5. Drop introduced species
+x1 <- x[ , -c(2,3)]
+x1 <- x1[rowSums(x1[, -1]) > 0, ]
+
+# 6. Correspondence analysis on native species
+z1 <- corresp(x1[, -1], nf = 2)
+z1$cor
+```
+
+```
+## [1] 0.5436941 0.4040247
+```
+
+```r
+# 7. Plot results
+biplot(z1, las = 1, xlab = "First axis", ylab = "Second axis")
+```
+
+<img src="multivariate_files/figure-html/unnamed-chunk-5-2.png" width="528" />
+
+```r
+# 9. Order species and sites according to position along the first axis
+x2 <- x1[, -1][order(z1$rscore[,1]), order(z1$cscore[,1])]
+x2
+```
+
+```
+##             N.lepida Pm.eremicus M.californicus Rs.megalotis
+## Sandmark           8          65              3            9
+## Altalajolla       12          35              2           12
+## Katesess           0          21              0           11
+## Delmarmesa         0           1              0            0
+## Florida            0           1              0            1
+## Oakcrest           0           1              0            0
+## Spruce             0           0              0            0
+## 34street           0           0              0            2
+## Edison             0           0              0           10
+## Tec2               0           0              0           10
+## Syracuse           0           0              0            4
+## Tec1               0           0              0            0
+## Balboaterr         0           1              3            5
+## Montanosa          0           0              0            2
+## Solanadrive        0           0              0            5
+##             Pm.californicus N.fuscipes Pg.fallax
+## Sandmark                 57         16         2
+## Altalajolla              48          8         2
+## Katesess                 63         16         0
+## Delmarmesa               10          1         0
+## Florida                   3          2         0
+## Oakcrest                 27          0         0
+## Spruce                    1          0         0
+## 34street                 36          9         0
+## Edison                   78         14         4
+## Tec2                     29          9         1
+## Syracuse                 39         12         0
+## Tec1                     22         11         2
+## Balboaterr               53         30        18
+## Montanosa                 0          8         2
+## Solanadrive               1         16         7
+```
+
+[//]: -->
+<hr />
+</div>
+<div id="anolis-ecomorph-discrimination" class="section level2">
+<h2><i>Anolis</i> ecomorph discrimination</h2>
+<p>Principal components analysis finds axes of maximum variation but pays no attention to the groups to which individuals belong. In contrast, discriminant analysis finds axes that maximize separation among groups, relative to variation within groups. This exercise will use the same data set as in the first exercise on this page.</p>
+<ol style="list-style-type: decimal">
+<li><p>Read the <i>Anolis</i> data set into memory once again. Drop the species classified as having a “Unique” ecomorph from the data frame. If your ecomorph variable is a factor, make sure that “Unique” has also been dropped from the factor levels for this variable.</p></li>
+<li><p>Carry out a discriminant function analysis to find trait combinations that best discriminate <i>Anolis</i> ecomorphs.</p></li>
+<li><p>Plot the first two discriminant functions, using different symbols for different ecomorphs. How much separation between groups is evident? How does it compare with the separation observed between the ecomorphs on the principal component axes, which is blind to the groupings?</p></li>
+<li><p>On the basis of the plot, and your interpretation of the eigenvectors of the discriminant functions, what traits maximally discriminate different <i>Anolis</i> ecomorphs?</p></li>
+<li><p>Reclassify the species used in the calculation of the discriminant functions to ecomorphs. Compare the classification with the true ecomorphs in a table. How successful was the classification? (Note that the mis-classification is expected to be unrealistically low when carried out on the same individuals used to calculate the discriminant function. Typically, half the data would be used to generate the discriminant function, and classification success would be evaluated using the other half).</p></li>
+</ol>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(MASS))
+
+# 1. Read and drop "Unique" ecomorph
+anolis <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/Anolis.convergence.csv"), 
+            stringsAsFactors = FALSE)
+anolis <- anolis[anolis$Ecomorph != "Unique", ]
+head(anolis)
+```
+
+```
+##    Species     Island     Ecomorph SVLength FemurLength TibiaLength
+## 1     ahli       Cuba Trunk-Ground 4.039125    2.741378    2.686032
+## 2  alayoni       Cuba         Twig 3.815705    2.065121    2.016402
+## 3  alfaroi       Cuba   Grass-Bush 3.526655    2.172476    2.094946
+## 4 aliniger Hispaniola  Trunk-Crown 4.036557    2.475445    2.344015
+## 5 allisoni       Cuba  Trunk-Crown 4.375390    2.795145    2.687734
+## 6  allogus       Cuba Trunk-Ground 4.040138    2.739175    2.684476
+##   FootLength ToeLength HumerusLength RadiusLength FingerLength
+## 1   2.254620  2.553344      2.460728     2.268511     1.943288
+## 2   1.535253  1.875258      1.947873     1.687093     1.403029
+## 3   1.547563  1.732540      1.628260     1.401183     1.040277
+## 4   1.867176  2.256541      2.298878     2.091864     1.702199
+## 5   2.178155  2.533697      2.618551     2.341565     1.983412
+## 6   2.217314  2.494900      2.459994     2.267176     1.919010
+##   FootLamellae HandLamellae TailLength
+## 1     3.279600     2.866197   4.406652
+## 2     3.432372     3.075269   4.002788
+## 3     3.198016     2.733866   4.369448
+## 4     3.582875     3.156774   4.441203
+## 5     3.721185     3.239211   5.039851
+## 6     3.335990     2.808270   4.510920
+```
+
+```r
+# 2. Discriminant function analysis
+z <- lda(Ecomorph ~., data = anolis[, 3:14])
+
+# 3. Plot first two discriminant functions
+predict.anolis <- predict(z)
+anolis[, c("df1","df2")] <- predict.anolis$x[, 1:2]
+ggplot(anolis, aes(df1, df2, colour = Ecomorph, symbol = Ecomorph)) + 
+    geom_point(size = 2) + 
+    theme_classic() + 
+    theme(legend.position="top")
+```
+
+<img src="multivariate_files/figure-html/unnamed-chunk-6-1.png" width="528" />
+
+```r
+# 4. Eigenvectors of the discriminant functions
+z$scaling
+```
+
+```
+##                       LD1         LD2         LD3         LD4        LD5
+## SVLength       -3.1672613   2.4427624 -10.3156516 -12.9219455   2.885698
+## FemurLength     4.8929897  -3.1889239  -1.7319552  -0.8771498   1.450704
+## TibiaLength   -10.0587262   8.6757672   6.1564026  24.6294161  13.751562
+## FootLength     19.6450899 -26.9089968 -11.0727737 -34.0007393 -16.584420
+## ToeLength       1.2498758  13.4065034   4.7096036  10.0351866 -12.546738
+## HumerusLength  -4.8627480  -6.5230461   0.3565728  -0.3099344 -10.325761
+## RadiusLength   -2.4875851   4.4277317  11.8742401   3.0035408  -1.157094
+## FingerLength   -8.8565558  -0.7981189   0.1105158   2.7158169  21.657666
+## FootLamellae   -3.6710391   1.6812529   3.5894876   6.2044365   1.260676
+## HandLamellae   -0.4925101   4.2214386  -3.3907968  -0.4702191  -7.147971
+## TailLength      1.2370846   2.3693808  -3.8884505   4.1147851   3.466235
+```
+
+```r
+# 5. Reclassify
+table(predict.anolis$class, anolis$Ecomorph)
+```
+
+```
+##               
+##                Crown-Giant Grass-Bush Trunk Trunk-Crown Trunk-Ground Twig
+##   Crown-Giant           10          0     0           0            0    0
+##   Grass-Bush             0         18     0           0            0    0
+##   Trunk                  0          0     5           0            0    0
+##   Trunk-Crown            0          0     1          13            0    1
+##   Trunk-Ground           0          0     0           0           25    0
+##   Twig                   0          0     0           0            0   10
+```
+
+[//]: -->
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

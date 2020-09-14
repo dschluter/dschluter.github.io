@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Introduction to R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="workshops.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UBC Biology 501 R workshops</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Biol 501 home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R Workshops
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Main workshops page</a>
+    </li>
+    <li>
+      <a href="workshops-intro.html">1. Introduction to R</a>
+    </li>
+    <li>
+      <a href="graphics.html">2. Graphs and tables</a>
+    </li>
+    <li>
+      <a href="exp-design.html">3. Plan experiments</a>
+    </li>
+    <li>
+      <a href="linearmodels.html">4. Linear models</a>
+    </li>
+    <li>
+      <a href="lme.html">5. Mixed-effects models</a>
+    </li>
+    <li>
+      <a href="likelihood.html">6. Likelihood</a>
+    </li>
+    <li>
+      <a href="glm.html">7. Generalized linear models</a>
+    </li>
+    <li>
+      <a href="modelselection.html">8. Model selection</a>
+    </li>
+    <li>
+      <a href="bayes.html">9. Bayesian inference</a>
+    </li>
+    <li>
+      <a href="resampling.html">10. Bootstrap and permutation</a>
+    </li>
+    <li>
+      <a href="meta.html">11. Meta-analysis</a>
+    </li>
+    <li>
+      <a href="multivariate.html">12. Multivariate methods</a>
+    </li>
+    <li>
+      <a href="phylogenetic.html">13. Phylogenetic comparative methods</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/index.html">R tips home page</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Introduction to R</h1>
+
+</div>
+
+
+<p>The goal of this first workshop is to get you started working in R, and to introduce the most commonly-used data types, operations, and functions. Help is on the R tips page. The most useful pages for this exercise are Calculate, Data, and Graphs &amp; Tables for producing frequency tables.</p>
+<hr />
+<div id="using-the-console" class="section level2">
+<h2>Using the console</h2>
+<p>The command line in the R console is where you interact with R.</p>
+<div id="oversized-calculator" class="section level3">
+<h3>Oversized calculator</h3>
+<p>At its most basic, the command line is a bloated calculator. The basic operations are</p>
+<pre class="r"><code>+  -  *  /</code></pre>
+<p>for add, subtract, multiply, divide. Familiar calculator functions also work on the command line. For example, to take the natural log of 2, enter</p>
+<pre class="r"><code>log(2)</code></pre>
+<ol>
+<li>
+Try the calculator out to get a feel for this basic application and the style of the output. Try log and a few other functions (see “Transform numbers” in the vector functions section of the R tips Calculate page).
+</li>
+<li>
+<p>R allows you to store or assign numbers and character strings to named variables called vectors, which are a type of “object” in R. For example, to assign the number “3” to a variable <code>x</code>, use</p>
+<pre class="r"><code>x &lt;- 3</code></pre>
+The assign symbol is a “less than” symbol followed by a dash, <code>&lt;-</code>, with no space between. Try assigning a single number to a named variable.
+</li>
+<li>
+<p>R can also assign character strings (enter using double quotes) to named variables. Try entering</p>
+<pre class="r"><code>z &lt;- &quot;Wake up Neo&quot;  # single or double quotes needed</code></pre>
+</li>
+<li>
+At any time, enter <code>ls()</code> to see the names of all the objects in the working R environment. (You can save the environment for later use by entering <code>save.image()</code> or by saving when you exit R.)
+</li>
+<li>
+<p>Assign a single number to the variable <code>x</code> and another number to the variable <code>y</code>. Then watch what happens when you type an operation, such as</p>
+<pre class="r"><code>x * y</code></pre>
+<p>Finally, you can also store the result in a third variable.</p>
+<pre class="r"><code>z &lt;- x * y</code></pre>
+To print the contents of <code>z</code>, just enter the name on the command line, or enter <code>print(z)</code>.
+</li>
+<li>
+<p>The calculator will also give a TRUE or FALSE response to a logical operation. Try one or more variations of the following examples on the command line to see the outcome.</p>
+<pre class="r"><code>2 + 2 == 4     # Note double &quot;==&quot; for logical &quot;is equal to&quot;
+3 &lt;= 2         # less than or equal to
+&quot;A&quot; &lt; &quot;a&quot;      # greater than
+&quot;Hi&quot; != &quot;hi&quot;   # not equal to (i.e., R is case sensitive)</code></pre>
+</li>
+</ol>
+<p><br></p>
+</div>
+<div id="vectors" class="section level3">
+<h3>Vectors</h3>
+<p>Vectors in R are used to represent variables. R can assign sets of numbers or character strings to named variables using the <code>c()</code> command, for concatenate. (R treats a single number or character string as a vector too, having just one element.)</p>
+<pre class="r"><code>x &lt;- c(1,2,333,65,45,-88)</code></pre>
+<ol>
+<li>
+Assign a set of 10 numbers to a variable <code>x</code>. Make sure it includes some positive and some negative numbers. To see the contents afterward, enter <code>x</code> on the command line, or enter <code>print(x)</code>. Is it really a vector? Enter <code>is.vector(x)</code> to confirm.
+</li>
+<li>
+<p>Use integers in square brackets to indicate subsets of vector <code>x</code>.</p>
+<pre class="r"><code>x[5]        # fifth element</code></pre>
+<p>Try this out. See also what happens when you enter vectors of indices,</p>
+<pre class="r"><code>x[1:3]      # 1:3 is a shortcut for c(1,2,3)
+x[c(2,4,9)]</code></pre>
+Print the 3rd and 6th elements of <code>x</code> with a single command.
+</li>
+<li>
+<p>Some functions of vectors yield integer results and so can be used as indices too. For example, enter the function</p>
+<pre class="r"><code>length(x)</code></pre>
+<p>Since the result is an integer, it is ok to use as follows,</p>
+<pre class="r"><code>x[length(x)]</code></pre>
+The beauty of this construction is that it will always give the last element of a vector <code>x</code> no matter how many elements <code>x</code> contains.
+</li>
+<li>
+<p>Logical operations can also be used to generate indicators. First, enter the following command and compare with the contents of <code>x</code>,</p>
+<pre class="r"><code>x &lt; 0</code></pre>
+<p>Now enter</p>
+<pre class="r"><code>x[x &lt; 0]</code></pre>
+<p>Try this yourself: print all elements of <code>x</code> that are non-negative.</p>
+<p>The <code>which</code> command will identify the elements corresponding to TRUE. For example, try the following and compare with your vector <code>x</code>.</p>
+<pre class="r"><code>which(x &lt; 0)</code></pre>
+</li>
+<li>
+<p>Indicators can be used to change individual elements of the vector <code>x</code>. For example, to change the fifth element of <code>x</code> to 0,</p>
+<pre class="r"><code> x[5] &lt;- 0</code></pre>
+Try this yourself. Change the last value of your <code>x</code> vector to a different number. Change the 2nd, 6th, and 10th values of <code>x</code> all to 3 new numbers with a single command.
+</li>
+<li>
+Missing values in R are indicated by <code>NA</code>. Try changing the 2nd value of <code>x</code> to a missing value. Print <code>x</code> to see the result.
+</li>
+<li>
+<p>R can be used as a calculator for arrays of numbers too. To see this, create a second numerical vector <code>y</code> of the same length as <code>x</code>. Now try out a few ordinary mathematical operations on the whole vectors of numbers,</p>
+<pre class="r"><code>z &lt;- x * y</code></pre>
+<pre class="r"><code>z &lt;- y - 2 * x</code></pre>
+<p>Examine the results to see how R behaves. It executes the operation on the first elements of <code>x</code> and <code>y</code>, then on the corresponding second elements, and so on. Each result is stored in the corresponding element of <code>z</code>. Logical operations are the same,</p>
+<pre class="r"><code>z &lt;- x &lt;= y              # greater than or equal to
+z &lt;- x[abs(x) &lt; abs(y)]  # absolute values</code></pre>
+<p>What does R do if the two vectors are not the same length? The answer is that the elements in the shorter vector are “recycled”, starting from the beginning. This is basically what R does when you multiply a vector by a single number. The single number is recycled, and so is applied to each of the elements of <code>x</code> in turn.</p>
+<pre class="r"><code>z &lt;- 2 * x</code></pre>
+</li>
+<li>
+Make a data frame called <code>mydata</code> from the two vectors, <code>x</code> and <code>y</code>. Consult the R tips Calculate and Data frame pages for help on how to do this. Print <code>mydata</code> on the screen to view the result. If all looks good, delete the vectors <code>x</code> and <code>y</code> from the R environment. They are now stored only in the data frame. Type <code>names(mydata)</code> to see the names of the stored variables.
+</li>
+<li>
+Vector functions applied to data frames may give unexpected results – data frames are not vectors. For example, <code>length(mydata)</code> won’t give you the same answer as <code>length(x)</code> or <code>length(y)</code>. But you can still access each of the original vectors using <code>mydata$x</code> and <code>mydata$y</code>. Try printing one of them. All the usual vector functions and operations can be used on the variables in the data frame. We’ll do more with data frames below.
+</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="vector-of-data-flying-snakes" class="section level2">
+<h2>Vector of data: flying snakes</h2>
+<p><img src="images/flyingsnake_socha_scinews.jpg" alt=""> <small><br>Photo by J. Socha, <a href="https://www.sciencenews.org/article/how-flying-snakes-stay-aloft" class="uri">https://www.sciencenews.org/article/how-flying-snakes-stay-aloft</a></small></p>
+<div id="analyze-data-in-a-vector" class="section level3">
+<h3>Analyze data in a vector</h3>
+<p>Paradise tree snakes (<i>Chrysopelea paradisi</i>) leap into the air from trees, and by generating lift they glide downward and away rather than plummet. An airborn snake flattens its body everywhere except for the heart region. It forms a horizontal “S” shape and undulates from side to side. By orienting the head and anterior part of the body, a snake can change direction, reach a preferred landing site, and even chase aerial prey. To better understand lift and stability of glides, Socha (2002, Nature 418: 603-604) videotaped eight snakes leaping from a 10-m tower (<a href="https://www.youtube.com/watch?v=UX7z3F-R9qM">video here</a>). One measurement taken was the rate of side-to-side undulation. Undulation rates of the eight snakes, measured in Hertz (cycles per second), were as follows:</p>
+<pre class="r"><code>0.9 1.4 1.2 1.2 1.3 2.0 1.4 1.6</code></pre>
+We’ll store these data in a vector (variable) and try out some useful vector functions in R (review the common vector functions section on the Calculate page of the R tips web pages).
+<ol>
+<li>
+Put the glide undulation data above into a named vector. Afterward, check the number of observations stored in the vector.
+</li>
+<li>
+<p>Apply the <code>hist</code> command to the vector and observe the result (a histogram). Examine the histogram and you will see that it counts two observations between 1.0 and 1.2. Are there any measurements in the data between these two numbers? What is going on? The default in R is to use right-closed, left-open intervals. To change to left-closed right-open, modify an option in the <code>hist</code> command as follows,</p>
+<pre class="r"><code>hist(myvector, right = FALSE)</code></pre>
+We’ll be doing more on graphs next week.
+</li>
+<li>
+Hertz units measure undulations in cycles per second. The standard international unit of angular velocity, however, is radians per second. 1 Hertz is 2π radians per second. Transform the snake data so that it is in units of radians per second (note: <code>pi</code> is a programmed constant in R).
+</li>
+<li>
+Using the transformed data hereafter, calculate the sample mean undulation rate WITHOUT using the function <code>mean()</code> (i.e., use other functions instead)*.
+</li>
+<li>
+Ok, try the function <code>mean()</code> and compare your answer.
+</li>
+<li>
+Calculate the sample standard deviation in undulation rate WITHOUT using the functions <code>sd()</code> or <code>var()</code>. Then calculate using <code>sd()</code> to compare your answer**.
+</li>
+<li>
+Sort the observations using the <code>sort()</code> command.
+</li>
+<li>
+Calculate the median undulation rate. When there are an even number of observations (as in the present case), the population median is most simply estimated as the average of the two middle measurements in the sample.
+</li>
+<li>
+Calculate the standard error of the mean undulation rate. Remember, the standard error of the mean is calculated as the standard deviation of the data divided by the square root of sample size.
+</li>
+</ol>
+<p><small>* 8.63938. ** 2.035985</small></p>
+<!--
+
+<br>
+
+### Answers
+All lines below beginning with double hashes are R output
+
+```r
+# Input the data:
+x <- c(0.9, 1.4, 1.2, 1.2, 1.3, 2.0, 1.4, 1.6)
+
+# Histogram
+hist(x, right = FALSE, col = "firebrick", main = "")
+```
+
+<img src="workshops-intro_files/figure-html/unnamed-chunk-23-1.png" width="528" />
+
+```r
+# Convert hertz to radians/sec
+z <- x * 2*pi
+z
+```
+
+```
+## [1]  5.654867  8.796459  7.539822  7.539822  8.168141 12.566371  8.796459
+## [8] 10.053096
+```
+
+```r
+# Mean without using mean() function
+sum(z)/length(z)
+```
+
+```
+## [1] 8.63938
+```
+
+```r
+# Using mean()
+mean(z)
+```
+
+```
+## [1] 8.63938
+```
+
+```r
+# Standard deviation without sd() or var()
+sqrt( sum( (z - mean(z))^2 )/( length(z) - 1) )
+```
+
+```
+## [1] 2.035985
+```
+
+```r
+# Compare with output of sd()
+sd(z)
+```
+
+```
+## [1] 2.035985
+```
+
+```r
+# Median
+median(z)
+```
+
+```
+## [1] 8.4823
+```
+
+```r
+# SE
+sd(z)/sqrt(length(z))
+```
+
+```
+## [1] 0.7198293
+```
+[//]: #  -->
+<p><br></p>
+</div>
+<div id="missing-data" class="section level3">
+<h3>Missing data</h3>
+Missing data in R are indicated by <code>NA</code>. Many functions for vectors, such as <code>sum</code> and <code>mean</code>, will return a value of <code>NA</code> if the data vector you used contained at least one missing value. Overcoming this usually involves modifying a function option to instruct R to ignore the offending points before doing the calculation. See the Calculate page of the R tips pages for help on how to do this.
+<ol>
+<li>
+Use the <code>c()</code> function to add a single new measurement to the snake vector created in the previous section (i.e., increase its length by one) but have the new observation be missing, as though the undulation rate measurement on a 9th snake was lost.
+</li>
+<li>
+Check the length of this revised vector, according to R. The length should be 9, even though one of the elements of the vector is NA.
+</li>
+<li>
+What is the sample mean of the measurements in the new vector, according to R? Use a method that does not involve you directly removing the offending point yourself.
+</li>
+<li>
+Recalculate the standard error of the mean, again leaving in the missing value in the vector. Did you get the same answer as in the previous section? If not, what do you think went wrong? Take great care when there are missing values.
+</li>
+<li>
+Calculate the standard error properly, using the vector of 9 elements (i.e., including the NA). Use a method that will work on any vector containing missing values.
+</li>
+</ol>
+<!--
+
+<br>
+
+### Answers
+All lines below beginning with double hashes are R output
+
+```r
+# Add a missing observation
+z <- c(z, NA)
+
+# mean() with NA in vector, use na.rm=TRUE argument
+mean(z, na.rm = TRUE)
+```
+
+```
+## [1] 8.63938
+```
+
+```r
+# Oops, the following is not correct! length() includes the missing case
+n <- length(z)
+sd(z, na.rm = TRUE)/sqrt(n)
+```
+
+```
+## [1] 0.6786616
+```
+
+```r
+# Fix by excluding any missing value
+  # use: n <- length(z[!is.na(z)])
+  # or: n <- length(na.omit(z))
+n <- length(na.omit(z))
+sd(z, na.rm = TRUE)/sqrt(n)
+```
+
+```
+## [1] 0.7198293
+```
+[//]: -->
+<hr />
+</div>
+</div>
+<div id="anolis-lizards-in-a-data-frame" class="section level2">
+<h2><i>Anolis</i> lizards in a data frame</h2>
+Here we will read data on several variables from a comma-delimited (.csv) text file into a data frame, which is the usual way to bring data into R. The data are all the known species of <i>Anolis</i> lizards on Caribbean islands, the named clades to which they belong, and the islands on which they occur. A subset of the species is also classified into “ecomorphs” clusters according to their morphology and perching habitat. Each ecomorph is a phylogenetically heterogeneous group of species having high ecological and morphological similarity. The list was compiled by Jonathan Losos from various sources and are provided in the Afterword of his wonderful book (Losos 2009. <i>Lizards in an evolutionary tree</i>. University of California Press).
+<ol>
+<li>
+Download the file <a href="../data/anolis.csv">anolis.csv</a> (click file name to initiate download) and save in a convenient place.
+</li>
+<li>
+Open a new script file to write and submit your commands (or cut and paste to the command window) for the remainder of this section.
+</li>
+<li>
+Read the data from the file into a data frame (e.g., call it <code>mydata</code>) using the <code>read.csv</code> command. See the R tips “Data” tab for further help on this step. For this first attempt, include <u>none</u> of the recommended options for the <code>read.csv</code> command, so we can explore R’s behavior. By default, <code>read.csv</code> will convert all columns with character data to factors. A factor is like a character variable except that its unique values represent “levels” that have names but also have a numerical interpretation.
+</li>
+<li>
+<p>Use the <code>str</code> command to obtain a compact summary of the contents of the data frame. Every variable shown should be a factor (the default for character data). Another way to check the type of a specific variable in the data frame is to use the <code>is.factor</code> command, e.g.,</p>
+<pre class="r"><code>is.factor(mydata$Island)   # returns TRUE or FALSE</code></pre>
+Another useful command is <code>class</code>, which will tell you what data type your object is. Try it out on both <code>mydata$Island</code> and <code>mydata</code>.
+</li>
+<li>
+Use the <code>head</code> command to inspect the variable names and the first few lines of the data frame. Every variable in this data set contains character strings. (Why, yes, there’s a <code>tail</code> command too.)
+</li>
+<!--
+<li> To check all the data, use the <code>fix</code> command. This will open a spreadsheet that allows you to see the whole data frame. If needed, you can use the mouse to expand the width of the columns to view the data better. The data are sorted by island name. Notice that each species is listed only once, and that some species are found on more than one island. (Unfortunately, not all its islands are given for <i>A. sagrei</i> -- ignore that issue for now.) You can use the spreadsheet to edit specific values of the data from, but this is NOT recommended. Using <code>fix</code> can change some of the properties of the data frame in unintended ways! Instead, we will use the command line to change specific values of a data frame, where a record is kept of the change.</li>
+-->
+<li>
+Let’s focus on the variable “Ecomorph”, since it has a manageable number of categories. Since “Ecomorph” is a factor, it will have “levels” representing the different groups. Use the <code>levels</code> command to list them. Notice anything unexpected? One of the categories is an empty character string. A couple of the groups appear to be listed twice. But look more closely – are they really duplicates?
+</li>
+<li>
+Use the <code>table</code> function on the “Ecomorph” vector to see the frequency (number of species) belonging to each named group. See, for example, that one species belongs to the “Trunk-Crown” (trailing space) group rather than to the“Trunk-Crown” (no spaces). Use the <code>which()</code> command to identify the row with the typo.
+</li>
+<li>
+Using assignment (<code>&lt;-</code>), fix the single typo. Use the <code>table</code> function afterward to check the effect of your change.
+</li>
+<li>
+<p>Weirdly, the now-eliminated category of “Trunk-Crown” (trailing space) is still present in the frequency table. This is because, even though no species belong to this category, the category remains a factor level! Confirm this using the <code>levels</code> function. This confusing behavior is one reason why I recommend you avoid reading character variables in as factors. The presence of factor levels with no members can wreak havoc when fitting models to data. One way to delete unused levels of a factor variables is with the <code>droplevels</code> command.</p>
+<pre class="r"><code>mydata$Ecomorph &lt;- droplevels(mydata$Ecomorph)</code></pre>
+Check that this solved the problem.
+</li>
+<li>
+Re-read the data from the file into R. This time, use <code>read_csv()</code> from the <code>readr</code> package, or options of the <code>read.csv</code> function in base R to 1) keep character data as-is; 2) strip leading and trailing spaces from character string entries, minimizing typos; and 3) treat empty fields as missing rather than as words with no letters.
+</li>
+<li>
+How will you ever remember such a list of options in future, when it comes time to reading your own data into R? The answer is: you don’t have to. I couldn’t possibly remember it myself. If you keep a script file when you analyze the data you can always go back and consult it, and copy it the next time you need it. Type <code>?read.csv</code> in the command line at any time to get a complete list of all the read options and their effects. Try it now. Those options can be handy when you need them.
+</li>
+<li>
+Use <code>table</code> once more to tally up the numbers of species in each Ecomorph category. Is there an improvement from the previous attempts? Which is the commonest Ecomorph and which is the rarest?
+</li>
+<li>
+What happened to the missing values? Use <code>table</code> but include the <code>useNA = “ifany”</code> option in your <code>table()</code> command to include a count of <code>NA</code> values in your output table (see the R tips pages on frequency tables to see examples of the use of this argument). In this data set, <code>NA</code> refers to lizard species that do not belong to a standard ecomorph category, so it is worthwhile to include them. Perhaps they should be given their own named group (“none”), which is less ambiguous than NA.
+</li>
+<li>
+How many <i>Anolis</i> species inhabit Jamaica exclusively?*
+</li>
+<li>
+What is the total number of <i>Anolis</i> species on Cuba?** This is not the same as the number occurring exclusively on Cuba — a few species live there and also on other islands. Figure out an elegant way in R to count the number of species that occur on Cuba. Bonus points for the briefest command! [Hint: check the vector functions for character data on the R tips Calculate page.]
+</li>
+<li>
+What is the tally of species belonging to each ecomorph on the four largest Caribbean islands: Jamaica, Hispaniola, Puerto Rico and Cuba?*** Try to figure out a solution before looking at one below. (The solution below works but is not very economical. Try to come up with a more elegant solution yourself.)
+</li>
+<li>
+What is the most frequent ecomorph for species that do not occur on the four largest islands?***
+</li>
+</ol>
+<p><small> * 6 ** 63 *** Trunk-crown</small></p>
+<!--
+
+<br>
+
+### Answers
+All lines below beginning with double hashes are R output
+
+```r
+# Load libraries you might need
+# (I'm including warn.conflicts=FALSE just to shorten the output here)
+library(dplyr, warn.conflicts = FALSE)
+library(readr, warn.conflicts = FALSE)
+
+# Read the data (this is a shortcut)
+mydata <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/anolis.csv"))
+
+# See variable types
+str(mydata)
+```
+
+```
+## 'data.frame':    154 obs. of  4 variables:
+##  $ Species     : chr  "Anolis brunneus" "Anolis fairchildi" "Anolis smaragdinus" "Anolis ernestwilliamsi" ...
+##  $ Island      : chr  "Bahamas" "Bahamas" "Bahamas" "Carrot Rock" ...
+##  $ Ecomorph    : chr  "Trunk-Crown" "Trunk-Crown" "Trunk-Crown" "Trunk-Ground" ...
+##  $ Series.Clade: chr  "carolinensis" "carolinensis" "carolinensis" "cristatellus" ...
+```
+
+```r
+# dplyr command instead
+glimpse(mydata)
+```
+
+```
+## Rows: 154
+## Columns: 4
+## $ Species      <chr> "Anolis brunneus", "Anolis fairchildi", "Anolis smaragdi…
+## $ Island       <chr> "Bahamas", "Bahamas", "Bahamas", "Carrot Rock", "Cuba", …
+## $ Ecomorph     <chr> "Trunk-Crown", "Trunk-Crown", "Trunk-Crown", "Trunk-Grou…
+## $ Series.Clade <chr> "carolinensis", "carolinensis", "carolinensis", "cristat…
+```
+
+```r
+is.factor(mydata$Island)
+```
+
+```
+## [1] FALSE
+```
+
+```r
+class(mydata$Island)
+```
+
+```
+## [1] "character"
+```
+
+```r
+head(mydata)
+```
+
+```
+##                  Species      Island     Ecomorph Series.Clade
+## 1        Anolis brunneus     Bahamas  Trunk-Crown carolinensis
+## 2      Anolis fairchildi     Bahamas  Trunk-Crown carolinensis
+## 3     Anolis smaragdinus     Bahamas  Trunk-Crown carolinensis
+## 4 Anolis ernestwilliamsi Carrot Rock Trunk-Ground cristatellus
+## 5        Anolis baracoae        Cuba  Crown-Giant    equestris
+## 6       Anolis equestris        Cuba  Crown-Giant    equestris
+```
+
+```r
+tail(mydata)
+```
+
+```
+##               Species                    Island Ecomorph Series.Clade
+## 149    Anolis griseus  Southern Lesser Antilles                roquet
+## 150     Anolis luciae  Southern Lesser Antilles                roquet
+## 151  Anolis richardii  Southern Lesser Antilles                roquet
+## 152 Anolis trinitatis  Southern Lesser Antilles                roquet
+## 153     Anolis roquet Southern Lesser Antilles                 roquet
+## 154    Anolis acutus                  St. Croix          cristatellus
+```
+
+```r
+# Frequency table of ecomorphs
+table(mydata$Ecomorph)
+```
+
+```
+## 
+##                 Crown-Giant  Crown-Giant     Grass-Bush         Trunk 
+##            47            11             1            25             7 
+##   Trunk-Crown  Trunk-Crown   Trunk-Ground Trunk-Ground           Twig 
+##            20             1            30             1            11
+```
+
+```r
+# Typo present
+which(mydata$Ecomorph == "Trunk-Crown ")
+```
+
+```
+## [1] 118
+```
+
+```r
+# Repair
+mydata$Ecomorph[mydata$Ecomorph == "Trunk-Crown "] <- "Trunk-Crown"
+
+# Make frequency table again
+table(mydata$Ecomorph)
+```
+
+```
+## 
+##                 Crown-Giant  Crown-Giant     Grass-Bush         Trunk 
+##            47            11             1            25             7 
+##   Trunk-Crown  Trunk-Ground Trunk-Ground           Twig 
+##            21            30             1            11
+```
+
+```r
+# Re-read data with options
+mydata <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/anolis.csv"), 
+            strip.white = TRUE, na.strings = c("NA",""), stringsAsFactors = FALSE)
+
+# or use read_csv() function from readr package
+mydata <- read_csv(url("https://www.zoology.ubc.ca/~bio501/R/data/anolis.csv"))
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   Species = col_character(),
+##   Island = col_character(),
+##   Ecomorph = col_character(),
+##   Series.Clade = col_character()
+## )
+```
+
+```r
+# Variable types
+str(mydata) # or use dplyr command "glimpse(mydata)"
+```
+
+```
+## tibble [154 × 4] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ Species     : chr [1:154] "Anolis brunneus" "Anolis fairchildi" "Anolis smaragdinus" "Anolis ernestwilliamsi" ...
+##  $ Island      : chr [1:154] "Bahamas" "Bahamas" "Bahamas" "Carrot Rock" ...
+##  $ Ecomorph    : chr [1:154] "Trunk-Crown" "Trunk-Crown" "Trunk-Crown" "Trunk-Ground" ...
+##  $ Series.Clade: chr [1:154] "carolinensis" "carolinensis" "carolinensis" "cristatellus" ...
+##  - attr(*, "spec")=
+##   .. cols(
+##   ..   Species = col_character(),
+##   ..   Island = col_character(),
+##   ..   Ecomorph = col_character(),
+##   ..   Series.Clade = col_character()
+##   .. )
+```
+
+```r
+# Number of species in each Ecomorph category
+table(mydata$Ecomorph)
+```
+
+```
+## 
+##  Crown-Giant   Grass-Bush        Trunk  Trunk-Crown Trunk-Ground         Twig 
+##           12           25            7           21           31           11
+```
+
+```r
+# Same, but include a tally of missing values too
+#   (missing here means the species doesn't fall into an ecomorph series)
+table(mydata$Ecomorph, useNA = "ifany")
+```
+
+```
+## 
+##  Crown-Giant   Grass-Bush        Trunk  Trunk-Crown Trunk-Ground         Twig 
+##           12           25            7           21           31           11 
+##         <NA> 
+##           47
+```
+
+```r
+# How many Anolis species inhabit Jamaica exclusively?
+  # use: length(mydata$Species[mydata$Island == "Jamaica"])
+  # or: nrow(mydata[mydata$Island == "Jamaica",])
+  # or: nrow(filter(mydata, Island == "Jamaica"))
+length(mydata$Species[mydata$Island == "Jamaica"])
+```
+
+```
+## [1] 6
+```
+
+```r
+# Total number of Anolis species on Cuba
+# Use "grep" to find the species whose islands of occurrence include Cuba
+  # use: length(mydata$Species[grep("Cuba", mydata$Island)])
+  # or: length(grep("Cuba", mydata$Island))
+  # or: nrow(mydata[grep("Cuba", mydata$Island), ])
+  # or: nrow(filter(mydata, grepl("Cuba", Island)))
+length(mydata$Species[grep("Cuba", mydata$Island)])
+```
+
+```
+## [1] 63
+```
+
+```r
+# What is the tally of species belonging to each ecomorph 
+#   on the four largest Caribbean islands:
+#   Jamaica, Hispaniola, Puerto Rico and Cuba?
+# **Wrong way**: Tally ecomorphs on just the four big islands. This fails to
+#   include big-island species that are also found on smaller islands.
+z <- mydata[mydata$Island %in% c("Cuba", "Jamaica", "Hispaniola", "Puerto Rico"), ]
+table(z$Island, z$Ecomorph)
+```
+
+```
+##              
+##               Crown-Giant Grass-Bush Trunk Trunk-Crown Trunk-Ground Twig
+##   Cuba                  6         15     1           7           13    4
+##   Hispaniola            3          7     5           4            9    4
+##   Jamaica               1          0     0           2            1    1
+##   Puerto Rico           1          3     0           2            3    1
+```
+
+```r
+# One solution is to create a new variable indicating species occurrence on big islands
+mydata$bigIsland <- rep(NA, nrow(mydata)) # create the new variable
+mydata$bigIsland[grep("Cuba", mydata$Island)] <- "Cuba"
+mydata$bigIsland[grep("Jamaica", mydata$Island)] <- "Jamaica"
+mydata$bigIsland[grep("Hispaniola", mydata$Island)] <- "Hispaniola"
+mydata$bigIsland[grep("Puerto Rico", mydata$Island)] <- "Puerto Rico"
+
+# Finally:
+table(mydata$bigIsland, mydata$Ecomorph)
+```
+
+```
+##              
+##               Crown-Giant Grass-Bush Trunk Trunk-Crown Trunk-Ground Twig
+##   Cuba                  6         15     1           7           14    5
+##   Hispaniola            3          7     6           4            9    4
+##   Jamaica               1          0     0           2            1    1
+##   Puerto Rico           2          3     0           2            3    1
+```
+
+```r
+# What is the most frequent ecomorph of species that do not occur 
+#   on the four largest islands?
+# One way is to make a new data frame that excludes large-island species
+mydata2 <- mydata[!(mydata$bigIsland %in% 
+                c("Cuba", "Jamaica", "Hispaniola", "Puerto Rico")), ]
+table(mydata2$Ecomorph) # Trunk-Crown is the most frequent
+```
+
+```
+## 
+##  Trunk-Crown Trunk-Ground 
+##            6            4
+```
+[//]: -->
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+501 home — Front Page
+handouts
+homework
+lectures
+calendar
+books
+workshops
+— workshops-intro
+— workshops-graphics
+— workshops-expdesign
+— workshops-linearmodels
+— workshops-lme
+— workshops-likelihood
+— workshops-glm
+— workshops-modelselection
+— workshops-bayes
+— workshops-resampling
+— workshops-meta
+— workshops-multivariate
+— workshops-programming

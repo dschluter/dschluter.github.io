@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Books</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="workshops.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biology 501 &mdash; The University of British Columbia</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Biol 501 pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Home page</a>
+    </li>
+    <li>
+      <a href="lectures.html">Lectures</a>
+    </li>
+    <li>
+      <a href="handouts.html">Handouts</a>
+    </li>
+    <li>
+      <a href="calendar.html">Calendar</a>
+    </li>
+    <li>
+      <a href="homework.html">Homework</a>
+    </li>
+    <li>
+      <a href="books.html">Books</a>
+    </li>
+    <li>
+      <a href="workshops/index.html">R workshops page</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="workshops/index.html">R workshops home</a>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~schluter/R/">R tips home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Books</h1>
+
+</div>
+
+
+<p>This course has no required text, but the following books might be useful. In each of the sections below the references are listed in order from basic to more advanced.</p>
+<hr />
+<div id="general-biostatistics-books" class="section level2">
+<h2>General biostatistics books</h2>
+<p>Whitlock, M. and D. Schluter. 2020. 3<sup>rd</sup> edition. The analysis of biological data. Greenwood Village, Colo., Roberts and Co. Publishers.</p>
+<p><small> <i>A readable introduction to analyzing data in biology. A good place to refresh your skills. Biol 501 assumes that you have already taken an undergraduate course in statistics and are familiar with basic principles covered in Chapters 1 through 17. Some of the material in the later chapters will be used in this course.</i></small></p>
+<p><small> R commands to analyze the data for all examples presented in this 3<sup>rd</sup> edition are <a href="https://whitlockschluter3e.zoology.ubc.ca/RExamples/index.html"><i>here</i></a>.</small></p>
+<p>Quinn, G. P. and M. J. Keough. 2002. Experimental design and data analysis for biologists. Cambridge, UK; New York, Cambridge University Press.</p>
+<p><small><i>An excellent second course in statistics and biological data analysis. Emphasis of examples is ecology, especially marine intertidal ecology. Full of practical information on the best approaches to use in particular circumstances and the reasons why</i>. </small></p>
+<!--
+Grafen, A. and R. Hails. 2002. Modern statistics for the life sciences. Oxford; New York, Oxford University Press.
+<small style="font-style: italic;">An introduction to the general linear model approach to analyzing data. Emphasis is on concepts and intuition rather than mathematics. Heavy on hypothesis testing and light on estimation and confidence intervals.</small>
+-->
+<hr />
+</div>
+<div id="r-books" class="section level2">
+<h2>R books</h2>
+<p>Borcard, D., F. Gillet, and P. Legendre. 2011. Numerical ecology with R. Springer.</p>
+<p><small style="font-style: italic;">Based on the standard reference for ordination and multivariate methods in ecology. </small> <a href="http://link.springer.com/book/10.1007/978-1-4419-7976-6">UBC Online</a>.</p>
+<p>Crawley, M. J. 2012, The R book. 2<sup>nd</sup> edition. Chichester, England; Hoboken, N.J.,Wiley.</p>
+<p><small style="font-style: italic;">A helpful reference for methods in R,including linear mixed modeling.Explanations not always straightforward. His approach to model simplification is outdated. We’ll be discussing alternative model selection approaches in class. </small></p>
+<p>Dalgaard, P. 2008, Introductory statistics with R. 2nd. ed. New York,Springer.</p>
+<p><small style="font-style: italic;">A clear introduction to the basics of R and how to carry out the standard methods for analyzing data. Better for starters than Crawley’s but less comprehensive. </small> <a href="http://www.springerlink.com/content/m17578/?p=7d2e08290b9040d2aba7922801f46d9a&pi=0">UBC Online</a>.</p>
+<p>Galecki, Andrzej T. 2013. Linear mixed-effects models using R: a step-by-step approach. Springer New York</p>
+<p><small><span style="font-style: italic;">Takes you through linear models and gls as well as linear mixed models.</span></small> <a href="https://link.springer.com/book/10.1007%2F978-1-4614-3900-4">UBC Online</a>.</p>
+<p>Paradis, E. 2006. Analysis of phylogenetics and evolution with R. New York, Springer.</p>
+<p><small><span style="font-style: italic;">Explains how to carry out phylogenetic comparative analysis using the ape package.</span></small> <a href="http://www.springerlink.com/content/x20480/?p=71b9a536801a44cbb1e77ffdf5dcd1e9&pi=1">UBC online</a>.</p>
+<p>Pinheiro, J. C. and D. M. Bates. 2000. Mixed-effects models in S and S-PLUS. New York, Springer.</p>
+<p><small style="font-style: italic;">The standard reference for linear mixed effects modeling using R. Aimed at an advanced level. At least two of the chapters are essential reading if you use the <code>nlme</code> library in R to analyze your data. </small> <a href="http://www.springerlink.com/content/n00145/">UBC online</a></p>
+<p>Stevens, M. H. H. 2009. A primer of ecology with R. New York,Springer.</p>
+<p><small style="font-style: italic;">Using R to analyze models and data in population and community ecology.</small> <a href="http://www.springerlink.com/content/l48073/?p=46d1578c93c54d4b9384b69f2a6d193b&pi=16">UBC Online</a>.</p>
+<p>Sarkar, D. 2008. Lattice: Multivariate data visualization with R. New York, Springer.</p>
+<p><small style="font-style: italic;">The creator of the lattice package explains all.</small> <a href="http://www.springerlink.com/content/kr8v78/?p=71b9a536801a44cbb1e77ffdf5dcd1e9&pi=7"> UBC online</a>.</p>
+<p>Venables, W. N. and B. D. Ripley. 2002. Modern applied statistics with S-PLUS. 4th. New York, Springer.</p>
+<p><small style="font-style: italic;">The standard reference for statistical analysis of data using R and S. Covers most of the methods you will every need.</small> <a href="http://www.springer.com.ezproxy.library.ubc.ca/us/book/9780387954578"> UBC online</a>.</p>
+<p>Wickam, H. 2016. ggplot2: Elegant graphics for data analysis. 2<sup>nd</sup> edition.</p>
+<p><small style="font-style: italic;">How to create graphs using the increasingly popular ggplot2.</small> <a href="http://link.springer.com.ezproxy.library.ubc.ca/book/10.1007/978-3-319-24277-4"> UBC online</a>.</p>
+<p>Zuur, A. F., E. N. Ieno and E. Meesters. 2009. A beginner’s guide to R. New York, Springer.</p>
+<p><small style="font-style: italic;">A readable, detailed introduction to data manipulation and plotting in R. Doesn’t get much farther with data analysis than tables and graphs.</small> <a href="http://www.springerlink.com/content/w26370/?p=7521c40e70af47478a9d52fc85deaacc&pi=17">UBC Online</a>.</p>
+<p>Zuur, A. F., E. N. Ieno, N. J. Walker, A. A. Saveliev and G. M.Smith. 2009. Mixed effects models and extensions in ecology with R. New York, Springer.</p>
+<p><small style="font-style: italic;">A useful guide to advanced methods of data analysis in ecology as well as to carrying them out in R. Topics including nonlinear regression, additive modeling, mixed-effects models, nonindependent data, generalized least squares and generalized additive models.</small> <a href="http://www.springerlink.com/content/t41683/?p=0c07e268e5144d079de2e122020ef82f&pi=1">UBC Online</a>.</p>
+<hr />
+</div>
+<div id="more-specialized-references" class="section level2">
+<h2>More specialized references</h2>
+<p>Bolker, B. M. 2008. Ecological models and data in R. Princeton, NJ,Princeton University Press.</p>
+<p><small style="font-style: italic;">A good complement to Hilborn and Mangel, with the added practical information on how to implement the general approach using R. Has a good overview chapter on likelihood.</small></p>
+<p>Burnham, K. P. and D. R. Anderson. 2002. Model selection and multimodel inference: a practical information-theoretic approach. 2nd.New York, Springer.</p>
+<p><small style="font-style: italic;">The authoritative treatise on modern approaches to model selection.</small> <a href="http://link.springer.com/book/10.1007%2Fb97636">UBC Online</a></p>
+<p>Efron, B. and R. Tibshirani. 1998. An introduction to the bootstrap. Boca Raton, FL, Chapman &amp; Hall/CRC Press.</p>
+<p><small style="font-style: italic;">An accessible introduction, at least the first few chapters.</small></p>
+<p>Felsenstein, J. 2004. Inferring phylogenies. Sunderland,Mass, Sinauer.</p>
+<p><small><span style="font-style: italic;">The master’s voice. Chapter 25 is a clear and compact summary of comparative methods.</span></small></p>
+<p>Gotelli, N. J. and A. M. Ellison. 2004. A primer of ecological statistics. Sunderland, Mass., Sinauer Associates Publishers.</p>
+<p><small style="font-style: italic;">A clear overview of basic principles and methods in analyzing ecological data. Not particularly rich with data or examples. The overview of multivariate methods is excellent.</small></p>
+<p>Hilborn, R. and M. Mangel. 1997. The ecological detective: confronting models with data. Princeton, NJ, Princeton University Press.</p>
+<p><small style="font-style: italic;">A great overview of howto fit models to data using a likelihood and model selection approach.</small></p>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

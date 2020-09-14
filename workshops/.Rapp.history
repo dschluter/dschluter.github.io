@@ -1,0 +1,356 @@
+cats(z, xs = x$father.ornament, ys = x$son.attract, cat = 1:12, catcolor=WSred)
+multicat(z, xs = x$father.ornament, ys = x$son.attract, cat = 1:12, catcolor=WSred)
+multicat(z, xs = x$father.ornament, ys = x$son.attract, cat = 1, catcolor=WSred)
+multicat(z, xs = x$father.ornament, ys = x$son.attract, cat = c(1,2), catcolor=WSred)
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.1, cat = c(1,2), catcolor=WSred)
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1,2), catcolor=WSred)
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1,2,3,4), catcolor=WSred)
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1,2,3,4), catcolor=WSred,#
+	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness"))
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1,2,3,4), catcolor=WSred,#
+	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness")
+plot(sonAttractiveness ~ fatherOrnamentation, data = guppyFatherSonData, #
+	las = 1, pch = 16, col = "#BC211A", xlab = "Father's ornamentation", #
+	ylab = "Son's attractiveness", cex = 1.5, bty = "l")
+z <- catplot(xs = x$father.ornament, ys = x$son.attract, size = 0.1, cat = 1, catcolor = WSred,#
+	linecolor = 1, type = "justcats", las = 1, xlab = "Father's ornamentation", #
+	ylab = "Son's attractiveness")
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1,2,3,4), catcolor=WSred,#
+	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness")
+?par
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1,2,3,4), catcolor=WSred,#
+	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness", xaxp = c(0,1,10))
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1,2,3,4), catcolor=WSred,#
+	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness", xaxp = c(0,1,5))
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1,2,3,4), catcolor=WSred,#
+	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness", xaxp = c(0,1,1))
+multicat
+z <- catplot(xs = x$father.ornament, ys = x$son.attract, size = 0.1, cat = 1, catcolor = WSred,#
+	linecolor = 1, type = "justcats", las = 1, xlab = "Father's ornamentation", #
+	ylab = "Son's attractiveness")
+z <- catplot(xs = x$father.ornament, ys = x$son.attract, cat = 1,#
+	linecolor = 1, type = "justcats")
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1,2,3,4), catcolor=WSred,#
+	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness")
+z <- catplot(xs = x$father.ornament, ys = x$son.attract, cat = 1, type = "justcats")
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1,2,3,4), catcolor=WSred,#
+	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness")
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1:12), catcolor=WSred,#
+	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness")
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.05, cat = c(1,2,3,4,5,6,7,8,9,10), catcolor=WSred,#
+	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness")
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.06, cat = c(1,2,3,4,5,6,7,8,9,10,11,12), #
+	catcolor=WSred, 	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness")
+z <- catplot(xs = x$father.ornament, ys = x$son.attract, cat = 1, type = "justcats")#
+#
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.06, cat = c(1,2,3,4,5,6,7,8,9,10,11,12), #
+	catcolor=WSred, 	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness")
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.06, cat = c(1,2,3,4,5,6,7,8,9,10,11), #
+	catcolor=WSred, 	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness")
+multicat(z, xs = x$father.ornament, ys = x$son.attract, size = 0.06, cat = c(1,2,3,4,5,6,7,8,9,10,11), #
+	catcolor=WSred, 	las = 1, xlab = "Father's ornamentation", ylab = "Son's attractiveness", main = "catterplot")
+mammals <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/mammals.csv"), na.strings="", stringsAsFactors = FALSE)
+head(mammals)
+table(mammals$continent, mammals$status)
+?hist
+qqnorm(mammals$logmass)#
+qqline(mammals$logmass) # adds the straight line for comparison through 1st and 3rd quartiles
+mammals$logmass <- log10(mammals$mass.grams)
+qqnorm(mammals$logmass)
+qqline(mammals$logmass) # adds the straight line for comparison through 1st and 3rd quartiles
+?qqline
+x <- read_csv(url("https://www.zoology.ubc.ca/~bio501/R/data/fruitflies.csv"))
+library(readr)
+4 * 2.54 * 5310.57/1000
+0.03728*54
+0.061*54
+145.56/6
+?rmarkdown
+search()
+?Pandoc
+??Pandoc
+mammals <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/mammals.csv"), #
+                    na.strings="", stringsAsFactors = FALSE)
+head(mammals)
+.15/40
+15/40
+1/40
+?suppressPackageStartupMessages
+packageStartupMessage(library(ggplot))
+packageStartupMessage(library(ggplot2))
+521.47/2
+178.85/2
+(521.47 + 178.85)/2
+x <- read.csv("birdMalaria.csv, stringsAsFactors = FALSE)
+x <- read.csv("birdMalaria.csv", stringsAsFactors = FALSE)
+setwd("/Users/schluter/zoologyCloud/Courses/bio 501 - stats/07.Generalized linear models")
+x <- read.csv("birdMalaria.csv", stringsAsFactors = FALSE)
+head(x)
+table(x$treatment, x$response)
+table(x$response, x$treatment)
+library(dplyr)#
+library(ggplot2)#
+theme_set(theme_classic())#
+library(visreg)#
+library(MASS)
+birdtable(x$response, x$treatment)
+birdtable <- table(x$response, x$treatment)
+ggplot(x, aes(x = treatment, fill = response)) + #
+	geom_bar(stat = "count", position = position_dodge2(preserve="single")) +#
+	labs(x = "Cohort", y = "Frequency") +#
+	theme(aspect.ratio = 0.80, text = element_text(size = 14), axis.text = element_text(size = 12))
+barplot(birdtable,space=c(.1,0.5), beside=TRUE, las=1, ylab="Frequency",#
+	legend.text=rownames(birdtable), ylim=c(0,80), 	xlab="treatment", args.legend=list(x=6.3, y=78, xjust=0))
+barplot(birdtable,space=c(.1,0.5), beside=TRUE, las=1, ylab="Frequency",#
+	legend.text=rownames(birdtable), xlab="treatment", args.legend=list(x=6.3, y=78, xjust=0))
+mosaicplot(birdtable, main="", cex.axis=1.1)
+x1 <- data.frame(birdtable)
+x1
+birdtable
+?table
+birdtable <- table(x$response, x$treatment, dnn = list.names("response", "treatment"))
+birdtable <- table(x$response, x$treatment, dnn = c("response", "treatment"))
+birdtable
+ggplot(x, aes(x = treatment, fill = response)) + #
+	geom_bar(stat = "count", position = position_dodge2(preserve="single")) +#
+	labs(x = "Cohort", y = "Frequency") +#
+	theme(aspect.ratio = 0.80, text = element_text(size = 14), axis.text = element_text(size = 12))
+ggplot(x, aes(x = treatment, fill = response)) + #
+	geom_bar(stat = "count", position = position_dodge2(preserve="single")) +#
+	labs(x = "Treatment", y = "Frequency") +#
+	theme(aspect.ratio = 0.80, text = element_text(size = 14), axis.text = element_text(size = 12))
+barplot(birdtable,space=c(.1,0.5), beside=TRUE, las=1, ylab="Frequency",#
+	legend.text=rownames(birdtable), xlab="treatment", args.legend=list(x=6.3, y=78, xjust=0))
+mosaicplot(birdtable, main="", cex.axis=1.1)
+mosaicplot(t(birdtable), main="", cex.axis=1.1)
+x1 <- data.frame(birdtable)
+x1
+z <- glm(Freq ~ treatment + response, family = poisson(link = "log"), data = x1)
+visreg(z, xvar = "treatment", by = "response")                      # it just models the frequencies, so no error
+visreg(z, xvar = "treatment", by = "response", scale = "response")
+z <- glm(Freq ~ treatment * response, family = poisson(link = "log"), data = x1)
+visreg(z, xvar = "treatment", by = "response") # it just models the frequencies, so no error
+summary(z)
+anova(z, test="Chi")
+log(28)
+visreg(z, xvar = "treatment", by = "response")                 # it just models the frequencies, so no error
+visreg(z, xvar = "treatment", by = "response", scale = "response")
+visreg(z, xvar = "treatment", by = "response", scale = "response")
+setwd("/Users/schluter/zoologyCloud/Courses/bio 418/www-markdown")
+rmarkdown::render("index.Rmd", "html_document")
+rmarkdown::render("lecture8-hostparasite.Rmd", "html_document")
+setwd("/Users/schluter/zoologyCloud/Courses/bio 501 - stats/07.Generalized linear models")
+x <- read.csv("birdMalaria.csv", stringsAsFactors = FALSE)
+birdtable <- table(x$response, x$treatment, dnn = c("response", "treatment"))
+z <- glm(Freq ~ treatment + response, family = poisson(link = "log"), data = x1)
+visreg(z, xvar = "treatment", by = "response")                 # it just models the frequencies, so no error
+z <- glm(Freq ~ treatment * response, family = poisson(link = "log"), data = x1)
+visreg(z, xvar = "treatment", by = "response") # it just models the frequencies, so no error
+visreg(z, xvar = "response", by = "treatment") # it just models the frequencies, so no error
+visreg(z, xvar = "response", by = "treatment", xlim = "") # it just models the frequencies, so no error
+visreg(z, xvar = "response", by = "treatment", xlab = "") # it just models the frequencies, so no error
+logit <- function(x){log(x/(1. - x))}#
+antilogit <- function(x){exp(x)/(exp(x) + 1)}
+x <- as.data.frame(rep(c("chose.mated","chose.unmated"),c(23,9)))#
+names(x) <- "choice"#
+x$chosemated <- as.integer(x$choice == "chose.mated")  # convert to a 0-1 variable
+table(x$choice)
+z <- glm(chosemated ~ 1, data = x, family = binomial(link="logit"))
+Anova
+libraruy(car)
+library(car)
+z <- glm(chosemated ~ 1, data = x, family = binomial(link="logit"))
+Anova(z)
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/data/anthrax.logistic.csv"), stringsAsFactors = FALSE)
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/anthrax.logistic.csv"), stringsAsFactors = FALSE)
+x$concentration <- x$conc/1000 # number of spores per 1000L
+x
+y <- data.frame(concentration = c(rep(x$concentration, x$ndead),#
+		rep(x$concentration, x$n - x$ndead)))#
+y$mortality <- c(rep(rep(1,9), x$ndead), rep(rep(0,9), x$n - x$ndead))#
+y <- y[order(y$concentration), ] # makes plotting easier later
+plot(x$concentration, x$ndead/x$n)
+plot(y$concentration, jitter(y$mortality,.1), col = "red", las = 1, cex = 1.5,#
+	cex.lab = 1.5, cex.axis = 1.5, xlab = "Anthrax concentration (#/1000L)",#
+	ylab = "Mortality (0=alive, 1=dead)", lwd = 2)#
+lines(y$concentration, predict(loess(mortality ~ concentration, data = y)))
+ggplot(y, aes(concentration, mortality)) + #
+	geom_jitter(size = 2, col = "firebrick", width = 1, height = 0.02, alpha = 0.5) + #
+	labs(x = "Anthrax concentration (#/1000L)", y = "Mortality (0=alive, 1=dead)") + #
+   	geom_smooth(method = "loess", size = 1, col = "black", se = FALSE, span = 0.8) +#
+	theme(aspect.ratio = 0.80)
+z <- glm((ndead/n) ~ concentration, weights = n, binomial(link = "logit"), data=x)
+z <- glm(mortality ~ concentration, binomial(link = "logit"), data = y)  # Using 0,1 data
+summary(z)
+anova(z)
+anova(z, test = "Chi"z)
+anova(z, test = "Chi")
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/vole.csv"), stringsAsFactors = FALSE)
+range(p[z >= (max(z) - 2)])
+p <- seq(0.05, 0.95, by = 0.001)
+z <- sapply(p, function(p, x){sum(dgeom(x, prob=p, log=TRUE) )}, x$dispersal)
+plot(p, z, type="l", xlab="p", ylab="log likelihood")
+max(z)
+phat <- p[z == max(z)]
+range(p[z >= (max(z) - 2)])
+z <- p[loglike < max(loglike) - 1.92]
+loglike <- sapply(p, function(p, x){sum(dgeom(x, prob=p, log=TRUE) )}, x$dispersal)
+plot(p, loglike, type="l", xlab="p", ylab="log likelihood")
+max(loglike)
+phat <- p[loglike == max(z)]
+z <- p[loglike < max(loglike) - 1.92]
+max(z[z < 0.858])
+min(z[z > 0.858])
+range(p[z >= (max(z) - 1.92)])
+phat <- p[loglike == max(loglike)]
+phat
+range(p[loglike >= (max(loglike) - 1.92)])
+loglike <- vector()
+for(i in 1:length(p)){
+loglike[i] <- sum(dgeom(x$dispersal, prob=p[i], log = TRUE) )
+}
+plot(p, loglike, type="l", xlab="p", ylab="log likelihood")
+frac <- dgeom(0:5, prob=phat)
+frac
+round(frac,4)
+nrow(x)
+range(rate[loglike >= max(loglike) - 1.92])
+rate <- seq(.001, .1, by=.001)#
+loglike <- sapply(rate, FUN=function(rate){sum(dexp(bees$hours, rate=rate, log=TRUE))})#
+plot(rate, loglike, type="l")#
+#
+rate[loglike==max(loglike)] # per hour
+hist(bees$hours, right=FALSE, col="firebrick", prob=TRUE, ylim=c(0,0.035), las = 1, breaks = 15)
+bees <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/bees.csv"), stringsAsFactors = FALSE)#
+#
+head(bees)#
+  # id hours#
+# 1  1   7.1#
+# 2  2   2.3#
+# 3  3   9.6#
+# 4  4  25.8#
+# 5  5  14.6#
+# 6  6  12.8#
+#
+nrow(bees)#
+# [1] 33#
+#
+# ------------#
+# Plot the frequency distribution of lifespans of the 33 bees. #
+# Choose the option to display probability density instead of raw frequency. #
+# Does the distribution of lifespans resemble an exponential distribution #
+# (make sure to try different bin widths of the histogram)?#
+#
+# To plot, make ylim high enough for the lines later on#
+hist(bees$hours, right=FALSE, col="firebrick", prob=TRUE, ylim=c(0,0.035), las = 1, breaks = 15)#
+#
+# ------------#
+# Use the exponential approximation and maximum likelihood to estimate the hourly mortality rate of bees.#
+#
+rate <- seq(.001, .1, by=.001)#
+loglike <- sapply(rate, FUN=function(rate){sum(dexp(bees$hours, rate=rate, log=TRUE))})#
+plot(rate, loglike, type="l")
+rate[loglike==max(loglike)] # per hour
+range(rate[loglike >= max(loglike) - 1.92])
+visreg(z, xvar = "tarsus", scale = 'response', rug = FALSE, ylim = c(-.1, 1.1))
+z <- glm(survival ~ tarsus, family = binomial(link="logit"), data = x)
+antologit
+antilogit
+predict.glm
+?confint.glm
+plot(nsatellites ~ width.cm, data = x)
+x1 <- data.frame(kurutable)#
+x1
+seq(1, 12, length.out=11)
+seq(1, 12, length.out=11)
+z<-seq(1, 12, length.out=11)
+cat(z, sep="\n")
+setwd("/Users/schluter/zoologyCloud/Courses/bio 501 - stats/www-biol501/workshops")
+rmarkdown::render("likelihood.Rmd", "html_document")
+rmarkdown::render("likelihood.Rmd", "html_document")
+rmarkdown::render("likelihood.Rmd", "html_document")
+library(car)#
+library(leaps)#
+library(MuMIn)#
+library(visreg)#
+library(MASS)
+birds <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/birdabund.csv"), stringsAsFactors = FALSE)
+head(birds)
+birds2$logarea <- log(birds$area)#
+birds2$logdist <- log(birds$dist)#
+birds2$logldist <- log(birds$ldist)
+birds2 <- birds[, c(1,3,6,7)]#
+birds2$logarea <- log(birds$area)#
+birds2$logdist <- log(birds$dist)#
+birds2$logldist <- log(birds$ldist)
+head(birds2)
+z <- lm(abund ~., data = birds2)
+? regsubsets
+z <- regsubsets(abund ~., data = birds2)#
+summary(z) # reports only the best set of variables for each model size
+z1 <- summary(z) # does not do AIC
+n <- nrow(birds2)
+p <- apply(z1$which, 1, sum)
+z1$which
+p
+aic <- z1$bic - log(n) * p + 2 * p
+aic
+z <- lm(abund~., data = birds2)
+z1 <- stepAIC(z, upper = ~., lower = ~1, direction = "both")
+AIC(z1)
+extractAIC(z1)) # use this
+extractAIC(z1) # use this
+summary(z1) # same result as leaps
+birds.dredge <- dredge(birds.fullmodel, rank = "AICc")
+birds.fullmodel <- lm(abund~., data = birds2, na.action = "na.fail")#
+birds.fullmodel <- lm(abund ~ yr.isol + graze + alt + logarea + logdist + logldist, data =birds2, na.action = "na.fail")
+birds.dredge <- dredge(birds.fullmodel, rank = "AICc")
+birds.dredge
+Weights(birds.dredge)
+cumsum(Weights(birds.dredge))
+sum(cumsum(Weights(birds.dredge)) < 0.96)
+birds.dredge[birds.dredge$delta < 7]
+Weights(birds.dredge[birds.dredge$delta < 7])
+summary( model.avg(birds.dredge, subset = delta < 2))
+z <- lm(log(nspecies) ~ habitat*latitude*elevation, data = ants)
+ants <- read.csv(url("https://www.zoology.ubc.ca/~bio501/data/ants.csv"), stringsAsFactors = FALSE)
+ants <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/ants.csv"), stringsAsFactors = FALSE)
+head(ants)
+plot(ants$elevation,ants$nspecies,log="y") # looks nonlinear even with log transformation
+library(MuMIn)
+options(na.action = "na.fail")
+z <- lm(log(nspecies) ~ habitat*latitude*elevation, data = ants)
+z.dredge <- dredge(z, beta = FALSE, evaluate = TRUE, rank = "AIC")
+z.dredge
+cumsum(Weights(birds.dredge))
+sum(cumsum(Weights(z.dredge)) < 0.96)
+Weights(z.dredge[birds.dredge$delta < 7])
+Weights(z.dredge[z.dredge$delta < 7])
+z.dredge
+names(z.dredge)
+plot(z.dredge)
+plot(delta ~ df, data=z.dredge)
+coefs(z.dredge)
+coeffs(z.dredge)
+get.models(z.dredge, 1)
+lm(get.models(z.dredge, 1))
+?dredge
+plot(delta ~ df, data=z.dredge, bty = "l")
+plot(delta ~ df, data=z.dredge, bty = "l", las = 1, pch = 16, col = "firebrick")
+plot(delta ~ df, data=z.dredge, bty = "l", las = 1, pch = 16, col = "firebrick",#
+	cex = 1.5)
+cex = 1.5, xlab = "Number of model parameters", ylab = expression("delta"))
+plot(delta ~ df, data=z.dredge, bty = "l", las = 1, pch = 16, col = "firebrick",#
+	cex = 1.5, xlab = "Number of model parameters", ylab = expression("delta"))
+plot(delta ~ df, data=z.dredge, bty = "l", las = 1, pch = 16, col = "firebrick",#
+	cex = 1.5, xlab = "Number of model parameters", ylab = expression(delta))
+plot(delta ~ df, data=z.dredge, bty = "l", las = 1, pch = 16, col = "firebrick",#
+	cex = 1.5, xlab = "Number of model parameters", ylab = expression(Delta))
+plot(delta ~ df, data=z.dredge, bty = "l", las = 1, pch = 16, col = "firebrick",#
+	cex = 1.5, xlab = "Number of model parameters", ylab = expression(paste(Delta, "AIC")))
+plot(delta ~ df, data=z.dredge, bty = "l", las = 1, pch = 16, col = "firebrick", cex.lab = 1.3,#
+	cex = 1.5, xlab = "Number of model parameters", ylab = expression(paste(Delta, "AIC")))
+plot(delta ~ df, data=z.dredge, bty = "l", las = 1, pch = 16, col = "firebrick", cex.lab = 1.3, cex.axis = 1.3,#
+	cex = 1.5, xlab = "Number of model parameters", ylab = expression(paste(Delta, "AIC")))
+plot(delta ~ df, data=z.dredge, bty = "l", las = 1, pch = 16, col = "firebrick", cex.lab = 1.3, cex.axis = 1.3,#
+	cex = 1.7, xlab = "Number of model parameters", ylab = expression(paste(Delta, "AIC")))

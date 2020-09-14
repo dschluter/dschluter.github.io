@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>Bootstrap resampling methods</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="workshops.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UBC Biology 501 R workshops</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Biol 501 home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R Workshops
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Main workshops page</a>
+    </li>
+    <li>
+      <a href="workshops-intro.html">1. Introduction to R</a>
+    </li>
+    <li>
+      <a href="graphics.html">2. Graphs and tables</a>
+    </li>
+    <li>
+      <a href="exp-design.html">3. Plan experiments</a>
+    </li>
+    <li>
+      <a href="linearmodels.html">4. Linear models</a>
+    </li>
+    <li>
+      <a href="lme.html">5. Mixed-effects models</a>
+    </li>
+    <li>
+      <a href="likelihood.html">6. Likelihood</a>
+    </li>
+    <li>
+      <a href="glm.html">7. Generalized linear models</a>
+    </li>
+    <li>
+      <a href="modelselection.html">8. Model selection</a>
+    </li>
+    <li>
+      <a href="bayes.html">9. Bayesian inference</a>
+    </li>
+    <li>
+      <a href="resampling.html">10. Bootstrap and permutation</a>
+    </li>
+    <li>
+      <a href="meta.html">11. Meta-analysis</a>
+    </li>
+    <li>
+      <a href="multivariate.html">12. Multivariate methods</a>
+    </li>
+    <li>
+      <a href="phylogenetic.html">13. Phylogenetic comparative methods</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/index.html">R tips home page</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Bootstrap resampling methods</h1>
+
+</div>
+
+
+<p>This workshop will illustrate some of the principles of data analysis using resampling. See the “Resample” tab on the R tips help pages for advice.</p>
+<p><br></p>
+<div id="methods-summary" class="section level2">
+<h2>Methods summary</h2>
+<p>Here is a quick summary of the two methods, the bootstrap and the permutation test, applied in today’s workshop.</p>
+<div id="boostrap-estimation" class="section level3">
+<h3>Boostrap estimation</h3>
+<p>The bootstrap is is a computer-intensive method used to calculate standard errors for an estimate and to obtain approximate confidence intervals for a population parameter. It works well in most situations except when sample size is small. The basic procedure is:</p>
+<ol style="list-style-type: decimal">
+<li>Take a random sample of the data, sampling <b>with replacement</b></li>
+<li>Compute the statistic on the bootstrap replicate obtained in (1)</li>
+<li>Repeat steps (1) and (2) many times (e.g., <i>B</i> = 10000), saving the result each time</li>
+<li>Plot the <i>B</i> bootstrap replicate estimates to visualize the shape of the sampling distribution</li>
+<li>Calculate the <b>standard deviation</b> of the <i>B</i> boostrap replicate estimates to obtain the standard error of the estimate</li>
+</ol>
+<p>It is also possible to use the bootstrap replicates to obtain a confidence interval for the parameter using a percentile method and the BC<sub>a</sub> method.</p>
+</div>
+<div id="permutation-test" class="section level3">
+<h3>Permutation test</h3>
+<p>The permutation test is a computer-intensive method for hypothesis testing. It is used to generate a null distribution for a test statistic measuring association between two variables (or differences between groups). When used to test differences between two or more groups in a numerical variable the method assumes that the distributions have equal shape. However, the method is fairly robust to departures from this assumption. The steps are:</p>
+<ol style="list-style-type: decimal">
+<li>Create a randomized data set in which the values for one of two variables are randomly reassigned to subjects (<b>without replacement</b>)</li>
+<li>Calculate the test statistic measuring association between the variables (or difference between groups) on the randomized sample obtained in (1)</li>
+<li>Repeat steps (1) and (2) many times (<i>B</i> = 10000), saving the result each time</li>
+<li>Plot the <i>B</i> values of the test statistic generated in (3) to visualize the shape of the null distribution</li>
+<li>Using the distribution of the test statistic from (3), calculate the tail probability for the observed value of the test statistic (calculated on the original data). Multiply this number by 2 if test is two-sided.</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="caribbean-bird-immigration" class="section level2">
+<h2>Caribbean bird immigration</h2>
+<p>Birds of the Caribbean islands of the Lesser Antilles are descended from rare immigrants from larger islands and the nearby mainland. The data here are the approximate dates of immigration, in millions of years, of each of 37 bird species now present on the Lesser Antilles (Ricklefs and Bermingham 2001, Science 294: 1522-1524). The dates were calculated from the difference in mitochondrial DNA sequences between each of the species and its closest living relative on larger islands or the mainland. The data can be downloaded <a href="https://www.zoology.ubc.ca/~bio501/R/data/antilles.csv">here</a>.</p>
+<ol style="list-style-type: decimal">
+<li>What shape is the frequency distribution of estimated immigration dates? Use a graph to display it.</li>
+<li>What are the mean and median dates of immigration, in millions of years? Why are the two values so different?</li>
+<li>Obtain a single bootstrap replicate of the immigration dates and plot the results. How different is the frequency distribution from that of the data?</li>
+<li>Write a short loop to generate 10000 bootstrap replicate estimates for the sample median immigration date. It is a good idea to begin by using only 10 replicates until your loop is tested and found to be working smoothly. Store the resulting medians in a vector.</li>
+<li>Plot the frequency distribution of your results from (4). What does this frequency distribution estimate?</li>
+<li>Using your results in (4) to calculate a standard error for the sample median*.</li>
+<li>Most of the familiar estimators of population parameters, such as sample mean and variance, are unbiased, which means that the mean of its sampling distribution equals the parameter value being estimated. For example, the mean of the sampling distribution of the sample mean is $, the very parameter being estimated. The sample mean is an unbiased estimator. However, some estimators are biased, and the bootstrap is often used to estimate bias. Is the median of immigration dates biased? Calculate the <b>mean</b> of the bootstrap replicate estimates of the median immigration date to estimate the bias**.</li>
+<li>Use the percentile method (check the quantile() function) to generate an approximate 95% confidence interval for the population median***.</li>
+<li>Apply the boot package to generate a more accurate boostrap confidence interval for the median using the BC<sub>a</sub> method.****</li>
+</ol>
+<p><small>* will be about 2.5 <br>** will be about 4.4 (This exceeds the median of the original sample, 3.5. So, our bootstrap tells us that our statistic, the sample median, tends to overestimate the true median by about 0.9.) <br>*** should be about (1.8, 11.1) <br>**** should be about (1.8, 10.6) </small></p>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(boot))
+
+# 1. Histogram of right-skewed data
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/antilles.csv"), stringsAsFactors = FALSE)
+head(x)
+```
+
+```
+##   immigration.date
+## 1              0.0
+## 2              0.0
+## 3              0.0
+## 4              0.2
+## 5              0.3
+## 6              0.5
+```
+
+```r
+hist(x$immigration.date, breaks=seq(0,30,by=2), col="firebrick", right = FALSE,
+    xlab = "Immigration date (my)", las = 1, main = "")
+```
+
+<img src="resampling_files/figure-html/unnamed-chunk-1-1.png" width="528" />
+
+```r
+# 2. Mean and median dates of immigration differ because distribution strongly skewed
+mean(x$immigration.date)
+```
+
+```
+## [1] 8.664865
+```
+
+```r
+median(x$immigration.date)
+```
+
+```
+## [1] 3.5
+```
+
+```r
+# 3. Single bootstrap replicate of the immigration dates
+xboot <- sample(x$immigration.date, replace=TRUE)
+hist(xboot, breaks=seq(0,30,by=2), col="firebrick", right = FALSE,
+    xlab = "Immigration date (my)", las = 1, main = "")
+```
+
+<img src="resampling_files/figure-html/unnamed-chunk-1-2.png" width="528" />
+
+```r
+# 4. Loop to generate 10000 bootstrap replicate estimates 
+z <- vector()
+for(i in 1:10000){
+    xboot <- sample(x$immigration.date, replace=TRUE)
+    z[i] <- median(xboot)
+    }
+
+# 5. Bootstrap sampling distribution of median
+hist(z, col="firebrick", right = FALSE,
+    xlab = "Median immigration date (my)", las = 1, main = "")
+```
+
+<img src="resampling_files/figure-html/unnamed-chunk-1-3.png" width="528" />
+
+```r
+# 6. Bootstrap standard error of sample median
+sd(z)
+```
+
+```
+## [1] 2.533994
+```
+
+```r
+# 7. Mean of bootstrap medians
+mean(z)
+```
+
+```
+## [1] 4.418
+```
+
+```r
+# 8. Approximate 95% CI
+quantile(z, probs = c(0.025,0.975))
+```
+
+```
+##  2.5% 97.5% 
+##   1.8  11.1
+```
+
+```r
+# 9. More accurate boostrap confidence interval
+boot.median <- function(x,i){
+    boot.median <- median(x[i])
+    }
+z <- boot(x$immigration.date, boot.median, R = 10000)
+sd(z$t)
+```
+
+```
+## [1] 2.516685
+```
+
+```r
+boot.ci(z, type = "bca")
+```
+
+```
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = z, type = "bca")
+## 
+## Intervals : 
+## Level       BCa          
+## 95%   ( 1.8, 10.6 )  
+## Calculations and Intervals on Original Scale
+```
+
+[//]: -->
+<hr />
+</div>
+<div id="trillium-fragmentation" class="section level2">
+<h2><i>Trillium</i> fragmentation</h2>
+<p>Logging in western North America impacts populations of western trillium (<i>Trillium ovatum</i>), a long-lived perennial inhabiting conifer forests. Jules and Rathcke (1999, Conservation Biology 13:784-793) measured attributes of eight local populations of western trillium confined to forest patches of varying size created by logging in southwestern Oregon. A subset of their data are <a href="https://www.zoology.ubc.ca/~bio501/R/data/trillium.csv">here</a>. The variables included are</p>
+<ul>
+<li>population</li>
+<li>forest fragment size (ha)</li>
+<li>distance between local population and forest edge (m)</li>
+<li>years since isolated</li>
+<li>number of plants in local population</li>
+<li>proportion of plants consumed by deer in of the years of study</li>
+<li>recruitment rate, the density of new plants produced in each population per year</li>
+</ul>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li>Plot recruitment against fragment size.</li>
+<li>From visual inspection of your plot in (1), choose an appropriate transformation of one or both variables to meet (roughly) the assumptions of linear regression*.</li>
+<li>Using a linear model on your transformed data, estimate the slope of the linear regression of recruitment on fragment size. Inspect the diagnostic plots. These will reveal that although transformation improved matters, there might still be some issues regarding the assumptions of equal variance of residuals. A small sample size makes it difficult to pursue the issue much further. Let’s take a conservative approach for the purposes of this exercise and use a nonparametric approach, the permutation test, to test the null hypothesis of zero slope. We’ll use the transformed data because the transformation rendered the relationship more linear (it is the slope of a line that we wish to test) and it eliminated the problem of one or two data points having excessive influence.</li>
+<li>Using the permutation test, create a null distribution for the slope of the linear regression.</li>
+<li>Plot the null distribution. Compare the distribution to the value of the slope you estimated in (3). Is your slope near the middle or toward one of the tails of the null distribution?</li>
+<li>Calculate the tail probability using the results from your analysis of the data in (3) and the null distribution.</li>
+<li>Use your results in (6) to calculate an approximate <span style="font-style: italic;">P</span>-value for the test of the null hypothesis of zero slope**.</li>
+<li>Note: As we’ve discussed in class, the analysis of data shouldn’t end with a <i>P</i>-value because it tells us nothing about magnitudes of effects. A drawback of the permutation test is that it is entirely focused on the <i>P</i>-value and provides no estimates of parameters. The bootstrap is more informative, but sample size here is probably too small for a reliable outcome.</li>
+</ol>
+<p><small>* transform both log <br>** will be about 0.26</small></p>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(ggplot2))
+
+# 1. Plot recruitment against fragment size
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/trillium.csv"), stringsAsFactors = FALSE)
+x
+```
+
+```
+##   population fragsize.ha distedge years   N herbivory recruitment
+## 1          1        2.97       67    16  53      0.50      0.0053
+## 2          2        3.72       65    14  48      0.13      0.0021
+## 3          3        6.48       61    29  26      0.33      0.0069
+## 4          4       11.90       30    13  64      0.06      0.0006
+## 5          5       62.09       84    30 116      0.38      0.0124
+## 6          6      116.74       97    26  56      0.13      0.0045
+## 7          7      215.99       16    16  58      0.12      0.0028
+## 8          8     1000.00      332    24 129      0.08      0.0182
+```
+
+```r
+plot(recruitment ~ fragsize.ha, data = x, pch = 16, col = "firebrick", las = 1,
+    xlab = "Fragment size (ha)", ylab = "Recruitment", cex = 1.5)
+```
+
+<img src="resampling_files/figure-html/unnamed-chunk-2-1.png" width="528" />
+
+```r
+# 2. Transform
+x$ln.recruitment <- log(x$recruitment)
+x$ln.fragsize <- log(x$fragsize.ha)
+plot(ln.recruitment ~ ln.fragsize, data = x, pch = 16, col = "firebrick", las = 1,
+    xlab = "Log fragment size", ylab = "Log recruitment", cex = 1.5)
+```
+
+<img src="resampling_files/figure-html/unnamed-chunk-2-2.png" width="528" />
+
+```r
+# 3. Linear model
+z <- lm(ln.recruitment ~ ln.fragsize, data = x)
+summary(z)
+```
+
+```
+## 
+## Call:
+## lm(formula = ln.recruitment ~ ln.fragsize, data = x)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.7533 -0.4112  0.2076  0.7624  0.8996 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  -6.2284     0.7409  -8.407 0.000154 ***
+## ln.fragsize   0.2274     0.1846   1.232 0.264114    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 1.035 on 6 degrees of freedom
+## Multiple R-squared:  0.2018, Adjusted R-squared:  0.06881 
+## F-statistic: 1.517 on 1 and 6 DF,  p-value: 0.2641
+```
+
+```r
+plot(z)
+```
+
+<img src="resampling_files/figure-html/unnamed-chunk-2-3.png" width="528" /><img src="resampling_files/figure-html/unnamed-chunk-2-4.png" width="528" /><img src="resampling_files/figure-html/unnamed-chunk-2-5.png" width="528" /><img src="resampling_files/figure-html/unnamed-chunk-2-6.png" width="528" />
+
+```r
+# 4. Permutations of regression slope
+slope <- vector()
+for(i in 1:10000){
+    x1 <- sample(x$ln.fragsize, replace = FALSE)
+    slope[i] <- coef(lm(ln.recruitment ~ x1, data = x))[2]
+    }
+
+# 5. Null distribution
+hist(slope, col="firebrick", right = FALSE, xlab = "Slope", 
+      las = 1, main = "")
+```
+
+<img src="resampling_files/figure-html/unnamed-chunk-2-7.png" width="528" />
+
+```r
+# 6. Tail probability
+tailP <- length(slope[slope >= 0.2274])/10000
+tailP
+```
+
+```
+## [1] 0.1229
+```
+
+```r
+# 7. P-value
+Pval <- 2 * tailP
+Pval
+```
+
+```
+## [1] 0.2458
+```
+
+[//]: -->
+<hr />
+</div>
+<div id="vampire-attack" class="section level2">
+<h2>Vampire attack</h2>
+<p>The vampire bat, <i>Desmodus rotundus</i>, commonly feeds on the blood of domestic cattle. It prefers cows to bulls, which suggested that the bats might be responding to a hormonal cue. To explore this, the frequency of vampire bat attacks on cows in estrous was compared with attacks on anestrous female cows. The following data are from one night of observation (D. C. Turner 1975, The vampire bat: A field study in behavior and ecology. Johns Hopkins Press, Baltimore).</p>
+<table style="text-align: left; width: 442px; height: 79px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td>
+</td>
+<td style="text-align: center; font-weight: bold;">
+Female cows in estrous
+</td>
+<td style="text-align: center; font-weight: bold;">
+Anestrous female cows
+</td>
+</tr>
+<tr>
+<td style="font-weight: bold; text-align: right;">
+Bitten by vampire bat
+</td>
+<td style="text-align: center;">
+15
+</td>
+<td style="text-align: center;">
+6
+</td>
+</tr>
+<tr>
+<td style="font-weight: bold; text-align: right;">
+Not bitten
+</td>
+<td style="text-align: center;">
+7
+</td>
+<td style="text-align: center;">
+322
+</td>
+</tr>
+</tbody>
+</table>
+<ol style="list-style-type: decimal">
+<li><p>To begin the analysis, create a data frame with two variables (estrous and bitten) each with two states (yes/no) representing the above measurements for the 350 cows. 15 of the cows should have “yes” for both variables, 7 should have “yes” for estrous and “no” for bitten, and so on.</p></li>
+<li><p>Create a 2x2 contingency table to verify the results of (1).</p></li>
+<li><p>Use a conventional <span class="math inline">\(\chi^2\)</span> contingency test to test the null hypothesis of no difference in the frequency of cows bitten by vampire bats between estrous and anestrous cows. Use the “chisq.test” command in R (type ?chisq.test for help). Store the results in an object (e.g., <code>z</code>). If you execute the command correctly you should receive a warning. What is the source of the problem? To determine this, examine the expected frequencies (they are stored in the results object, e.g.,that you named <code>z</code>)*.</p></li>
+<li><p>Use the permutation test instead to test the null hypothesis. (HINT: check if this may have already be implemented in the function.)</p></li>
+<li><p>Calculate the odds ratio using the variables you created in (1). The odds ratio is a commonly used measure of association in 2x2 tables. It is the ratio of the odds of success in a treatment group compared to the odds of success in a control group. Here, the ratio will be odds of estrous cows being bitten / odds of anestrous cows being bitten. The quickest way to calculate odds ratio from a table of frequencies is OR = (a/c) / (b/d), where</p>
+<table style="text-align: left; width: 348px; height: 79px;" border="0" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td style="font-weight: bold; text-align: right;">
+</td>
+<td style="text-align: center; font-weight: bold;">
+<p>treatment</p>
+</td>
+<td style="text-align: center; font-weight: bold;">
+<p>control</p>
+</td>
+</tr>
+<tr>
+<td style="font-weight: bold; text-align: right;">
+<p>success</p>
+</td>
+<td style="text-align: center;">
+<p>a</p>
+</td>
+<td style="text-align: center;">
+<p>b</p>
+</td>
+</tr>
+<tr>
+<td style="font-weight: bold; text-align: right;">
+<p>failure</p>
+</td>
+<td style="text-align: center;">
+<p>c</p>
+</td>
+<td style="text-align: center;">
+<p>d</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>A problem arises if one of the four table frequencies is 0, which can create an odds ratio of 0 or infinity. Although not optimal, a standard fix is to add 0.5 to each cell of the table before calculating OR.</p></li>
+</ol>
+<ol start="6">
+<li>
+<p>Use the bootstrap to obtain a standard error for the estimate of odds ratio. By chance your resampling might occasionally produce a zero for the number of anestrous cows bitten, which will result in a division by zero and a value of “Inf” for the odds ratio or relative risk. One solution is to add 0.5 to each cell of the 2x2 table before calculating the odds ratio. Otherwise, just remove the “Inf” values from the vector of results using</p>
+<pre class="r"><code>z &lt;- z[is.finite(z)]</code></pre>
+</li>
+</ol>
+<ol start="7" style="list-style-type: decimal">
+<li>Use the percentile method to obtain a bootstrap 95% confidence interval for the odds ratio.</li>
+</ol>
+<p><small>* The <span class="math inline">\(\chi^2\)</span> approximation to the null distribution may not be accurate when too many of the expected frequencies are less than 5.</small></p>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(boot))
+
+# 1. Create data frame
+
+bitten <- c( rep(c("bitten","not"),c(15,7)), rep(c("bitten","not"),c(6,322)) )
+estrous <- rep(c("estrous","no"), c(22,328))
+x <- cbind.data.frame(bitten, estrous, stringsAsFactors = FALSE)
+head(x)
+```
+
+```
+##   bitten estrous
+## 1 bitten estrous
+## 2 bitten estrous
+## 3 bitten estrous
+## 4 bitten estrous
+## 5 bitten estrous
+## 6 bitten estrous
+```
+
+```r
+# 2. 2x2 contingency table
+VampireTable <- table(x$bitten, x$estrous)
+
+# 3. chi^2 test
+z <- chisq.test(VampireTable)
+```
+
+```
+## Warning in chisq.test(VampireTable): Chi-squared approximation may be
+## incorrect
+```
+
+```r
+z$expected
+```
+
+```
+##         
+##          estrous     no
+##   bitten    1.32  19.68
+##   not      20.68 308.32
+```
+
+```r
+# 4. Permutation test
+chisq.test(VampireTable, simulate.p.value = TRUE, B = 5000)
+```
+
+```
+## 
+##  Pearson's Chi-squared test with simulated p-value (based on 5000
+##  replicates)
+## 
+## data:  VampireTable
+## X-squared = 160.94, df = NA, p-value = 2e-04
+```
+
+```r
+# 5. Odds ratio
+OR <- (VampireTable[1,1]/VampireTable[2,1])/(VampireTable[1,2]/VampireTable[2,2])
+OR
+```
+
+```
+## [1] 115
+```
+
+```r
+# 6. Bootstrap standard error
+OR <- function(x, i){
+    tab <- table(x[,1][i],x[,2][i])
+      OR <- ((tab[1,1]+.5)/(tab[2,1]+.5))/((tab[1,2]+.5)/(tab[2,2]+.5))
+      }
+z <- boot(x, OR, R = 5000)
+z
+```
+
+```
+## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = x, statistic = OR, R = 5000)
+## 
+## 
+## Bootstrap Statistics :
+##     original   bias    std. error
+## t1* 102.5385 46.25845    189.4362
+```
+
+```r
+# 7. Use the percentile method to obtain a 95% confidence interval for the odds ratio.
+boot.ci(z)
+```
+
+```
+## Warning in boot.ci(z): bootstrap variances needed for studentized intervals
+```
+
+```
+## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 5000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = z)
+## 
+## Intervals : 
+## Level      Normal              Basic         
+## 95%   (-315.0,  427.6 )   (-264.3,  167.6 )  
+## 
+## Level     Percentile            BCa          
+## 95%   ( 37.5, 469.4 )   ( 30.9, 347.8 )  
+## Calculations and Intervals on Original Scale
+```
+
+[//]: -->
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

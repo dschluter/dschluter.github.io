@@ -1,0 +1,31 @@
+<h2>R workshops</h2>
+Workshops are held in <b>Beaty Biodiversity 224</b>. See the "Calendar" tab for workshop dates. The links on the sidebar direct you to the R workshops.
+
+Bring your own laptop, with the latest version of R installed from <a href="https://cran.r-project.org/">here</a>. Students without a laptop will be loaned one for the duration of the workshop. Let me know ahead of time if you require one, there is a limited number available (Mac only).
+
+Work at your own speed and don't worry if you cannot finish in the 2 hours allotted. Some of the workshops are intentionally made long to to allow you to come back in the future if you want more practice on a particular topic.
+
+You will need to install the following extra R packages for the workshops this semester (see the Rtips start page for information on how to install add-on packages).
+Packages: <b>ape</b>, <b>binom</b>, <b>car</b>, <b>emmeans</b>, <b>leaps</b>, <b>lmerTest</b>, <b>metafor</b>, <b>pwr</b>, <b>visreg</b>.
+
+Mac users will need to install <a href="http://www.xquartz.org">XQuartz</a> for some R commands to work (e.g., <code>fix()</code>).
+
+Help with R is available on the <a href="https://www.zoology.ubc.ca/~schluter/R">R tips</a> page and on the wider internet.
+
+Also useful are the <a href="http://whitlockschluter.zoology.ubc.ca/r-code">R commands needed to analyze all examples</a> in the 2<sup>nd</sup> edition of <i>The Analysis of Biological Data</i> by Michael Whitlock and Dolph Schluter.
+
+<!-- 
+Download Darren's R scripts for the workshops here (for maximal learning, try to do each workshop first yourself; change the file name extension to ".R" to have the script load directly into R):
+<a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/01/BIOL501_2016S_R_workshop_script_Introduction.txt" target="_blank" rel="">1: Introduction
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/01/BIOL501_2016S_R_workshop_script2_Graphics.R.txt" rel="">2: Graphics
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/01/BIOL501_2016S_R_workshop_script3_Design.R.txt" rel="">3: Experimental design
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/01/BIOL501_2016S_R_workshop_script4_Linear_models.R.txt" rel="">4: Linear models
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/02/BIOL501_2016S_R_workshop_script5_Mixed_models.R.txt" rel="">5: Mixed models
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/02/BIOL501_2016S_R_workshop_script6_Likelihood.R.txt" rel="">6: Likelihood
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/02/BIOL501_2016S_R_workshop_script7_GLMs.R.txt" rel="">7: Generalized linear models
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/03/BIOL501_2016S_R_workshop_script8_ModelSelection.R.txt" rel="">8: Model selection
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/03/BIOL501_2016S_R_workshop_script9_BayesianMethods.R.txt" rel="">9: Bayesian methods
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/03/BIOL501_2016S_R_workshop_script10_Bootstrap_and_permutation.R.txt" rel="">10: Bootstrap and permutation
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/03/BIOL501_2016S_R_workshop_script11_Meta_analysis.R.txt" rel="">11. Meta-analysis
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/03/BIOL501_2016S_R_workshop_script12_Multivariate.R.txt" rel="">12. Multivariate analysis
+</a><a href="https://www.zoology.ubc.ca/~bio501/R/wp-content/uploads/2016/04/BIOL501_2016S_R_workshop_script13_Phylogenetic.R.txt" rel="">13. Phylogenetic independent contrasts</a> -->

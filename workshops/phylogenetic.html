@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>Phylogenetic comparative methods</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="workshops.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UBC Biology 501 R workshops</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Biol 501 home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R Workshops
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Main workshops page</a>
+    </li>
+    <li>
+      <a href="workshops-intro.html">1. Introduction to R</a>
+    </li>
+    <li>
+      <a href="graphics.html">2. Graphs and tables</a>
+    </li>
+    <li>
+      <a href="exp-design.html">3. Plan experiments</a>
+    </li>
+    <li>
+      <a href="linearmodels.html">4. Linear models</a>
+    </li>
+    <li>
+      <a href="lme.html">5. Mixed-effects models</a>
+    </li>
+    <li>
+      <a href="likelihood.html">6. Likelihood</a>
+    </li>
+    <li>
+      <a href="glm.html">7. Generalized linear models</a>
+    </li>
+    <li>
+      <a href="modelselection.html">8. Model selection</a>
+    </li>
+    <li>
+      <a href="bayes.html">9. Bayesian inference</a>
+    </li>
+    <li>
+      <a href="resampling.html">10. Bootstrap and permutation</a>
+    </li>
+    <li>
+      <a href="meta.html">11. Meta-analysis</a>
+    </li>
+    <li>
+      <a href="multivariate.html">12. Multivariate methods</a>
+    </li>
+    <li>
+      <a href="phylogenetic.html">13. Phylogenetic comparative methods</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/index.html">R tips home page</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="https://www.zoology.ubc.ca/~schluter/R/Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Phylogenetic comparative methods</h1>
+
+</div>
+
+
+<p>In this workshop will explore some of the tools available in R for analyzing species as data points. For help with R commands to carry out resampling, see the <span style="font-weight: bold;">phylogeny</span> tab on the R tips help pages.</p>
+<hr />
+<div id="rockfish-evolution" class="section level2">
+<h2>Rockfish evolution</h2>
+<p>Rockfish (genus <span style="font-style: italic;">Sebastes</span>) are a hugely diverse group of mainly Pacific Ocean fishes. There are over 100 recognized species inhabiting everything from the intertidal zone to waters over 2000 m deep. They have some of the highest longevities of any fish, with a maximum reported age of 205 years. Data on maximum body size (length), age (lifespan) and habitat depth of 56 species is provided <a href="https://www.zoology.ubc.ca/~bio501/R/data/rockfish.csv">here</a> in a .csv file. The data were gathered from FishBase, from Love (2002), and by Travis Ingram.</p>
+<p>A phylogenetic tree of the 56 species is provided in a text file <a href="https://www.zoology.ubc.ca/~bio501/R/data/rockfish.phy">here</a>. The tree, from Hyde &amp; Vetter (2007), is a consensus Bayesian tree based on 7 mitochondrial and 2 nuclear genes.</p>
+<ol style="list-style-type: decimal">
+<li><p>Download the file containing the phylogenetic tree. Inspect to determine whether it is in newick or nexus format and read into R using the appropriate command.</p></li>
+<li><p>Plot commands in <code>ape</code> will change the graphical parameters from the defaults. Save a copy of the default values by executing the following command: <code>old.par &lt;- par()</code>. We’ll make use of <code>old.par</code> later.</p></li>
+<li><p>Plot the phylogeny. You may have to adjust an option to minimize overlapping the labels. Take a moment to admire the structure of the tree. Branch lengths are intended to reflect time. Does it look like the genus diversified mainly in a sudden early burst, a recent explosion, or a steady growth in the number of species through time? Notice that all the tips are contemporaneous.</p></li>
+<li><p>Obtain the species measurements from the data file and input to a data frame. Check that the species names in the trait file and in the phylogenetic tree are identical and are listed in the same order (this is a requirement for the methods we will be using from the ape package).</p></li>
+<li><p>Which of the traits show strong phylogenetic signal? First, use a method that places dots at the tips of the tree, with dot size reflecting the value for the trait. Is there a tendency for closely related species to be more similar in their trait values than more distantly related species?</p></li>
+<li><p>Next, calculate Pagel’s <span class="math inline">\(\lambda\)</span> for each trait. Which traits show strong phylogenetic signal, according to this metric?</p></li>
+</ol>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(ape))
+suppressPackageStartupMessages(library(phytools))
+
+# 1. Download tree file 
+rtree <- read.tree(url("https://www.zoology.ubc.ca/~bio501/R/data/rockfish.phy"))
+rtree
+```
+
+```
+## 
+## Phylogenetic tree with 56 tips and 55 internal nodes.
+## 
+## Tip labels:
+##  Sebastes.reedi, Sebastes.crameri, Sebastes.ciliatus, Sebastes.polyspinis, Sebastes.alutus, Sebastes.aurora, ...
+## 
+## Rooted; includes branch lengths.
+```
+
+```r
+# 2. Save default graphical parameters
+old.par <- par()
+```
+
+
+```r
+# 3. Plot phylogeny
+plot(rtree, cex = 0.6)
+```
+
+<img src="phylogenetic_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+
+
+```r
+# 4. Input species measurements
+rockfish <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/rockfish.csv"), 
+    stringsAsFactors = FALSE)
+rownames(rockfish) <- rockfish$species
+rockfish <- rockfish[ match(rtree$tip.label, rownames(rockfish)), ]
+
+# 5. Plot traits
+x <- rockfish[, c("maxlength.cm", "maxage.y", "maxdepth.m")]
+dotTree(rtree, as.matrix(x)[,c("maxlength.cm")], cex = 0.5)
+```
+
+<img src="phylogenetic_files/figure-html/unnamed-chunk-3-1.png" width="528" />
+
+```r
+dotTree(rtree, as.matrix(x)[,c("maxage.y")], cex = 0.5)
+```
+
+<img src="phylogenetic_files/figure-html/unnamed-chunk-3-2.png" width="528" />
+
+```r
+dotTree(rtree, as.matrix(x)[,c("maxdepth.m")], cex = 0.5)
+```
+
+<img src="phylogenetic_files/figure-html/unnamed-chunk-3-3.png" width="528" />
+
+```r
+# 6. Pagel's $\lambda$
+phylosig(rtree, as.matrix(x)[,c("maxlength.cm")], method = "lambda")
+```
+
+```
+## $lambda
+## [1] 0.9999339
+## 
+## $logL
+## [1] -236.4933
+```
+
+```r
+phylosig(rtree, as.matrix(x)[,c("maxage.y")], method = "lambda")
+```
+
+```
+## $lambda
+## [1] 0.9521305
+## 
+## $logL
+## [1] -275.2129
+```
+
+```r
+phylosig(rtree, as.matrix(x)[,c("maxdepth.m")], method = "lambda")
+```
+
+```
+## $lambda
+## [1] 0.4201628
+## 
+## $logL
+## [1] -387.1613
+```
+
+[//]: -->
+<hr />
+</div>
+<div id="tips-analysis" class="section level2">
+<h2>TIPS analysis</h2>
+<p>Let’s begin with an analysis that ignores phylogeny, so that we have a baseline for comparison.</p>
+<ol style="list-style-type: decimal">
+<li><p>Restore the default graphical parameters by executing <code>par(old.par)</code>. It is not a huge issue if you skip this step (give it a try and see what happens).</p></li>
+<li><p>Inspect scatter plots of the species data. Make any necessary transformations here to help meet the assumptions of linear models*.</p></li>
+<li><p>Choose one pair of variables in the data set to compare (suitably transformed). Carry out a linear model fit ignoring phylogeny for now.</p></li>
+<li><p>Examine the diagnostic plots in (3) to check your assumptions.</p></li>
+<li><p>Extract the regression coefficients and standard errors from the model object created in (3). Take note of the values for the slope estimate.</p></li>
+<li><p>Obtain the correlation coefficient between the variables used in (3). Take note of the value of the estimate.</p></li>
+</ol>
+<p><small> * Log-transforming the traits seems to be a good idea. </small></p>
+<!--
+
+### Answers
+
+
+```r
+# Restore graphical parameters
+suppressWarnings(par(old.par))
+
+# 2. Inspect and transform
+pairs(rockfish[, c("maxlength.cm", "maxage.y", "maxdepth.m")])
+```
+
+<img src="phylogenetic_files/figure-html/unnamed-chunk-4-1.png" width="528" />
+
+```r
+pairs(log(rockfish[, c("maxlength.cm", "maxage.y", "maxdepth.m")]))
+```
+
+<img src="phylogenetic_files/figure-html/unnamed-chunk-4-2.png" width="528" />
+
+```r
+rockfish$log.maxlength <- log(rockfish$maxlength.cm)
+rockfish$log.maxage <- log(rockfish$maxage.y)
+rockfish$log.maxdepth <- log(rockfish$maxdepth.m)
+
+# 3. Linear model
+z <- lm(log.maxage ~ log.maxlength, data = rockfish)
+
+# 4. Diagnostic plots
+plot(z)
+```
+
+<img src="phylogenetic_files/figure-html/unnamed-chunk-4-3.png" width="528" /><img src="phylogenetic_files/figure-html/unnamed-chunk-4-4.png" width="528" /><img src="phylogenetic_files/figure-html/unnamed-chunk-4-5.png" width="528" /><img src="phylogenetic_files/figure-html/unnamed-chunk-4-6.png" width="528" />
+
+```r
+# 5. Estimate
+summary(z)
+```
+
+```
+## 
+## Call:
+## lm(formula = log.maxage ~ log.maxlength, data = rockfish)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1.1098 -0.3995  0.1121  0.4347  0.8134 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    -0.2916     0.7101  -0.411    0.683    
+## log.maxlength   1.0495     0.1809   5.801 3.54e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.5226 on 54 degrees of freedom
+## Multiple R-squared:  0.384,  Adjusted R-squared:  0.3725 
+## F-statistic: 33.66 on 1 and 54 DF,  p-value: 3.543e-07
+```
+
+```r
+# 6. Correlation
+cor(rockfish$log.maxage, rockfish$log.maxlength)
+```
+
+```
+## [1] 0.6196418
+```
+
+[//]: -->
+<hr />
+</div>
+<div id="pics" class="section level2">
+<h2>PICs</h2>
+<p>Let’s use the same variables and apply phylogenetically independent contrasts (PICs) instead.</p>
+<ol style="list-style-type: decimal">
+<li><p>Convert the same two variables used in your TIPS analysis to phylogenetically independent contrasts. Create a scatter plot of the contrasts in your two variables. Are they associated?</p></li>
+<li><p>Fit a linear model to the independent contrasts you created in (1). Use the contrasts corresponding to the same response and explanatory variables as in your TIPS analysis. Examine the diagnostic plots to check the linear model assumptions.</p></li>
+<li><p>Extract the regression coefficients and standard errors from the model object created in (2). How does the slope* compare with that obtained in your TIPS analysis? Is the standard error from the PICs analysis greater than, less than, or the same as in your TIPS analysis? (Meta-analyses have often found that PICs yield a similar answer to an analysis that ignores phylogeny, but your specific case might or might not.)</p></li>
+<li><p>Calculate the correlation coefficient** on the independent contrasts (consult the R tips pages if necessary).</p></li>
+</ol>
+<p><small> * 1.19 when explanatory variable is log(maxlength.cm) and response variable is log(maxage.y) <br>** 0.625 </small></p>
+<!--
+
+### Answers
+
+
+```r
+# 1. Contrasts
+contrast.log.maxlength <- pic(rockfish$log.maxlength, rtree) 
+contrast.log.maxage <- pic(rockfish$log.maxage, rtree)
+plot(contrast.log.maxage ~ contrast.log.maxlength)
+```
+
+<img src="phylogenetic_files/figure-html/unnamed-chunk-5-1.png" width="528" />
+
+```r
+# 2. Linear model independent contrasts
+z1 <- lm(contrast.log.maxage ~ contrast.log.maxlength - 1)
+plot(z1)
+```
+
+<img src="phylogenetic_files/figure-html/unnamed-chunk-5-2.png" width="528" /><img src="phylogenetic_files/figure-html/unnamed-chunk-5-3.png" width="528" /><img src="phylogenetic_files/figure-html/unnamed-chunk-5-4.png" width="528" /><img src="phylogenetic_files/figure-html/unnamed-chunk-5-5.png" width="528" />
+
+```r
+# 3. Estimate
+summary(z1)
+```
+
+```
+## 
+## Call:
+## lm(formula = contrast.log.maxage ~ contrast.log.maxlength - 1)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.7308 -0.2192 -0.0168  0.2147  0.6294 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(>|t|)    
+## contrast.log.maxlength   1.1913     0.2025   5.884 2.61e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.2918 on 54 degrees of freedom
+## Multiple R-squared:  0.3907, Adjusted R-squared:  0.3794 
+## F-statistic: 34.62 on 1 and 54 DF,  p-value: 2.614e-07
+```
+
+```r
+# 4. Correlation
+sum(contrast.log.maxlength*contrast.log.maxage) / 
+    (sqrt(sum(contrast.log.maxlength^2))*sqrt(sum(contrast.log.maxage^2))) 
+```
+
+```
+## [1] 0.6250418
+```
+
+[//]: -->
+<hr />
+</div>
+<div id="general-least-squares" class="section level2">
+<h2>General least squares</h2>
+<ol style="list-style-type: decimal">
+<li><p>Carry out the equivalent analysis to PICs using general least squares instead. Confirm that the slope coefficient and its standard error are identical to that obtained in the analysis of independent contrasts.</p></li>
+<li><p>Examine the residual plot from the model fit in (1). Notice that the mean of the residuals is not zero (calculate the mean of the residuals to confirm this). This is because the GLS analysis does not weight each of the observations equally.</p></li>
+<li><p>(In effect, GLS fits a linear model to the variables after transforming them according to values computed from the phylogenetic correlation matrix. A disadvantage of the residual plot here is that we aren’t seeing the diagnostic plot for the transformed variables, which would be nice. These can be calculated “by hand” but it is no fun*.)</p></li>
+</ol>
+<p><small>* Actually, it is quite fun.</small></p>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(nlme))
+
+# 1. GLS
+z2 <- gls(log.maxage ~ log.maxlength, data= rockfish, correlation=corBrownian(1, rtree))
+summary(z2)
+```
+
+```
+## Generalized least squares fit by REML
+##   Model: log.maxage ~ log.maxlength 
+##   Data: rockfish 
+##        AIC      BIC    logLik
+##   97.16098 103.1279 -45.58049
+## 
+## Correlation Structure: corBrownian
+##  Formula: ~1 
+##  Parameter estimate(s):
+## numeric(0)
+## 
+## Coefficients:
+##                    Value Std.Error   t-value p-value
+## (Intercept)   -0.6998314 0.8811189 -0.794253  0.4305
+## log.maxlength  1.1912722 0.2024551  5.884131  0.0000
+## 
+##  Correlation: 
+##               (Intr)
+## log.maxlength -0.945
+## 
+## Standardized residuals:
+##         Min          Q1         Med          Q3         Max 
+## -1.57871076 -0.61756653 -0.05523672  0.29014355  0.75693801 
+## 
+## Residual standard error: 0.8205782 
+## Degrees of freedom: 56 total; 54 residual
+```
+
+```r
+# 2. Residual plot
+plot(z2)
+```
+
+<img src="phylogenetic_files/figure-html/unnamed-chunk-6-1.png" width="528" />
+
+[//]: -->
+<hr />
+</div>
+<div id="adjusting-for-pagels-lambda" class="section level2">
+<h2>Adjusting for Pagel’s <span class="math inline">\(\lambda\)</span></h2>
+<ol style="list-style-type: decimal">
+<li><p>Does incorporating phylogeny result in a better fit to the data than ignoring phylogeny? Use Pagel’s <span class="math inline">\(\lambda\)</span> to help decide this. Using GLS, fit your model again while fixing Pagel’s <span class="math inline">\(\lambda\)</span> = 1. Refit, but this time using <span class="math inline">\(\lambda\)</span> = 0. Which lambda fits best? How large is the difference in their AIC scores?</p></li>
+<li><p>Find the maximum-likelihood estimate of <span class="math inline">\(\lambda\)</span>*. Is the AIC score improved when a linear model is fitted using this maximum likelihood value for <span class="math inline">\(\lambda\)</span> ?</p></li>
+<li><p>Repeat the analyses with the other pairs of variables to decide whether including phylogeny generally improves the fit of linear models to these data.</p></li>
+</ol>
+<p><small>*0.583 This value is lower than the largest value you calculated earlier on one of the traits. This is likely because <span class="math inline">\(\lambda\)</span> is now a compromise between the phylogenetic signals in two traits evolving together. </small></p>
+<!--
+
+### Answers
+
+
+```r
+suppressPackageStartupMessages(library(ape))
+
+# 1. Pagel's lambda
+z3 <- gls(log.maxage ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(1,rtree, fixed = TRUE))
+z4 <- gls(log.maxage ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(0,rtree, fixed = TRUE))
+AIC(z3, z4)
+```
+
+```
+##    df      AIC
+## z3  3 97.16098
+## z4  3 95.30852
+```
+
+```r
+# 2. ML estimate of lambda
+z5 <- gls(log.maxage ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(1,rtree, fixed = FALSE))
+summary(z5)
+```
+
+```
+## Generalized least squares fit by REML
+##   Model: log.maxage ~ log.maxlength 
+##   Data: rockfish 
+##        AIC     BIC    logLik
+##   93.04107 100.997 -42.52054
+## 
+## Correlation Structure: corPagel
+##  Formula: ~1 
+##  Parameter estimate(s):
+##    lambda 
+## 0.5834147 
+## 
+## Coefficients:
+##                    Value Std.Error   t-value p-value
+## (Intercept)   -0.3687913 0.7846381 -0.470015  0.6402
+## log.maxlength  1.1005782 0.1892718  5.814803  0.0000
+## 
+##  Correlation: 
+##               (Intr)
+## log.maxlength -0.976
+## 
+## Standardized residuals:
+##           Min            Q1           Med            Q3           Max 
+## -2.1603557242 -0.8533628092  0.0002310064  0.4942494861  1.1386086119 
+## 
+## Residual standard error: 0.5769972 
+## Degrees of freedom: 56 total; 54 residual
+```
+
+```r
+AIC(z5)
+```
+
+```
+## [1] 93.04107
+```
+
+```r
+# 3. Same for other pairs of variables
+z6 <- gls(log.maxdepth ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(1,rtree, fixed = TRUE))
+z7 <- gls(log.maxdepth ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(0,rtree, fixed = TRUE))
+z8 <- gls(log.maxdepth ~ log.maxlength, data= rockfish, 
+        correlation=corPagel(1,rtree, fixed = FALSE))
+summary(z8)
+```
+
+```
+## Generalized least squares fit by REML
+##   Model: log.maxdepth ~ log.maxlength 
+##   Data: rockfish 
+##        AIC      BIC   logLik
+##   119.9422 127.8981 -55.9711
+## 
+## Correlation Structure: corPagel
+##  Formula: ~1 
+##  Parameter estimate(s):
+##    lambda 
+## 0.5561114 
+## 
+## Coefficients:
+##                  Value Std.Error  t-value p-value
+## (Intercept)   4.975487  1.001192 4.969563  0.0000
+## log.maxlength 0.293817  0.242039 1.213923  0.2301
+## 
+##  Correlation: 
+##               (Intr)
+## log.maxlength -0.977
+## 
+## Standardized residuals:
+##        Min         Q1        Med         Q3        Max 
+## -3.3321810 -0.6266323 -0.1840538  0.2067991  1.1544947 
+## 
+## Residual standard error: 0.7325487 
+## Degrees of freedom: 56 total; 54 residual
+```
+
+```r
+AIC(z6, z7, z8)
+```
+
+```
+##    df      AIC
+## z6  3 133.3345
+## z7  3 132.5777
+## z8  4 119.9422
+```
+
+[//]: -->
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
