@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>Genomics</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="dolph.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><b>R tips</b> &mdash; Dolph Schluter, University of British Columbia</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">R tips home</a>
+    </li>
+    <li>
+      <a href="Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~bio501/R/workshops/">R workshops home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Genomics</h1>
+
+</div>
+
+
+<p>These pages describe R-assisted methods we use to analyze stickleback genome sequences on the Cedar or Graham supercomputers. The sequence of steps is based on Felicity Jones’ lab pipeline.</p>
+<p>Graham uses <code>slurm</code> to schedule jobs, and it uses modules to load programs as needed. Commands here ignore paths to files in other folders and assumes that all necessary files are available in your current working directory. Modify as needed.</p>
+<p>Compute Canada keeps track of how efficiently you use its resources. If you are given a chunk of time and memory (e.g., in interactive mode or batch job) and fail to use it, your priority rating goes down (future jobs will sit longer in the queue). So it is a good idea to request the minimum amount that you need, and to exit from interactive mode as soon as your test run is completed. See the section below on <a href="#monitor">monitoring jobs</a> to figure out what resources you actually used.</p>
+<hr />
+<!-- ========================================================================= -->
+<div id="run-programs-on-graham" class="section level2">
+<h2>Run programs on Graham</h2>
+<p>To get started, type the following into a command window on your local machine. Replace “schluter” with your name to log into your own account. Most work will be done in the <code>scratch</code> folder, which is not backed up but has the most disc space.</p>
+<pre class="r"><code>ssh schluter@graham.computecanada.ca  # login
+cd ~/scratch/stk                      # change to working folder</code></pre>
+<p>Simple tasks not requiring much memory or time can be run from the command line (e.g., small R tasks).</p>
+<p><br></p>
+<div id="software" class="section level3">
+<h3>Software</h3>
+<p>A full list of software is <a href="https://docs.computecanada.ca/wiki/Available_software">here</a>.</p>
+<p>Running software requires that you first load the corresponding module, indicating also the version number. For example, the next section shows how to run R by first loading the module.</p>
+<p><br></p>
+</div>
+<div id="run-r" class="section level3">
+<h3>Run R</h3>
+<p>I use R to do a lot of the overhead associated with writing scripts and repeating jobs on many files. To run R on Graham, load the module first. Then type <code>R</code> to start a command line. My <code>module</code> command below also loads Bioconductor and a prerequisite C compiler.</p>
+<pre class="r"><code>module load gcc/7.3.0 nixpkgs/16.09 r/3.6.0 r-bundle-bioconductor/3.9
+R</code></pre>
+<p>Many R packages, including Bioconductor, are already installed on Compute Canada systems. To check which ones are available to you, type <code>library()</code> on the R command line.</p>
+<p>Additional packages can be installed in your local folder. For example:</p>
+<pre class="r"><code># in R
+install.packages(&quot;hierfstat&quot;)
+install.packages(&quot;WhopGenome&quot;)
+
+# Here&#39;s one Bioconductor package you might need - the stickleback genome
+BiocManager::install(&quot;BSgenome.Gaculeatus.UCSC.gasAcu1&quot;, update = FALSE, ask=FALSE) </code></pre>
+<p>My homemade R function, <code>g$slurm()</code>, will create bash script files for you to put in the job queue when running in batch mode. This and other R functions are in a file named <code>genome.r</code> on my Github.</p>
+<p>Start R on Graham and paste the following code into your R command window. (This won’t work in interactive mode or inside a batch script file because Graham’s job nodes are not connected to the internet for security reasons.)</p>
+<pre class="r"><code># in R
+git &lt;- function(githubfile){
+    library(RCurl)
+    script &lt;- getURL( paste(&quot;https://raw.githubusercontent.com/dschluter/genomeScripts/master/&quot;,
+                githubfile, sep=&quot;&quot;) )
+    eval(parse(text = script), envir = .GlobalEnv)
+    }
+git(&quot;genome.r&quot;)
+git(&quot;misc.r&quot;)</code></pre>
+<p><br></p>
+</div>
+<div id="other-things-to-learn" class="section level3">
+<h3>Other things to learn</h3>
+<p>At the bottom of this page I’ve made notes on <a href="#other">other useful procedures</a> for getting programs up and running on Cedar or Graham. This includes using <a href="#interactive">interactive mode</a> to test code before you run a big job, <a href="#parallel">parallel processing</a> to get things done faster, and more information on <a href="#submit">submitting jobs</a>, <a href="#monitor">monitoring jobs</a>, and figuring out the resources a job used after it finished.</p>
+<hr />
+<!-- ========================================================================= -->
+</div>
+</div>
+<div id="prepare-reference-genome" class="section level2">
+<h2>Prepare reference genome</h2>
+<p>You’ll need the reference genome to begin. Ask Dolph for the files if you don’t yet have them. We use the original Broad Institute genome assembly from <a href="https://doi.org/10.1038/nature10944">Jones et al (2012 Nature)</a>. At the end we convert to the <a href="https://doi.org/10.1534/g3.115.017905">Glazer et al (2015 G3)</a> re-assembly coordinates.</p>
+<p>The file <code>gasAcu1.fa.gz</code> is a gzipped fasta file containing the published Broad Institute assembly of the stickleback genome. It has 21 assembled chromosomes plus “chrUn”, which is an artificial chromosome consisting of unassembled contigs chained together (individual contigs are separated by a large number of NNNNNNNNNs). Use the unix command “zless gasAcu1.fa.gz” to peek at the fasta file.</p>
+<p>The file <code>chrVIIpitx1new.fa</code> is an unzipped fasta file from Felicity Jones containing sequence of the Pitx1 region of chromosome 7 from Salmon River, a region missing from the published genome sequence.</p>
+<p><br></p>
+<div id="start-interactive-r-session" class="section level3">
+<h3>Start interactive R session</h3>
+<p>You can just run R from the command line once you’ve logged in. This will allow you to do basic R operations but nothing demanding lots of</p>
+<pre class="r"><code>module load gcc/7.3.0 nixpkgs/16.09 r/3.6.0 r-bundle-bioconductor/3.9
+R</code></pre>
+<p>But if you need lots of memory, consider running R inside a timed interaction session. But your work had better be done when your time runs out.</p>
+<pre class="r"><code># in Unix:
+
+# Check which directory you are in
+
+pwd
+
+# Request resources (1 hour, 1 core, 8Gb memory)
+# (copy job allocation number down for later use)
+
+salloc --time=1:0:0 --ntasks-per-node=1 --mem-per-cpu=8G --account=def-schluter
+
+# Load modules and run R
+
+module load gcc/7.3.0 nixpkgs/16.09 r/3.6.0 r-bundle-bioconductor/3.9
+R</code></pre>
+<p><br></p>
+</div>
+<div id="make-fasta-file" class="section level3">
+<h3>Make fasta file</h3>
+<p>I’ve already done these steps, ask me for the files, or redo yourself for fun.</p>
+<p>We want to add the Pitx1 region to the full assembly fasta file and save to a new genome fasta file named <code>gasAcu1pitx1.fa</code>. I used the <code>seqinr</code> package, which is slow but retains lower and upper case letters in the reference genome.</p>
+<pre class="r"><code># in R:
+
+library(seqinr)
+
+# Read fasta files to different objects
+
+z &lt;- read.fasta(file = &quot;gasAcu1.fa.gz&quot;, seqtype = &quot;DNA&quot;, 
+          as.string = TRUE, forceDNAtolower = FALSE)
+y &lt;- read.fasta(file = &quot;chrVIIpitx1new.fa&quot;, seqtype = &quot;DNA&quot;, 
+          as.string = TRUE, forceDNAtolower = FALSE)
+
+# Combine pitx1 fragment with rest of genome
+
+comboGenome &lt;- c(z, y)
+
+# Contents of combined genome
+
+names(comboGenome)
+     # [1] &quot;chrI&quot;           &quot;chrII&quot;          &quot;chrIII&quot;         &quot;chrIV&quot;         
+     # [5] &quot;chrIX&quot;          &quot;chrUn&quot;          &quot;chrV&quot;           &quot;chrVI&quot;         
+     # [9] &quot;chrVII&quot;         &quot;chrVIII&quot;        &quot;chrX&quot;           &quot;chrXI&quot;         
+    # [13] &quot;chrXII&quot;         &quot;chrXIII&quot;        &quot;chrXIV&quot;         &quot;chrXIX&quot;        
+    # [17] &quot;chrXV&quot;          &quot;chrXVI&quot;         &quot;chrXVII&quot;        &quot;chrXVIII&quot;      
+    # [21] &quot;chrXX&quot;          &quot;chrXXI&quot;         &quot;chrM&quot;           &quot;chrVIIpitx1new&quot;
+
+# Save combined genome
+
+write.fasta(sequences = comboGenome, names = names(comboGenome), 
+        file.out = &quot;gasAcu1pitx1.fa&quot;)</code></pre>
+<!-- 
+# Write individual fasta files
+for(i in names(comboGenome)) write.fasta(sequences = comboGenome[i], 
+        names = i, file.out = paste0(i, ".fa"))
+-->
+<p><br></p>
+</div>
+<div id="record-masked-bases" class="section level3">
+<h3>Record masked bases</h3>
+<p>The stickleback reference genome was run through RepeatMasker, a program to find interspersed repeats and low complexity DNA sequences. The output is in the file <code>gasAcu1.Feb2006.RepeatMasker.open4.0.5-RepeatLibrary20140131.out.gz</code>, which I downloaded from <a href="www.repeatmasker.org">www.repeatmasker.org</a>. The file lists the start and end position all the identified repeats. These are also indicated in the reference genome by lower case letters.</p>
+<p>THe code below reads the repeats from the file and saves them as an R object for later use.</p>
+<pre class="r"><code># Read file into a data frame x
+
+x &lt;- read.table(gzfile(&quot;GCF_002872995.1_Otsh_v1.0_rm.out.gz&quot;), skip = 3, fill = TRUE, 
+                stringsAsFactors = FALSE)
+
+# Retain only the three most important columns
+
+x &lt;- x[, 5:7]
+names(x) &lt;- c(&quot;chr&quot;, &quot;start&quot;, &quot;end&quot;)
+
+# Convert to a list, where each list element is a different chromosome
+
+x &lt;- split(x, x$chr)
+repeatMaskedBases &lt;- x[names(x) != &quot;&quot;]
+length(repeatMaskedBases)
+    # [1] 8520
+save(repeatMaskedBases, file = &quot;gasacu1.RepeatMaskedBases.rdd&quot;) </code></pre>
+<p><br></p>
+</div>
+<div id="make-transcript-database" class="section level3">
+<h3>Make transcript database</h3>
+<p>R has tools to annotate sequence data. To use them, make a database of the stickleback annotation file located at Ensembl.</p>
+<pre class="r"><code>library(GenomicFeatures)
+library(rtracklayer)
+
+gasaculEnsembl &lt;- makeTxDbFromBiomart(biomart = &quot;ensembl&quot;, dataset = &quot;gaculeatus_gene_ensembl&quot;)
+gasaculEnsembl
+
+# Save it to a file named &quot;gasaculEnsembl.sqlite&quot; in the current directory
+
+saveDb(gasaculEnsembl, file=&quot;gasaculEnsembl.sqlite&quot;)
+
+# Later, to load the data base use (not run)
+gasaculEnsembl &lt;- loadDb(&quot;gasaculEnsembl.sqlite&quot;)</code></pre>
+<p><br></p>
+</div>
+<div id="exit-interactive-job" class="section level3">
+<h3>Exit interactive job</h3>
+<p>It is <strong>very important</strong> to exit the interactive session if you are done before it expires. Idle resources and other wastage lowers your future priority in the job queue. Big Brother is watching you.</p>
+<pre class="r"><code># in Unix
+
+exit</code></pre>
+<p><br></p>
+</div>
+<div id="check-job-resources" class="section level3">
+<h3>Check job resources</h3>
+<p>When a job is finished, use the following command to quantify the resources used by your job (my job number was 26645298). Exit code should be 0 if all went well. Check MaxRSS for total maximum memory used. Here’s an example of the output, showing that I used a little over 6 Gb memory, not the full 8 requested.</p>
+<pre class="r"><code>sacct --jobs=26645298 --format=JobID,JobName,AllocCPUS,ExitCode,MaxRSS,Elapsed,UserCPU
+
+           # JobID    JobName  AllocCPUS ExitCode     MaxRSS    Elapsed    UserCPU 
+    # ------------ ---------- ---------- -------- ---------- ---------- ---------- 
+    # 26645298             sh          1      0:0              00:15:39  02:50.047 
+    # 26645298.ex+     extern          1      0:0       684K   00:15:39   00:00:00 
+    # 26645298.0         bash          1      0:0   6044115K   00:15:34  02:50.047 </code></pre>
+<p><br></p>
+</div>
+<div id="index-fasta-files" class="section level3">
+<h3>Index fasta files</h3>
+<p>The genome files need to be indexed before using. This is fairly fast and could be done in an interactive session. Make sure that you have all the genome fasta (<code>*.fa</code>) files in the current directory.</p>
+<p>Start by reserving resources in an interactive job. Here, 2 hours, 1 core, 2 Gb memory (little memory is needed for this task)</p>
+<pre class="r"><code># in Unix:
+
+salloc --time=2:0:0 --ntasks-per-node=1 --mem-per-cpu=2G --account=def-schluter</code></pre>
+<p>We’ll need to run the following commands in unix (don’t start yet - see below). Each command must be run on the whole genome fasta file and then on all the individual chromosome files as follows.</p>
+<pre class="r"><code># Generate bwa index for running bwa mem
+module load bwa/0.7.17
+bwa index -a bwtsw gasAcu1pitx1.fa
+bwa index -a bwtsw chrI.fa
+bwa index -a bwtsw chrII.fa
+bwa index -a bwtsw chrIII.fa
+... etc
+
+# Generate .fai index files needed by GATK
+module load samtools/1.9
+samtools faidx gasAcu1pitx1.fa
+samtools faidx chrI.fa
+samtools faidx chrII.fa
+samtools faidx chrIII.fa
+... etc
+
+# Generate .dict files needed by GATK
+module load picard/2.20.6
+java -Xmx2g -jar $EBROOTPICARD/picard.jar CreateSequenceDictionary R=gasAcu1pitx1.fa 
+    O=gasAcu1pitx1new.dict
+java -Xmx2g -jar $EBROOTPICARD/picard.jar CreateSequenceDictionary R=chrI.fa O=chrI.dict
+java -Xmx2g -jar $EBROOTPICARD/picard.jar CreateSequenceDictionary R=chrII.fa O=chrII.dict
+java -Xmx2g -jar $EBROOTPICARD/picard.jar CreateSequenceDictionary R=chrIII.fa O=chrII.dict
+... etc</code></pre>
+<p>But let’s be lazy and have R submit all the commands for us</p>
+<pre class="r"><code># in Unix:
+
+# Load the command modules we&#39;ll need. 
+
+module load bwa/0.7.17
+module load samtools/1.9
+module load picard/2.20.6
+module load gcc/7.3.0 nixpkgs/16.09 r/3.6.0 r-bundle-bioconductor/3.9
+
+R
+
+# ---
+# in R
+
+# Read the whole genome fasta file to get names of all groups
+# Biostrings is much faster than seqinr (but it converts all the bases to upper case)
+
+library(Biostrings)
+
+z &lt;- readDNAStringSet(&quot;gasAcu1pitx1.fa&quot;, &quot;fasta&quot;)
+names(z)
+     # [1] &quot;chrI&quot;           &quot;chrII&quot;          &quot;chrIII&quot;         &quot;chrIV&quot;         
+     # [5] &quot;chrIX&quot;          &quot;chrUn&quot;          &quot;chrV&quot;           &quot;chrVI&quot;         
+     # [9] &quot;chrVII&quot;         &quot;chrVIII&quot;        &quot;chrX&quot;           &quot;chrXI&quot;         
+    # [13] &quot;chrXII&quot;         &quot;chrXIII&quot;        &quot;chrXIV&quot;         &quot;chrXIX&quot;        
+    # [17] &quot;chrXV&quot;          &quot;chrXVI&quot;         &quot;chrXVII&quot;        &quot;chrXVIII&quot;      
+    # [21] &quot;chrXX&quot;          &quot;chrXXI&quot;         &quot;chrM&quot;           &quot;chrVIIpitx1new&quot;
+    
+# Generate bwa index
+
+system(&quot;bwa index -a bwtsw gasAcu1pitx1.fa&quot;)
+for(i in names(z)) system(paste0(&quot;bwa index -a bwtsw &quot;, i, &quot;.fa&quot;))
+
+# Generate .fai index files needed by GATK
+
+system(&quot;samtools faidx gasAcu1pitx1.fa&quot;)
+for(i in names(z)) system(paste0(&quot;samtools faidx &quot;, i, &quot;.fa&quot;))
+
+# Generate .dict files needed by GATK
+# Use &quot;java -Xmx2g&quot; if you requested 2Gb of memory, 
+# use &quot;java -Xmx4g&quot; if you requested 4Gb of memory, etc
+
+system(&quot;java -Xmx2g -jar $EBROOTPICARD/picard.jar CreateSequenceDictionary R=gasAcu1pitx1.fa O=gasAcu1pitx1.dict&quot;)
+
+for(i in names(z)){
+    fastafile &lt;- paste0(i, &quot;.fa&quot;)
+    outfile &lt;- paste0(i, &quot;.dict&quot;)
+    system(paste0(&quot;java -Xmx2g -jar $EBROOTPICARD/picard.jar CreateSequenceDictionary R=&quot;, 
+            fastafile, &quot; O=&quot;, outfile))
+    }
+
+q(save = &quot;no&quot;)</code></pre>
+<p>It is <strong>very important</strong> to exit the interactive session if you are done before the session expires. Idle resources and other wastage lowers your future priority in the job queue! Ceiling cat is watching you.</p>
+<pre class="r"><code># in Unix
+
+exit</code></pre>
+<p><br></p>
+</div>
+<div id="show-job-statistics." class="section level3">
+<h3>Show job statistics.</h3>
+<p>Our interactive job used about 1.25Gb memory</p>
+<pre class="r"><code># in Unix
+
+sacct --jobs=26646737 --format=JobID,JobName,AllocCPUS,ExitCode,MaxRSS,Elapsed,UserCPU
+           # JobID    JobName  AllocCPUS ExitCode     MaxRSS    Elapsed    UserCPU 
+    # ------------ ---------- ---------- -------- ---------- ---------- ---------- 
+    # 26646737             sh          1      0:0              00:27:01  12:43.471 
+    # 26646737.ex+     extern          1      0:0       682K   00:27:02   00:00:00 
+    # 26646737.0         bash          1      0:0   1253238K   00:26:59  12:43.470 </code></pre>
+<p><br></p>
+<hr />
+<!-- ========================================================================= -->
+</div>
+</div>
+<div id="fastq-file-reports" class="section level2">
+<h2>Fastq file reports</h2>
+<p>Paired reads for an individual will come as two large files in <code>.fastq</code> format (hopefully gzipped, i.e., <code>*.fastq.gz</code>). The first file (file name with “R1” or just “1”) will have the forward reads, and the second file (file name with “R2” or “2”) will contain reverse complement reads.</p>
+<p><br></p>
+<div id="zless" class="section level3">
+<h3>zless</h3>
+<p>To view contents of a compressed <code>fastq.gz</code> file, use the unix commands <code>zless</code> and <code>zmore</code> (like <code>less</code> and <code>more</code> for uncompressed text files).</p>
+<pre class="r"><code># in unix
+
+zless myFile.fastq.gz</code></pre>
+<p><br></p>
+</div>
+<div id="shortread-commands" class="section level3">
+<h3>ShortRead commands</h3>
+<p>You can use the <code>ShortRead</code> package in R to read <code>fastq.gz</code> files and report on the contents. The <code>fastq.gz</code> files are generally huge, so use <code>qa()</code> to take a large random sample of reads instead (the manual says the default number of reads is 1 million, but I don’t think so).</p>
+<p>Use <code>report()</code> to obtain a report on a file, or use specific commands to obtain a subset of the report.</p>
+<pre class="r"><code># in Unix:
+
+# Request resources (here, 1 hour, 1 core, 4Gb memory)
+# (copy job allocation number down for later use)
+# Wait a few minutes for the resources to be made available
+
+salloc --time=1:0:0 --ntasks-per-node=1 --mem-per-cpu=4G --account=def-schluter
+
+# Load modules and run R
+
+module load gcc/7.3.0 nixpkgs/16.09 r/3.6.0 r-bundle-bioconductor/3.9
+R
+
+# In R
+
+library(ShortRead)
+
+fishname &lt;- &quot;samplename.fastq.gz&quot;
+myFileName &lt;- dir(getwd(), fishname)
+
+# Large random sample of reads
+
+reads &lt;- qa(myFileName) 
+
+# Total number of reads read
+
+reads[[&quot;readCounts&quot;]]   
+
+# Base frequencies in the 1M reads
+
+reads[[&quot;baseCalls&quot;]]
+
+# Mean or median base quality
+
+z &lt;- rep(as.integer(rownames(reads[[&quot;baseQuality&quot;]])), reads[[&quot;baseQuality&quot;]]$count)
+mean(z, na.rm = TRUE)
+median(z, na.rm = TRUE)
+
+# Plot of read quality by cycle
+# Plot will be saved in file Rplot.pdf
+
+perCycle &lt;- reads[[&quot;perCycle&quot;]] 
+ShortRead:::.plotCycleQuality(perCycle$quality)
+dev.off()
+
+# Or produce a full summary report
+
+report(reads, dest = paste(myFileName, &quot;QAreport&quot;, sep = &quot;.&quot;), type = &quot;html&quot;)
+
+q(save = &quot;no&quot;)
+
+# in Unix
+
+# Very important to exit the interactive job so resources don&#39;t idle
+
+exit</code></pre>
+<p>The report results will be placed in a folder named after the <code>fastq.gz</code> files analyzed. Download the folder to your local machine and double click the <code>index.html</code> file inside the folder to view all the plots in your browser and print to a pdf.</p>
+<p><br></p>
+</div>
+<div id="job-statistics" class="section level3">
+<h3>Job statistics</h3>
+<p>Once you exit, you can view the stats on resources actually used. Substitute the actual job id for [jobid].</p>
+<pre class="r"><code># in Unix:
+
+sacct --jobs=[jobid] --format=JobID,JobName,AllocCPUS,ExitCode,MaxRSS,Elapsed,UserCPU</code></pre>
+<hr />
+<!-- ========================================================================= -->
+</div>
+</div>
+<div id="align-reads-with-bwa" class="section level2">
+<h2>Align reads with bwa</h2>
+<p>We use <code>bwa</code> to align paired reads to the reference genome (<code>bwa</code> manual is <a href="http://bio-bwa.sourceforge.net/bwa.shtml">here</a>). The alignments are saved in uncompressed <code>.sam</code> files.</p>
+<p>Now we begin to require significant computational resources. Running <code>bwa</code> for one fish will might take 5 hours of cpu time and require up to 4Gb of memory. So you would need either 1) to run in an interactive session, or 2) to create and submit a bash script to run in batch mode. I show how to do both below. It is worth trying both.</p>
+<p><br></p>
+<div id="basic-bwa-command" class="section level3">
+<h3>Basic bwa command</h3>
+<p>Firstly, the basic <code>bwa</code> command is as follows (the backslash continues a single command on the next line).</p>
+<pre class="r"><code># in unix
+
+bwa mem -M gasAcu1pitx1.fa fishname_R1.fastq.gz \
+        fishname_R2.fastq.gz &gt; fishname.sam</code></pre>
+<p>But we can speed up this process.</p>
+<p><br></p>
+</div>
+<div id="run-bwa-in-parallel" class="section level3">
+<h3>Run bwa in parallel</h3>
+<p>A single <code>bwa</code> job can be divided up into multiple threads that are run concurrently on separate cores. This greatly speeds things up. The basic command is as follows. Here, the command divides the process among 32 cores, speeding up the whole operation many fold. Most nodes on Graham have 32 cores, so you can go up to 32 threads.</p>
+<p>Running this command requires that you request the 32 cores for your job. Try it in an interactive session. Try requesting just 1 hour of total time (<code>bwa</code> on one fish will probably go fast, because the task is split between many cores). The memory across the 32 cores is shared, so you don’t need much memory per node.</p>
+<p>(When you request an interactive session, you’ll have to wait until the resources become available, which could take 10 minutes or more, depending on demand and the size of your request.)</p>
+<pre class="r"><code># in unix
+
+salloc --time=1:0:0 --ntasks-per-node=32 --mem-per-cpu=1G --account=def-schluter
+
+# Wait for the resources to be made available to you.
+# Then type the following (substituting the name of your actual fish)
+
+bwa mem -M -t 32 gasAcu1pitx1.fa fishname_R1.fastq.gz \
+        fishname_R2.fastq.gz &gt; fishname.sam
+
+exit</code></pre>
+<p><br></p>
+</div>
+<div id="submit-job-script" class="section level3">
+<h3>Submit job script</h3>
+<p>An interactive session is fine when getting started and you are trying to figure out what resources are needed per fish. But once you’ve got this figured out you don’t want to run each fish one at a time and wait for the process to finish. Instead, submit the job to the scheduler in a script file and go have a coffee.</p>
+<p>Using R, I have simplified the task of creating script files. You’ll need to run my <code>git("genome.r")</code> command first, as explained near the top of this page. Here’s how it works in the case of a single example fish.</p>
+<pre class="r"><code># in unix
+
+module load gcc/7.3.0 nixpkgs/16.09 r/3.6.0 r-bundle-bioconductor/3.9
+R
+
+# in R
+
+git &lt;- function(githubfile){
+    library(RCurl)
+    script &lt;- getURL( paste(&quot;https://raw.githubusercontent.com/dschluter/genomeScripts/master/&quot;,
+                githubfile, sep=&quot;&quot;) )
+    eval(parse(text = script), envir = .GlobalEnv)
+    }
+git(&quot;genome.r&quot;)
+git(&quot;misc.r&quot;)</code></pre>
+<p>Then put the needed bwa commands into a string object (here named <code>bwaCommand</code>). Note the single quote at the start and end. Also note the double backslash for line continuation when making a string object in R (this will appear as a single backslash in the final bash script file).</p>
+<pre class="r"><code>bwaCommand &lt;- &#39;
+  module load bwa/0.7.17
+  bwa mem -M -t 32 gasAcu1pitx1.fa \\
+    fishname_R1.fastq.gz \\
+    fishname_R2.fastq.gz \\
+    &gt; fishname_.sam
+    &#39;
+
+# View the command as it will appear in the bash script file
+cat(bwaCommand)
+
+# Indicate resources needed for the job
+MEM   &lt;- 1     # memory per core, in Gb
+TIME  &lt;- 1     # total time in hours
+CPUS  &lt;- 32    # number of cores needed
+
+# Generate bash script file using my slurm() function
+# Make up an informative prefix, like &quot;myBWAjob&quot;
+
+g$slurm(myCommand, nCpu = CPUS, memPerCpu = MEM, time = TIME, 
+    account = &quot;schluter&quot;, prefix = &quot;myBWAjob&quot;)
+
+q(save = &quot;no&quot;)</code></pre>
+<p>This ends the R session. Now you can view and submit the bash script to the scheduler.</p>
+<pre class="r"><code># in unix
+
+# See what the script file looks like
+
+cat [name of your script file]
+
+# submit the script to the scheduler
+
+sbatch [name of your script file]</code></pre>
+<p>Depending on demand, it might take hours for the job to start execution. So don’t watch. Big jobs requesting lots of resources will sit in the queue for longer.</p>
+<p><br></p>
+</div>
+<div id="run-many-fish" class="section level3">
+<h3>Run many fish</h3>
+<p>Rather than submit a separate job script for each fish, you might want to submit a job that runs a whole bunch of fish one after another. Here’s how to get started. In my code, I’m using 16 threads per fish, which means that with 32 cores I can run 2 fish at the same time. When one fish is completed, the next one in the sequence begins, until all are completed. The management task of running a new fish when one has completed, until all are done, is done by another program called gnu parallel. You’ll see how this is coded in the bash script file if you view it before you submit.</p>
+<pre class="r"><code># in unix
+
+module load gcc/7.3.0 nixpkgs/16.09 r/3.6.0 r-bundle-bioconductor/3.9
+R
+
+# in R
+
+# [paste my git commands here, as you did earlier]
+
+# Put all the bwa commands into a string object.
+# Note the single quote at the start and end.
+
+bwaCommand &lt;- &#39;
+  module load bwa/0.7.17
+  bwa mem -M -t 16 gasAcu1pitx1.fa \\
+    fish1.R1.fastq.gz \\
+    fish1.R2.fastq.gz \\
+    &gt; fish1.sam
+  bwa mem -M -t 16 gasAcu1pitx1.fa \\
+    fish2.R1.fastq.gz \\
+    fish2.R2.fastq.gz \\
+    &gt; fish2.sam
+  bwa mem -M -t 16 gasAcu1pitx1.fa \\
+    fish3.R1.fastq.gz \\
+    fish3.R2.fastq.gz \\
+    &gt; fish3.sam
+  bwa mem -M -t 16 gasAcu1pitx1.fa \\
+    fish4.R1.fastq.gz \\
+    fish4.R2.fastq.gz \\
+    &gt; fish4.sam
+    [etc]
+    &#39;
+
+# View the command as it will appear in the bash file
+
+cat(bwaCommand)
+
+# Indicate resources needed for the job
+MEM   &lt;- 1     # memory per core, in Gb
+TIME  &lt;- 12    # total time in hours (depending on number of fish)
+CPUS  &lt;- 32    # number of cores needed
+JMAX  &lt;- 2     # Run this many fish at a time
+
+# Create the cript file
+
+g$slurm(myCommand, nCpu = CPUS, memPerCpu = MEM, time = TIME, 
+    account = &quot;schluter&quot;, prefix = &quot;myMultipleBWAjob&quot;, gnuJ = JMAX)
+
+q(save = &quot;no&quot;)</code></pre>
+<p>This ends the R session. Now you can view and submit the bash script to the scheduler.</p>
+<pre class="r"><code># in unix
+
+# view the script file
+cat [name of your bash script file]
+
+# submit the bash script to the scheduler
+
+sbatch [name of your bash script file]</code></pre>
+<p><br></p>
+</div>
+<div id="check-resources-used" class="section level3">
+<h3>Check resources used</h3>
+<p>Check the resoures used using the unix command <code>sacct</code>.</p>
+<p>When I ran a batch of 32 fish with the above script my job id number was 26795176, which I inserted into my <code>sacct</code> command to obtain the following output.</p>
+<pre class="r"><code># in unix
+
+sacct --jobs=26795176 --format=JobID,JobName,AllocCPUS,ExitCode,MaxRSS,Elapsed,UserCPU
+
+           # JobID    JobName  AllocCPUS ExitCode     MaxRSS    Elapsed    UserCPU 
+    # ------------ ---------- ---------- -------- ---------- ---------- ---------- 
+    # 26795176     parallel3+         32      0:0              05:26:19 6-05:17:10 
+    # 26795176.ba+      batch         32      0:0   5623438K   05:26:19 6-05:17:10 
+    # 26795176.ex+     extern         32      0:0       144K   05:26:25   00:00:00 </code></pre>
+<p>An ExitCode of 0 means that no errors were generated.</p>
+<p>MaxRSS is the peak memory use of the job, summed over all cpu’s. Divide by the number of cpu used to get memory use per cpu. This info is useful when planning similar jobs.</p>
+<pre class="r"><code>5623438000/32
+    # [1] 175732438 # = 0.18 Gb</code></pre>
+<p>UserCPU is cpu time summed over all the cores (cpu’s) used. Elapsed is the actual time taken to run the job. Divide UserCPU by Elapsed time and by the number of cores to get efficiency. Aim for an efficiency of 1.</p>
+<p>Here, 6-05:17:10 refers to about 6 days and 5 hours when summed across all cores. In decimals, it is 149.29 h. 05:26:19 in decimals is 5.44 h. Efficiency is then calculated as about 0.86. This is good.</p>
+<pre class="r"><code>149.29/5.44/32
+    # [1] 0.8575942</code></pre>
+<p>See ‘Job accounting fields’ at <a href="https://slurm.schedmd.com/sacct.html">https://slurm.schedmd.com/sacct.html</a> for a detailed explanation of all items.</p>
+<p><br></p>
+<hr />
+<!-- ========================================================================= -->
+</div>
+</div>
+<div id="gatk-pre-processing" class="section level2">
+<h2>GATK pre-processing</h2>
+<p>Here we take each sam files of aligned reads through the bulk of the GATK4 procedures. We use those steps recommended for “germline short variant discovery (SNPs + Indels)”. The output of this sequence of steps is a bam file that is ready for SNP calling.</p>
+<p>The steps include the following. <br> <br><code>SortSam</code> to sort the reads in the sam file. <br><code>MarkDuplicates</code> to identify duplicate reads (<b>drop</b> this step if doing GBS). <br><code>AddOrReplaceReadGroups</code> to assign reads to a single new read group. <br><code>BaseRecalibrator</code> makes a recalibration table for base quality scores. <br><code>ApplyBQSR</code> recalibrates the base quality scores.</p>
+<p>Base recalibration (last two steps) is optional but we use it in the standard stickleback analysis. You’ll need to ensure that the following files are in your current directory (get from Dolph). <br> <br><code>knownSnpsAllchrPitx1new.vcf</code> <br><code>knownSnpsAllchrPitx1new.vcf.idx</code> (index of previous file) <br><code>stickleback_21genome_SNP_chrM.bed</code> <br><code>stickleback_21genome_SNP_chrM.bed.idx</code> (index of previous file)</p>
+<p>These files contain lists of known SNPs in the stickleack genome. The file <code>knownSnpsAllchrPitx1new.vcf</code> contains all SNPs discovered in the global survey by Jones et al (2012 Current Biology, <a href="https://doi.org/10.1016/j.cub.2011.11.045" class="uri">https://doi.org/10.1016/j.cub.2011.11.045</a>) using a custom SNP array. Dolph made this file. The file <code>stickleback_21genome_SNP_chrM.bed</code> lists the highest-confidence SNPs discovered in the study of 21 stickleback genomes sampled from marine and freshwater sites around the northern hemisphere by Jones et al (2012 Nature, <a href="https://doi.org/10.1038/nature10944" class="uri">https://doi.org/10.1038/nature10944</a>). The file was provided by Felicity Jones.</p>
+<p>GATK4 does not require realigning reads around indels if using <code>HaplotypeCaller</code> later to call SNPs.</p>
+<p><br></p>
+<div id="basic-commands" class="section level3">
+<h3>Basic commands</h3>
+<p>Here’s the sequence of commands applied to a single fish whose sam file name is <code>GrowthHormoneTransgenicLCR_A-line.GHT-A1.sam</code>. Some of the commands require a lot of memory. I had to go up to 24Gb to avoid crashes.</p>
+<p><code>SortSam</code>, <code>MarkDuplicates</code>, and <code>AddOrReplaceReadGroups</code> are actually Picard tools, hence the different syntax. The flag <code>Xmx8g</code> specifies the maximum amount of memory that can be used. Set the number equal to the amount of memory requested for the job (here, 8 Gb in the <code>salloc</code> command). If your <code>salloc</code> command requests 12 Gb, then use <code>Xmx12g</code> in the commands below.</p>
+<p>Don’t forget to <code>exit</code> the interaction session at the end so that you aren’t sitting on idle computer resources.</p>
+<pre class="r"><code># in unix
+
+# Request resources
+
+salloc --time=2:0:0 --ntasks-per-node=1 --mem-per-cpu=24G --account=def-schluter
+
+# You&#39;ll have to wait for the resources to become available to continue
+
+module load gatk/4.1.2.0
+module load picard/2.20.6
+module load java/1.8.0_192 # needed if using gnu parallel
+
+java -Xmx24g -jar $EBROOTPICARD/picard.jar SortSam \
+  I=fish1.sam \
+  O=fish1.sorted.bam \
+  SORT_ORDER=coordinate CREATE_INDEX=TRUE VALIDATION_STRINGENCY=LENIENT
+
+java -Xmx24g -jar $EBROOTPICARD/picard.jar MarkDuplicates \
+  I=fish1.sorted.bam \
+  O=fish1.mkdup.bam \
+  M=fish1.mkdup.metrics \
+  VALIDATION_STRINGENCY=LENIENT REMOVE_DUPLICATES=FALSE ASSUME_SORTED=TRUE
+
+java -Xmx24g -jar $EBROOTPICARD/picard.jar AddOrReplaceReadGroups \
+  RGID=PROJECT.fish1 \
+  RGLB=fish1.SB \
+  RGSM=fish1 RGPL=ILLUMINA \
+  RGPU=GenomeBC I=fish1.mkdup.bam \
+  O=fish1.sorted.bam \
+  SORT_ORDER=coordinate CREATE_INDEX=TRUE VALIDATION_STRINGENCY=LENIENT
+
+gatk --java-options &quot;-Xmx24g&quot; BaseRecalibrator \
+  -R gasAcu1pitx1.fa -I fish1.sorted.bam \
+  --known-sites knownSnpsAllchrPitx1new.vcf \
+  --known-sites stickleback_21genome_SNP_chrM.bed \
+  -O fish1.recal.table
+
+gatk --java-options &quot;-Xmx24g&quot; ApplyBQSR -R gasAcu1pitx1.fa \
+  -I fish1.sorted.bam \
+  --bqsr-recal-file fish1.recal.table \
+  -O fish1.recal.bam
+
+exit</code></pre>
+<p>Use the <code>sacct</code> command to see what resources you actually used and see if the exit code is 0 (indicating all is well).</p>
+<pre class="r"><code>sacct --jobs=[jobid] --format=JobID,JobName,AllocCPUS,ExitCode,MaxRSS,Elapsed,UserCPU</code></pre>
+<p><br></p>
+</div>
+<div id="make-job-script" class="section level3">
+<h3>Make job script</h3>
+<p>The interactive session is a good way to figure out how many resources you need. But a more convenient way to run a fish through the sequence of commands is to make a bash script file and submit the job to the scheduler. Here’s how to make a script file for a single fish.</p>
+<pre class="r"><code># in unix
+
+module load gcc/7.3.0 r/3.6.0 r-bundle-bioconductor/3.9
+R
+
+# in R
+
+# Make a character object with basic commands
+
+gatkCommand &lt;- &#39;
+module load gatk/4.1.2.0
+module load picard/2.20.6
+module load java/1.8.0_192 # needed if using gnu parallel
+
+java -Xmx24g -jar $EBROOTPICARD/picard.jar SortSam I=fish1.sam \\
+    O=fish1.sorted.bam \\
+    SORT_ORDER=coordinate CREATE_INDEX=TRUE VALIDATION_STRINGENCY=LENIENT
+
+java -Xmx24g -jar $EBROOTPICARD/picard.jar MarkDuplicates \\
+    I=fish1.sorted.bam \\
+    O=fish1.mkdup.bam \\ 
+    M=fish1.mkdup.metrics \\
+    VALIDATION_STRINGENCY=LENIENT REMOVE_DUPLICATES=FALSE ASSUME_SORTED=TRUE
+
+java -Xmx24g -jar $EBROOTPICARD/picard.jar AddOrReplaceReadGroups \\
+    RGID=PROJECT.fish1 \\ 
+    RGLB=fish1.SB \\
+    RGSM=fish1 RGPL=ILLUMINA \\
+    RGPU=PROJECT I=fish1.mkdup.bam \\
+    O=fish1.sorted.bam \\
+    SORT_ORDER=coordinate CREATE_INDEX=TRUE VALIDATION_STRINGENCY=LENIENT
+
+gatk --java-options &quot;-Xmx24g&quot; BaseRecalibrator \\
+    -R gasAcu1pitx1.fa -I fish1.sorted.bam \\
+    --known-sites knownSnpsAllchrPitx1new.vcf \\
+    --known-sites stickleback_21genome_SNP_chrM.bed \\
+    -O fish1.recal.table
+
+gatk --java-options &quot;-Xmx24g&quot; ApplyBQSR -R gasAcu1pitx1.fa \\
+    -I fish1.sorted.bam \\
+    --bqsr-recal-file fish1.recal.table \\
+    -O fish1.recal.bam
+&#39;
+
+# View the object
+
+cat(gatkCommand)
+
+# Decide on memory and runtime requirements
+
+MEM   &lt;- 24 # memory per cpu, in Gb
+TIME  &lt;- 6  # total time in hours
+CPUS  &lt;- 1  # number of cpu&#39;s (cores)
+
+# Generate the bash script file
+
+g$slurm(gatkCommand, nCpu = CPUS, memPerCpu = MEM, time = TIME, 
+    account = &quot;schluter&quot;, prefix = &quot;GatkRun&quot;)</code></pre>
+<p><br></p>
+</div>
+<div id="submit-job-script-1" class="section level3">
+<h3>Submit job script</h3>
+<p>Finally, submit the job to the scheduler.</p>
+<p>Once the job has finished, check what resources were used and whether the exit code was 0.</p>
+<pre class="r"><code># in unix
+
+# Submit job
+
+sbatch [script file name]
+
+# Resources actually used
+
+sacct --jobs=[jobid] --format=JobID,JobName,AllocCPUS,ExitCode,MaxRSS,Elapsed,UserCPU</code></pre>
+<p><br></p>
+</div>
+<div id="run-many-fish-1" class="section level3">
+<h3>Run many fish</h3>
+<p>Rather than submit a separate job script for each fish, you can submit a single script to run a large number of fish one after another. Ask me if you want to try this.</p>
+<hr />
+<!-- ========================================================================= -->
+</div>
+</div>
+<div id="bam-quality-metrics" class="section level2">
+<h2>Bam quality metrics</h2>
+<p>The bam files created in the last step contain a lot of information about read pair numbers and coverage along chromosomes. Here’s how to use R to extract some of this information.</p>
+<p>The bam files can be huge. The code below examines one chromosome at a time.</p>
+<p>You might need to run this code in an interactive session if the memory demands are too great.</p>
+<pre class="r"><code># in unix
+
+module load gcc/7.3.0 r/3.6.0 r-bundle-bioconductor/3.9
+R
+
+# in R
+
+library(Rsamtools)
+library(bitops)</code></pre>
+<p><br></p>
+<div id="choose-bamfile-and-chromosome" class="section level3">
+<h3>Choose bamfile and chromosome</h3>
+<p>Select the bamfile and chromosome to use.</p>
+<pre class="r"><code>bamfile &lt;- &quot;myBamFile.bam&quot;
+chr &lt;- &quot;chrXXI&quot;
+baifile &lt;- sub(&quot;bam$&quot;, &quot;bai&quot;, bamfile) # name of bam index file</code></pre>
+<p><br></p>
+</div>
+<div id="read-from-bam-file" class="section level3">
+<h3>Read from bam file</h3>
+<p>This next block of code reads fields from the bam file (will take a few minutes), drops unaligned reads, and collects aligned reads.</p>
+<pre class="r"><code>x &lt;- scanBam(bamfile, index = baifile, 
+      param = ScanBamParam(what=c(&quot;pos&quot;,&quot;qwidth&quot;,&quot;flag&quot;,&quot;strand&quot;,&quot;isize&quot;),
+      which = GRanges(seqnames = chr, IRanges(1, 536870912)) ))[[1]]
+ind &lt;- !is.na(x[[&quot;pos&quot;]]) 
+x &lt;- lapply(x, function(x){x[ind]}) # keep only aligned reads
+ranges1 &lt;- IRanges(start=x$pos, width=x$qwidth,
+      names=make.names(x[[&quot;qname&quot;]], unique=TRUE)) </code></pre>
+<p><br></p>
+</div>
+<div id="coverage" class="section level3">
+<h3>Coverage</h3>
+<p>Calculate coverage of mapped reads, and plot the frequency distribution of coverage.</p>
+<pre class="r"><code>cover &lt;- as.vector(coverage(ranges1))
+mean(cover) # mean coverage over all bases
+median(cover) # median coverage
+
+# If saving plot to file, use dev.off() to close pdf file.
+
+hist(cover[cover &lt;= 100], right = FALSE, breaks = 50, 
+    main=&quot;Coverage&quot;, col=&quot;firebrick&quot;)
+dev.off()</code></pre>
+<p><br></p>
+</div>
+<div id="number-of-reads" class="section level3">
+<h3>Number of reads</h3>
+<p>Number of mapped reads.</p>
+<pre class="r"><code>x[[&quot;mapped&quot;]] &lt;- bitAnd(x[[&quot;flag&quot;]], 0x0004) != 0x0004  
+x[[&quot;mappedmate&quot;]] &lt;- bitAnd(x[[&quot;flag&quot;]], 0x0008) != 0x0008
+x[[&quot;mapped.in.properpair&quot;]] &lt;- bitAnd(x[[&quot;flag&quot;]], 0x0002) == 0x0002
+
+sum(x[[&quot;mapped&quot;]])   # No. mapped reads
+table(x[[&quot;strand&quot;]]) # No. mapped reads on &quot;+&quot; and &quot;-&quot; strands
+sum(x[[&quot;mapped&quot;]] &amp; x[[&quot;mappedmate&quot;]]) # No. reads whose mate also mapped
+sum(x[[&quot;mapped.in.properpair&quot;]]) # No. reads mapped in a proper pair</code></pre>
+<p>Plot of position of mapped reads along the chromosome (the 1-based leftmost position of each query on the reference sequence).</p>
+<pre class="r"><code>hist(x$pos/10^6, right=FALSE, col=&quot;firebrick&quot;,
+    breaks = 200, xlab = &quot;Position (million bases)&quot;)
+dev.off()</code></pre>
+<p><br></p>
+</div>
+<div id="other-useful-numbers" class="section level3">
+<h3>Other useful numbers</h3>
+<p>Alignment sequence (query) width.</p>
+<pre class="r"><code>median(x[[&quot;qwidth&quot;]], na.rm = TRUE)</code></pre>
+<p>Plot of “insert” or “template” length, the number of bases from the leftmost mapped base to the rightmost mapped base. The leftmost segment has a plus sign and the rightmost has a minus sign.</p>
+<pre class="r"><code>hist(x$isize[abs(x$isize) &lt;= 700], right = FALSE, 
+     col = &quot;firebrick&quot;, breaks=100)
+dev.off()</code></pre>
+<hr />
+<!-- ========================================================================= -->
+</div>
+</div>
+<div id="haplotypecaller-gatk" class="section level2">
+<h2>HaplotypeCaller (GATK)</h2>
+<p>This step uses GATK’s <code>HaplotypeCaller</code> to call SNPs for all chromosomes separately on an individual. Each chromosome yields a compressed gVCF file.</p>
+<p>Start by typing the basic <code>HaplotypeCaller</code> commands into a string. The example below uses the option to include all sites in the gVCF file, including both variant and invariant sites. The <code>-A</code> arguments of the HaplotypeCaller command represent requests that specific annotations be included in the output file. FASTAFILE, IDNAME and CHROMOSOME are placeholders, substituted out in a later step.</p>
+<p>The commands below were run on a single individual whose recalibrated, compressed bam file (output of the GATK pre-processing steps above) was 7.02 Gb in size. The run took 32 hours, so you want to submit the job to the scheduler (batch mode).</p>
+<p><br></p>
+<div id="basic-command" class="section level3">
+<h3>Basic command</h3>
+<pre class="r"><code># In R
+
+# Put the modules needed at the start of the gnu command string
+
+modules &lt;- &#39;
+module load gatk/4.1.2.0
+module load java/1.8.0_192
+&#39;
+
+# Put base command into a string
+
+myGatkCommand &lt;- &#39;
+gatk --java-options &quot;-Xmx4g&quot; HaplotypeCaller \\
+    -R gasAcu1pitx1.fa -ERC GVCF \\
+    -I FISHID.recal.bam \\
+    -O FISHID.CHROMOSOME.g.vcf.gz \\
+    -L CHROMOSOME \\
+    --pcr-indel-model NONE \\
+    --heterozygosity 0.01 --indel-heterozygosity 0.00125 \\
+    --output-mode EMIT_ALL_SITES \\
+    -A DepthPerAlleleBySample -A FisherStrand -A InbreedingCoeff \\
+    -A MappingQuality -A MappingQualityRankSumTest \\
+    -A QualByDepth -A ReadPosRankSumTest
+&#39;</code></pre>
+<p><br></p>
+</div>
+<div id="separate-chromosomes" class="section level3">
+<h3>Separate chromosomes</h3>
+<p>It is convenient to run each chromosome separately. To do this, make an object that includes the names of all the chromosomes in the reference genome file.</p>
+<pre class="r"><code>chr = c(&quot;chrI&quot;,&quot;chrII&quot;,&quot;chrIII&quot;,&quot;chrIV&quot;,&quot;chrIX&quot;,&quot;chrUn&quot;,&quot;chrV&quot;,&quot;chrVI&quot;,&quot;chrVII&quot;,
+    &quot;chrVIII&quot;,&quot;chrX&quot;,&quot;chrXI&quot;,&quot;chrXII&quot;,&quot;chrXIII&quot;,&quot;chrXIV&quot;,&quot;chrXIX&quot;,&quot;chrXV&quot;,
+    &quot;chrXVI&quot;,&quot;chrXVII&quot;,&quot;chrXVIII&quot;,&quot;chrXX&quot;,&quot;chrXXI&quot;,&quot;chrM&quot;,&quot;chrVIIpitx1new&quot;)</code></pre>
+<p><br></p>
+</div>
+<div id="make-and-submit-script" class="section level3">
+<h3>Make and submit script</h3>
+<p>Finally, create a loop that generates a version of the base command for every chromosome of the individual to be processed and pastes them together into a single string object in R (here named <code>gatkJob</code>). Use <code>cat()</code> to check the object. Use my <code>g$slurm()</code> command to create the bash script file and then submit it.</p>
+<p>Check the .sh file for errors and submit in a unix command line using <code>sbatch</code>. Check the <code>.out</code> files for errors after execution.</p>
+<pre class="r"><code>gatkJob &lt;- modules
+for(i in 1:length(chr)){
+    z &lt;- myGatkCommand
+    z &lt;- gsub(&#39;FISHID&#39;, &#39;RGID=PROJECT.fish1&#39;, z)
+    z &lt;- gsub(&#39;CHROMOSOME&#39;, chr[i], z)
+    gatkJob &lt;- paste(gatkJob, z, sep = &quot;\n&quot;)
+    }
+
+# View the string object created
+
+cat(gatkJob)
+
+# Set the resources needed
+
+MEM   &lt;-  4    # memory per cpu, in Gb
+TIME  &lt;- 36    # total time in hours
+CPUS  &lt;-  1    # number of cpu&#39;s (cores) needed
+
+# Generate the bash script file
+
+g$slurm(gatkJob, nCpu = CPUS, memPerCpu = MEM, time = TIME, 
+    account = &quot;schluter&quot;, prefix = &quot;gatkHapCall&quot;, gnuJ = 1)
+
+# In Unix
+
+sbatch [name of script file]</code></pre>
+<p><br></p>
+</div>
+<div id="run-many-fish-2" class="section level3">
+<h3>Run many fish</h3>
+<p>Rather than submit a separate job script for each fish, you can submit a single script to run multiple fish in parallel. Ask me if you want to try this.</p>
+<hr />
+<!-- ========================================================================= -->
+</div>
+</div>
+<div id="construct-a-database" class="section level2">
+<h2>Construct a database</h2>
+<p>In GATK4, we need to construct a database of the gVCF files using GenomicsDBImport before joint snp calling.</p>
+<p>The database will be constructed in folder that doesn’t yet exist or is empty. Another nuance is that that when requesting memory resources we need to ask for a little more than is used by the <code>gatk</code> command. This is incorporated below.</p>
+<p><br></p>
+<div id="sample-file-map" class="section level3">
+<h3>Sample file map</h3>
+<p>The sample map is a tab-delimited text file with sample name and file names listed line by line. To construct, make a data frame with these two columns. Here is an example data frame named <code>myFish</code> to analyze the chromosome chrXXI. Create the map file by writing the data frame to a text file (here, named “myfish.chrXXI.map”) using tab delimitation and no column or row names.</p>
+<pre class="r"><code># In R
+
+myFish
+
+  samplename                        filename
+1 Marine-Pac-SaritaBay_BC.SAR-29    Marine-Pac-SaritaBay_BC.SAR-29.chrXXI.g.vcf.gz
+2 Solitary-CranbyLake.CRL25         Solitary-CranbyLake.CRL25.chrXXI.g.vcf.gz
+3 Marine-Pac-MudLake_AK.ML-39       Marine-Pac-MudLake_AK.ML-39.chrXXI.g.vcf.gz
+4 Solitary-TroutLake.TRL-2          Solitary-TroutLake.TRL-2.chrXXI.g.vcf.gz
+5 Marine-Pac-DoranPark_CA.CA02-29   Marine-Pac-DoranPark_CA.CA02-29.chrXXI.g.vcf.gz
+6 Marine-Pac-MudLake_AK.ML-25       Marine-Pac-MudLake_AK.ML-25.chrXXI.g.vcf.gz
+...
+
+write.table(myFish, file = &quot;myfish.chrXXI.map&quot;, quote = FALSE, col.names = FALSE, 
+        row.names = FALSE, sep = &quot;\t&quot;)</code></pre>
+<p><br></p>
+</div>
+<div id="run-genomicsdbimport" class="section level3">
+<h3>Run GenomicsDBImport</h3>
+<p>You can try this in interactive mode. I tested this for chrXXI on 33 fish, which took about 35 minutes. I named my new database folder <code>chrXXIdb</code>.</p>
+<pre class="r"><code># in unix
+
+salloc --time=1:0:0 --ntasks-per-node=1 --mem-per-cpu=6G --account=def-schluter
+
+module load gatk/4.1.2.0
+module load java/1.8.0_192 # needed if using gnu parallel
+
+gatk --java-options &quot;-Xmx4g&quot; GenomicsDBImport \
+    --genomicsdb-workspace-path chrXXIdb \
+    --sample-name-map myfish.chrXXI.map \
+    -L chrXXI
+
+exit</code></pre>
+<hr />
+<!-- ========================================================================= -->
+</div>
+</div>
+<div id="call-snps-with-genotypegvcfs" class="section level2">
+<h2>Call SNPs with GenotypeGVCFs</h2>
+<p>Finally, use <code>GenotypeGVCFs</code> to call snps and invariant sites jointly on the samples in your database. I tested this for chrXXI using the database <code>chrXXIdb</code> created in the previous step. It is important to indicate the name of your database using <code>-V gendb://chrXXIdb</code>. In this example, the output is sent to a VCF file named <code>myFish.chrXXI.vcf.gz</code>.</p>
+<p>The code below runs GenotypeGVCFs in interactive mode. I used the –include-non-variant-sites flag to save genotyes at both variant (SNPs) and invariant sites. We’ll pull out the variants at a later step.</p>
+<pre class="r"><code># in unix
+
+salloc --time=3:0:0 --ntasks-per-node=1 --mem-per-cpu=4G --account=def-schluter
+
+module load gatk/4.1.2.0
+module load java/1.8.0_192 # needed if using gnu parallel
+
+gatk --java-options &quot;-Xmx4g&quot; GenotypeGVCFs \
+  -R gasAcu1pitx1new.fa \
+  -V gendb://chrXXIdb \
+  -L chrXXI \
+  --include-non-variant-sites \
+  --max-alternate-alleles 3 \
+  --standard-min-confidence-threshold-for-calling 20 \
+  -O myFish.chrXXI.vcf.gz
+
+exit</code></pre>
+<p><br></p>
+<div id="extract-variants" class="section level3">
+<h3>Extract variants</h3>
+<p>Use <code>SelectVariants</code> to pull out the variants and save in a new file. The commands for chrXXI are show below. <code>-V</code> provides the name of the VCF file, and <code>-O</code> is the output file name.</p>
+<pre class="r"><code># in unix
+
+module load gatk/4.1.2.0
+
+gatk --java-options &quot;-Xmx2g&quot; SelectVariants \
+  -R gasAcu1pitx1new.fa \
+  -V myFish.chrXXI.vcf.gz \
+  -L chrXXI \
+  -O myFish.chrXXI.var.vcf.gz \
+  --exclude-non-variants</code></pre>
+<p><br></p>
+</div>
+<div id="extract-invariants" class="section level3">
+<h3>Extract invariants</h3>
+<p>Extracting the invariants, if desired, is similar. These are saved to new files for later analysis.</p>
+<pre class="r"><code># in unix
+
+module load gatk/4.1.2.0
+
+gatk --java-options &quot;-Xmx2g&quot; SelectVariants \
+  -R gasAcu1pitx1new.fa \
+  -V myFish.chrXXI.vcf.gz \
+  -L chrXXI \
+  -O myFish.chrXXI.var.vcf.gz \
+  --select-type-to-include NO_VARIATION</code></pre>
+<hr />
+<!-- ========================================================================= -->
+</div>
+</div>
+<div id="variant-quality-score-recalibration" class="section level2">
+<h2>Variant quality score recalibration</h2>
+<p>Apply Variant Quality Score Recalibration to help distinguish real SNPs from false positives. This is said to be smarter than simply hard filtering your data set. The recalibrator is first trained using a file from a GATK analysis in the Jones lab of the Broad/Stanford 206 genome dataset. The training set contained a list of “true” SNPs obtained by hard filtering those SNP calls using QD &lt; 2.00, FS &gt; 60.000, MQ &lt; 50.00, MQRankSum &lt; -12.500, ReadPosRankSum &lt; -8.000".</p>
+<p>The GATK people recommend that this be done on all chromosomes at once.</p>
+<p><br></p>
+<div id="gather-vcf-files" class="section level3">
+<h3>Gather vcf files</h3>
+<p>If you called SNPs separately for individual chromosomes you need to combine together the variant files. I ran <code>GatherVcfs</code> with a batch script.</p>
+<pre class="r"><code># in R
+
+chrNnames &lt;- paste0(&quot;chr&quot;, as.roman(1:21))
+chrnames &lt;- c(chrNnames, &quot;chrUn&quot;, &quot;chrM&quot;, &quot;chrVIIpitx1new&quot;)
+vcfnames &lt;- paste0(&quot;myFish.&quot;, chrnames, &quot;.var.vcf.gz&quot;)
+
+gatherVcfCommand &lt;- &#39;
+  module load picard/2.20.6
+  java -Xmx4g -jar $EBROOTPICARD/picard.jar GatherVcfs \\
+    I=VCFFILES \\
+    O=myFish.var.vcf.gz
+&#39;
+cmd &lt;- sub(&quot;I=VCFFILES&quot;, paste0(&quot;I=&quot;, vcfnames, collapse = &quot; \\\\\n&quot;), gatherVcfCommand)
+MEM   &lt;- 4      # memory per cpu
+TIME  &lt;- 6      # total time in hours
+CPUS  &lt;- 1    # number of cpu&#39;s (cores) needed
+g$slurm(cmd, nCpu = CPUS, memPerCpu = MEM, time = TIME, 
+    account = &quot;schluter&quot;, prefix = &quot;gatherVCF&quot;,
+    run = TRUE)</code></pre>
+<p><br></p>
+</div>
+<div id="train-the-recalibrator" class="section level3">
+<h3>Train the recalibrator</h3>
+<p>You’ll need to have the following files in your working directory. Get from Dolph if you don’t have them yet.</p>
+<p><code>206sticklebacks_GATKvariants.SNP.filtered.vcf.bgz</code> (training set) <code>206sticklebacks_GATKvariants.SNP.filtered.vcf.bgz.tbi</code> (index)</p>
+<p>This file was created in the Jones lab by hard filtering a vcf file</p>
+<p>GATK recommends against using <code>-an DP</code> when training. They also suggest that if this next step fails, try removing <code>-an MQ</code>.</p>
+<pre class="r"><code>module load gatk/4.1.2.0
+module load r/3.6.0
+gatk --java-options &quot;-Xmx4g&quot; VariantRecalibrator \\
+    -R gasAcu1pitx1.fa \\
+    -V myFish.var.vcf.gz \\
+    --resource:dbsnp,known=false,training=true,truth=true,prior=6.0 206sticklebacks_GATKvariants.SNP.filtered.vcf.bgz \\
+    -an QD -an FS -an MQ -an MQRankSum -an ReadPosRankSum \\
+    -mode SNP \\
+    --max-gaussians 4 \\
+    -O MarinePac.recal \\
+    --tranches-file MarinePac.tranches \\
+    --rscript-file MarinePac.plots.R</code></pre>
+<p>I’ve had the experience of <code>VariantRecalibrator</code> succeeding but then the last plotting step failing, with warnings about my R path missing. If this happens, run R and enter the following command. This will generate the plot “output.plots.R.pdf” to visualize the input data and learned model.</p>
+<pre class="r"><code># in R
+
+source(&quot;output.plots.R&quot;)</code></pre>
+<p><br></p>
+</div>
+<div id="recalibrate" class="section level3">
+<h3>Recalibrate</h3>
+<p>Finally, apply the filtering rules learned from the training data set to your SNP calls. This step does not remove SNPs from your data set. Instead, it just adds a column named FILTER to the data file that indicates whether the SNP PASSes (is a true SNP) or FAILs (is a false positive) the rules.</p>
+<pre class="r"><code># in unix:
+
+module load gatk/4.1.2.0
+gatk --java-options &quot;-Xmx2g&quot; ApplyVQSR \
+    -R gasAcu1pitx1.fa \
+    -V myFish.var.vcf.gz \
+    -O myFish.VQSR.vcf.gz \
+    --truth-sensitivity-filter-level 99.0 \
+    --tranches-file myFish.tranches \
+    --recal-file myFish.recal \
+    -mode SNP</code></pre>
+<p><br></p>
+</div>
+<div id="hard-filter-instead" class="section level3">
+<h3>Hard-filter instead</h3>
+<p>What are your options if you have no training data? For example, we have no training data set for indels. GATK recommends hard filtering using the tool <code>VariantFiltration</code>. Or, you can filter using a custom R script.</p>
+<p>To begin, either remove indels or split your VCF file into two separate files, one containing indels and the other containing SNPs using the Picard tool SplitVcfs.</p>
+<p>Recommendations for hard filtering SNPs and indels <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035531112--How-to-Filter-variants-either-with-VQSR-or-by-hard-filtering">are here</a>.</p>
+<p>GATK suggests the following thresholds to label SNPs as PASS or not.</p>
+<pre class="r"><code># in unix:
+gatk VariantFiltration \
+    -V snps.vcf.gz \
+    -filter &quot;QD &lt; 2.0&quot; --filter-name &quot;QD2&quot; \
+    -filter &quot;QUAL &lt; 30.0&quot; --filter-name &quot;QUAL30&quot; \
+    -filter &quot;SOR &gt; 3.0&quot; --filter-name &quot;SOR3&quot; \
+    -filter &quot;FS &gt; 60.0&quot; --filter-name &quot;FS60&quot; \
+    -filter &quot;MQ &lt; 40.0&quot; --filter-name &quot;MQ40&quot; \
+    -filter &quot;MQRankSum &lt; -12.5&quot; --filter-name &quot;MQRankSum-12.5&quot; \
+    -filter &quot;ReadPosRankSum &lt; -8.0&quot; --filter-name &quot;ReadPosRankSum-8&quot; \
+    -O snps_filtered.vcf.gz</code></pre>
+<p>If a record fails according to these filters, then the FILTER column in the output VCF file will indicate how;, e.g. MQRankSum-12.5;ReadPosRankSum-8.</p>
+<p>To hard filter indels, they recommend the following filters.</p>
+<pre class="r"><code># in unix:
+gatk VariantFiltration \ 
+    -V indels.vcf.gz \ 
+    -filter &quot;QD &lt; 2.0&quot; --filter-name &quot;QD2&quot; \
+    -filter &quot;QUAL &lt; 30.0&quot; --filter-name &quot;QUAL30&quot; \
+    -filter &quot;FS &gt; 200.0&quot; --filter-name &quot;FS200&quot; \
+    -filter &quot;ReadPosRankSum &lt; -20.0&quot; --filter-name &quot;ReadPosRankSum-20&quot; \ 
+    -O indels_filtered.vcf.gz</code></pre>
+<hr />
+</div>
+</div>
+<div id="filter" class="section level2">
+<h2>Additional SNP filters</h2>
+<p>Once GATK has finished calling SNPs, you can filter your data to select the SNPs you are most interested in and delete the rest. Here are some of the filters you might consider:</p>
+<ul>
+<li>Keep pure SNPs only (drop indels)</li>
+<li>Keep only biallelic SNPs</li>
+<li>Keep only SNPs that passed VQSR</li>
+<li>Drop SNPs located at repeat-masked bases</li>
+<li>Drop SNPs located within 3 bases of an indel</li>
+<li>Drop SNPs with excessively low or high depth of coverage</li>
+</ul>
+<p>At a later step, once you’ve grouped specimens into populations, you might also want to</p>
+<ul>
+<li>Leave out of some analyses SNPs having a minor allele that is rare (&lt; 5%)</li>
+<li>Analyze only SNPs having at least 80% of individuals genotyped</li>
+<li>Leave out SNPs with excess heterozygsity within populations</li>
+<li>Leave out the sex chromosome</li>
+<li>Leave out mtDNA</li>
+</ul>
+<hr />
+</div>
+<div id="other" class="section level2">
+<h2>Other useful tips</h2>
+<p><br></p>
+<div id="interactive" class="section level3">
+<h3>Interactive mode</h3>
+<p>Test part of your code in interactive mode to determine resources required, and to ensure that it works, before you start analyzing large numbers of samples.</p>
+<p>For example, here’s how to run <code>bwa</code> on a single sample with multi-threading (<code>-t</code> option) on 16 cpu’s for 1 hour. Experience suggests that <code>bwa</code> doesn’t require much memory per cpu when the job is distributed across 16 cpu. In general, if a program crashes soon after it begins with little explanation of what went wrong, exit interactive mode and restart requesting more memory.</p>
+<p>Include the “exit” command when you paste text to the command line so that your interactive job terminates after your work is done. That way no computer resources sit idle for a time afterward (which causes your priority rating to go down).</p>
+<p>Once you have exited interactive mode, determine resources used (see Monitor jobs, below).</p>
+<pre class="r"><code># in unix
+
+# To begin, you need to reserve a fixed amount of computer resources. 
+# Be ungenerous, Compute Canada charges for unused resources, lowering your priority score
+salloc --time=1:0:0 --ntasks-per-node=16 --mem-per-cpu=1G --account=def-schluter
+
+# Load the bwa module and run bwa (single backslash continues a command in unix)
+module load bwa/0.7.15
+bwa mem -M -t 16 gasAcu1pitx1new.fa Marine-Pac-Salmon-01-Sara_R1.fastq.gz \
+    Marine-Pac-Salmon-01-Sara_R2.fastq.gz &lt; Marine-Pac-Salmon-01-Sara.sam
+exit</code></pre>
+<p><br></p>
+</div>
+<div id="parallel-processing-in-interactive-mode" class="section level3">
+<h3>Parallel processing in interactive mode</h3>
+<p>Gnu parallel can run multiple serial jobs simultaneously on different cpu’s (cores) of the same node. Up to 32 cpu’s are available per node.</p>
+<p>For example, here we use gnu parallel in interactive mode to run <code>bwa</code> on two individuals (no multi-threading [no “-t” argument to <code>bwa</code>] for the purposes of this example).</p>
+<pre class="r"><code># in unix
+
+# Request two cpu&#39;s for 3 hours and start interactive job
+salloc --time=3:0:0 --ntasks-per-node=2 --mem-per-cpu=2G --account=def-schluter
+
+# Load bwa module
+module load bwa/0.7.15
+
+# run bwa on two samples, each on a separate cpu, no multi-threading
+parallel -j 2 &lt;&lt;gnu
+bwa mem -M gasAcu1pitx1new.fa Marine-Pac-Salmon-01-Sara_R1.fastq.gz Marine-Pac-Salmon-01-Sara_R2.fastq.gz &lt; Marine-Pac-Salmon-01-Sara.sam
+bwa mem -M gasAcu1pitx1new.fa Marine-Pac-Seyward-01-Sara_R1.fastq.gz Marine-Pac-Seyward-01-Sara_R2.fastq.gz &lt; Marine-Pac-Seyward-01-Sara.sam
+gnu
+exit</code></pre>
+<p><br></p>
+</div>
+<div id="submit" class="section level3">
+<h3>Submit batch jobs</h3>
+<p>Run large jobs in batch mode. This involves writing a <code>bash</code> script file (<code>filename.sh</code>) that contains the commands you want run. The script file is then submitted to the <code>slurm</code> job scheduler. Then go do something else while the job is queued and run.</p>
+<p>The example below requests 16 cpu’s for a single <code>bwa</code> command. In general, Under Graham’s job priority system, it is best to submit jobs that make use of a whole node (32 cpu’s).</p>
+<pre class="r"><code># in R
+
+# Put job commands into an R string (between single quotes, &#39; &#39;)
+# In R string, use double backslash &#39;\\&#39; to continue a command on multiple lines
+# Include commands to load modules needed
+bwaCommand &lt;- &#39;
+    module load bwa/0.7.15
+    bwa mem -M -t 16 gasAcu1pitx1new.fa Marine-Pac-Salmon-01-Sara_R1.fastq.gz \\
+        Marine-Pac-Salmon-01-Sara_R2.fastq.gz &lt; Marine-Pac-Salmon-01-Sara.sam
+    &#39; 
+# Check
+cat(bwaCommand)
+
+# Choose resources needed for the job
+MEM  &lt;- 1     # memory per cpu, in Gb
+TIME &lt;- 1     # total time in hours
+CPUS &lt;- 16    # number of cpu&#39;s (cores) needed
+
+# Generate bash script file
+# filename.sh includes date in name to make unique.
+# Use an informative prefix. 
+g$slurm(bwaCommand, nCpu = CPUS, memPerCpu = MEM, time = TIME, 
+    account = &quot;schluter&quot;, prefix = &quot;bwa&quot;, run = FALSE)</code></pre>
+<p>R will create the <code>filename.sh</code> file, which you can inspect to confirm that it is constructed correctly. Then submit on a unix command lie with <code>sbatch filename.sh</code>. You’ll need to exit R or open a second terminal window to run the <code>sbatch</code> command.</p>
+<p><br></p>
+</div>
+<div id="parallel" class="section level3">
+<h3>Gnu parallel batch jobs</h3>
+<p>Use <code>gnu parallel</code> to run multiple serial commands as a single parallel job. The homemade R function <code>g$slurm()</code> automates creation of a script file for the <code>slurm</code> scheduler.</p>
+<p>You need to specify the number of tasks to run at a time (in parallel). In the example below, we run just two <code>bwa</code> commands that each use 16 cpu’s (16 threads are used by each <code>bwa</code> command). Since there are only 32 cpu’s in a node, we can run at most 2 <code>bwa</code> commands at the same time. (You can list more than two commands; <code>gnu parallel</code> waits until one of the runs is finished to begin executing the next command in the list.)</p>
+<pre class="r"><code># in R
+
+# Put commands into an R string (between single quotes, &#39; &#39;)
+# In R string, use double backslash &#39;\\&#39; to continue a single command on multiple lines
+# Include commands to load modules needed
+gnuCommand &lt;- &#39;
+    module load bwa/0.7.15
+    bwa mem -M -t 16 gasAcu1pitx1new.fa Marine-Pac-Salmon-01-Sara_R1.fastq.gz \\
+        Marine-Pac-Salmon-01-Sara_R2.fastq.gz &lt; 1.sam
+    bwa mem -M -t 16 gasAcu1pitx1new.fa Marine-Pac-Seyward-01-Sara_R1.fastq.gz \\
+        Marine-Pac-Seyward-01-Sara_R2.fastq.gz &lt; 2.sam
+    &#39;
+
+# Choose resources needed for the job
+MEM   &lt;- 1     # memory per cpu, in Gb
+TIME  &lt;- 1     # total time in hours
+CPUS  &lt;- 32    # number of cpu&#39;s (cores) needed
+JMAX  &lt;- 2     # Run this many commands at a time
+
+# Generate bash script file
+# filename.sh includes date in name to make unique.
+# Use an informative prefix. 
+g$slurm(gnuCommand, nCpu = CPUS, memPerCpu = MEM, time = TIME, 
+    account = &quot;schluter&quot;, prefix = &quot;gnuBwa&quot;, gnuJ = JMAX)</code></pre>
+<p>R will generate the script (<code>.sh</code>) file, which you can submit to the job scheduler using</p>
+<pre class="r"><code># in unix
+sbatch [name of script file]</code></pre>
+<p><br></p>
+</div>
+<div id="monitor" class="section level3">
+<h3>Monitor jobs</h3>
+<p>To check on the status of all jobs submitted to the scheduler, type the following into a unix command window (including your login name). If your job is missing, then it has run and will not be in the queue any longer.</p>
+<pre class="r"><code># in unix
+squeue -u [userid]</code></pre>
+<p>To cancel a job, type the following into a unix command window. “[jobid]” is a number assigned to your job when you submitted it to the scheduler.</p>
+<pre class="r"><code>scancel [jobid]</code></pre>
+<p>Each job will generate an <code>.out</code> file when your code completes. Manually check it for errors. An exit code of 0 means that no errors were generated</p>
+<p>Check on the resources used by your job when it is done.</p>
+<pre class="r"><code>sacct --jobs=[jobid] --format=JobID,JobName,AllocCPUS,ExitCode,MaxRSS,Elapsed,UserCPU</code></pre>
+<p>An ExitCode of 0 means that no errors were generated.</p>
+<p>MaxRSS is the peak memory use of the job, summed over all cpu’s. Divide by the number of cpu used to get memory use per cpu. This amount is useful when planning similar jobs.</p>
+<p>UserCPU is cpu time summed over all the cpu’s used. Elapsed is the actual time taken to run the job. Divide UserCPU by Elapsed to get the efficiency. Aim for high efficiency.</p>
+<p>See ‘Job accounting fields’ at <a href="https://slurm.schedmd.com/sacct.html" class="uri">https://slurm.schedmd.com/sacct.html</a> for a detailed explanation of all items.</p>
+<p>Use the following to check on the resources used by all your jobs submitted between two dates.</p>
+<pre class="r"><code>sacct --user=[userid] --starttime=yyyy-mm-dd --endtime=yyyy-mm-dd \
+  --format=JobID,JobName,AllocCPUS,ExitCode,MaxRSS,Elapsed,UserCPU
+
+# filter those jobs containing &#39;bwa&#39; in the JobName
+sacct --user=[userid] --starttime=yyyy-mm-dd --endtime=yyyy-mm-dd \
+  --format=JobID,JobName,AllocCPUS,ExitCode,MaxRSS,Elapsed,UserCPU \
+  | grep -i &#39;bwa&#39; -A1</code></pre>
+</div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+    "path" : "~/zoologyCloud/Courses/bio 501 - stats/www-rtips",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        },
+        {
+            "ascending" : false,
+            "columnIndex" : 4
+        }
+    ]
+}

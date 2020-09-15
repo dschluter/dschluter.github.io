@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>Calculate probability and likelihood</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="dolph.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><b>R tips</b> &mdash; Dolph Schluter, University of British Columbia</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">R tips home</a>
+    </li>
+    <li>
+      <a href="Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~bio501/R/workshops/">R workshops home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Calculate probability and likelihood</h1>
+
+</div>
+
+
+<p>R has many built-in functions to calculate probabilities for discrete random variables and probability densities for continuous random variables. These are additionally useful for calculating likelihoods. This section highlights a few of the most commonly used probability distributions. If used to calculate likelihoods, the <code>log=TRUE</code> option (yielding log likelihoods instead) is recommended to prevent memory overflow or underflow.</p>
+<p>The basic structure of these commands is detailed in the section below on the binomial distribution. The structure of other commands will be similar, though options may vary.</p>
+<hr />
+<div id="binomial-distribution" class="section level2">
+<h2>Binomial distribution</h2>
+<p>Used for binary data (1 or 0; success or failure; alive or dead; mated or unmated). The number of “successes” in <i>n</i> trials will have a binomial distribution if separate trials are independent and if the probability of success <i>p</i> is the same in every trial.</p>
+<p>In its simplest version, the “dbinom” command is used to calculate Pr[<i>X</i>], the probability of obtaining <i>X</i> successes in <i>n</i> random trials, where <i>X</i> is an integer between 0 and <i>n</i> (<i>n</i> can be as small as 1 trial). To calculate this probability you will also need to specify <i>p</i>, the probability of success in each trial,</p>
+<pre class="r"><code>dbinom(X, size = n, prob = p)</code></pre>
+<p>The same command calculates <i>L</i>[ <i>p </i>| <i>X </i>], the likelihood of the parameter value <i>p</i> given the observed number of successes <i>X</i>,</p>
+<pre class="r"><code>dbinom(X, size = n, prob = p)              # likelihood of p
+dbinom(X, size = n, prob = p, log = TRUE)  # log-likelihood of p</code></pre>
+<p>If <i>X</i> is a single number (rather than a vector), the same command can be used to obtain the log-likelihood of each of many values for <i>p</i>. For example,</p>
+<pre class="r"><code>p &lt;- seq(0.01, 0.99, by = 0.01)
+loglike &lt;- dbinom(X, size = n, prob = p ,log = TRUE)</code></pre>
+<p>However, the data more typically come as a vector of measurements made on individuals rather than a single count. For example, the variable “disease.state” in a data frame would have entries that looked something like <code>id disease.state 1 infected 2 uninfected 3 infected 4 infected 5 uninfected …</code> In this case, to calculate the log-likelihood of a specified value for <i>p</i> (the probability that an individual in the population is infected) you will first need to calculate the log-likelihood of <i>p</i> for each data observation (0 = uninfected, 1 = infected). The log-likelihood for <i>p</i> given all the data is then the sum of the log-likelihoods based on each observation. This assumes that the data represent a random sample (so that “trials” are independent).</p>
+<pre class="r"><code>x &lt;- as.integer(disease.state == &quot;infected&quot;)    # converts to 0 and 1&#39;s
+z &lt;- dbinom(x, size = 1, prob = p, log = TRUE)  # log-like for each obs
+loglike &lt;-sum(z)                                # log-likelihood of p</code></pre>
+<p>(Note: If you calculate the likelihood of <i>p</i> for each data observation, rather than the log-likelihood, then the likelihood of <i>p</i> given all the data will be the product of the likelihoods based on each observation, rather than their sum. This number can get very small, however, so calculating the log-likelihoods and summing is recommended.)</p>
+<hr />
+</div>
+<div id="geometric-distribution" class="section level2">
+<h2>Geometric distribution</h2>
+<p>In a sequence of trials, the number of trials ending in failure before the first success has a geometric distribution. Each trial in the sequence is assumed to be independent. The outcome of each trial is binary, either “success” or “failure”. The probability of success <i>p</i> is the same in every trial. The probability of failure in each trial is 1 - <i>p</i>.</p>
+<p>The variable <i>X</i> counts the number of “failures” before the first “success”. In other words, <i>X</i> = 0 if success occurs on the 1st trial. <i>X</i> = 1 means that the first success occurred in the 2nd trial and the 1st trial ended in failure. <i>X</i> = 2 means that the that success occurred in the 3rd trial, while the 1st and 2nd trials ended in failure. And so on. Pr[<i>X</i>] is calculated as</p>
+<pre class="r"><code>dgeom(X, prob = p)            # p is the probability of success
+dgeom(X, prob = p, log=TRUE)  # log of the probability instead</code></pre>
+<hr />
+</div>
+<div id="hypergeometric-distribution" class="section level2">
+<h2>Hypergeometric distribution</h2>
+<p>Used for mark-recapture data. The hypergeometric distribution describes the number of recaptures (marked individuals) <i>X</i> in a random sample of <i>k</i> individuals from a finite population in which <i>m</i> individuals in total are marked and <i>n</i> individuals are unmarked.</p>
+<p>The distribution is used to model mark-recapture data in which the goal is to estimate total population size <i>m</i> + <i>n</i>, where <i>n</i> is unknown. <i>X</i> can be any integer between 0 and <i>m</i>. <i>k</i> can be any integer between 1 and <i>m</i> + <i>n</i>. The model assumes no births, deaths, or immigration or emigration events between marking and recapturing. It also assumes that all individuals in the population have the same probability of being captured. The probability of <i>X</i> recaptures (marked individuals) in a random sample of size <i>k</i> is</p>
+<pre class="r"><code>dhyper(X, m, n, k)
+dhyper(X, m, n, k, log = TRUE)</code></pre>
+<hr />
+</div>
+<div id="poisson-distribution" class="section level2">
+<h2>Poisson distribution</h2>
+<p>Used for count data. The Poisson distribution describes the number of events <i>X</i> in a “block” of space or time. The single parameter <i>lambda</i> is the population mean number of events per block. The assumption is that individual events occur randomly and independently in space or time. Block size is arbitrary but is usually chosen such that the mean number of events per block is neither very small nor very large. The probability of <i>X</i> events occurring in a single block is</p>
+<pre class="r"><code>dpois(X, lambda)
+dpois(X, lambda, log = TRUE)</code></pre>
+<hr />
+</div>
+<div id="normal-distribution" class="section level2">
+<h2>Normal distribution</h2>
+<p>Optimistically, this probability distribution approximates the frequency distribution of a trait in a population (except when it doesn’t!). Because it is a continuous distribution, the height of the normal curve refers to <b>probability density</b> rather than probability as such. Probability is instead represented by area under the normal curve.</p>
+<p>The probability density of a normally distributed variable <span style="font-style: italic;">X</span> having mean µ and standard deviation σ is</p>
+<pre class="r"><code>dnorm(X, mean = µ, sd = σ)
+dnorm(X, mean = µ, sd = σ, log = TRUE)</code></pre>
+<hr />
+</div>
+<div id="exponential-distribution" class="section level2">
+<h2>Exponential distribution</h2>
+<p>The exponential distribution is often used to model the waiting time <i>X</i> between events occurring randomly and independently in time (or space). Because it is a continuous distribution, the height of the exponential curve at any <i>X</i> refers to <b>probability density</b> rather than probability. Probability is instead represented by area under the exponential curve.</p>
+<p>The main assumption of the exponential distribution is that at any point in time, the probability of an event occurring in the next instant does not depend on how much time has already elapsed since the previous event. The parameter of the exponential distribution is the <b>rate</b> at which events occur – the number of events per unit time. The mean of the exponential distribution is 1/rate.</p>
+<p>Waiting time <i>X</i> to the next event has probability density</p>
+<pre class="r"><code>dexp(X, rate = 1)
+dexp(X, rate = 1, log = TRUE)</code></pre>
+<p>The default value for the rate is 1, so you must alter to fit your circumstance. Remember: the rate is the inverse of the mean</p>
+<hr />
+</div>
+<div id="use-the-bbmle-package" class="section level2">
+<h2>Use the <code>bbmle()</code> package</h2>
+<p>The <code>bbmle()</code> package can quickly find the maximum likelihood estimate for a parameter of a probability distribution fitted to data. You might need to install the package the first time you use it. Then load the package to begin.</p>
+<pre class="r"><code>library(bbmle)</code></pre>
+<p>The first step is to make a function that calculates the <strong>negative</strong> log likelihood of a parameter fitted to data.</p>
+<p><br></p>
+<div id="binomial-distribution-1" class="section level3">
+<h3>Binomial distribution</h3>
+<p>For example, if fitting the binomial distribution, the function would look like the following. In this example, <code>p</code> is the unknown parameter to be estimated. <code>X</code> is the observed number of successes in the data and <code>n</code> is the observed number of trials (replace <code>X</code> and <code>n</code> in the command below with the actual numbers from the data).</p>
+<pre class="r"><code>myNegLLfunc &lt;- function(p){-dbinom(X, size = n, p, log = TRUE)}</code></pre>
+<p>Notice the minus sign in front of <code>dbinom</code>. The <code>bbmle()</code> package minimizes the negative log likelihood rather than maximizes the log likelihood, but the result is the same.</p>
+<p>The next step is to fit the model to the data using the <code>mle2()</code> command The argument <code>start = list(p = 0.5)</code> provides a realistic starting value to begin the search for the maximum likelihood estimate. When fitting a single parameter, the profile log-likelihood is the same as the log-likelihood curve.</p>
+<pre class="r"><code>z &lt;- mle2(myNegLLfunc, start = list(p = 0.5))</code></pre>
+<p>Finally, we apply functions to the model object <code>z</code> to extract useful quantities.</p>
+<pre class="r"><code>summary(z)                            # Provides the MLE estimate. Ignore the P-value, as usual.
+plot(profile(z))                      # Visualize CI&#39;s for the parameter at different alpha levels.
+confint(profile(z), method=&quot;uniroot&quot;) # Calculate the 95% confidence interval.</code></pre>
+<p><br></p>
+</div>
+<div id="exponential-distribution-1" class="section level3">
+<h3>Exponential distribution</h3>
+<p>This second example shows how you would incude data from a data frame in the function for the negative log likelihood. The exponential distribution is used to model waiting times to an events. The parameter to be estimated is the <code>rate</code>. The data on waiting times is assumed to be a column <code>t</code> in a data frame <code>mydata</code>.</p>
+<pre class="r"><code>myNegLLfunc &lt;- function(rate){-sum(dexp(mydata$t, rate = rate, log = TRUE))}</code></pre>
+<p>The rest of the analysis is idetical to that shown above for the binomial distribution</p>
+</div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R tips pages</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="dolph.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><b>R tips</b> &mdash; Dolph Schluter, University of British Columbia</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">R tips home</a>
+    </li>
+    <li>
+      <a href="Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~bio501/R/workshops/">R workshops home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R tips pages</h1>
+
+</div>
+
+
+<p>These pages provide hints for data analysis using R, emphasizing methods covered in the graduate course, <a href="https://www.zoology.ubc.ca/~bio501/R/">Biol 501: Quantitative methods in ecology and evolution</a>.</p>
+<hr />
+<div id="get-the-latest-version-of-r" class="section level2">
+<h2>Get the latest version of R</h2>
+<p>Download R from the <a href="http://cran.r-project.org/">CRAN website</a>.</p>
+<p>Mac OS X users: Some function require that you also install the latest version of the <a href="http://xquartz.macosforge.org/">XQuartz package</a>.</p>
+<p>Many students run R within the <a href="https://www.rstudio.com//">Rstudio</a> environment, which you can download separately.</p>
+<hr />
+</div>
+<div id="use-a-script-file" class="section level2">
+<h2>Use a script file</h2>
+<p>Use a text file to write and edit your R commands. This keeps a record of your analyses for later use, and makes it easier to rerun and modify analyses as data collection continues.</p>
+<p>R has a built-in editor that makes it easy to submit commands selected in a script file to the command line. Go to “File” on the menu and select “New Document” (Mac) or “New script” (PC). Save to a file with the .R extension. To open a preexisting file, choose “Open Document” or “Open script” from the “File” menu.</p>
+<p>Execute a line of command by placing the cursor on the line and pressing the keys &lt;command&gt;&lt;return&gt; (Mac) or &lt;control&gt;R (PC).</p>
+<p>Here are some very basic tips when writing script.</p>
+<ul>
+<li>Use a new script file for each project.</li>
+<li>Write lots of notes in the script file to record how and why you did that particular analysis. This is essential when reviewing it weeks (years) later. Annotate as though someone else will be reading your script later and attempt to duplicate your effort and make sense of it.</li>
+<li>Write generic code that can easily be extended to other situations with a minimum of editing. For example, write code to read values of x and y from a data file rather than code the points in an R script file.</li>
+</ul>
+<p>R will start up if you double click a script file. If this happens, R might not load the workspace. Enter <code>load(“.RData”)</code> in R’s command window and all will be well.</p>
+<hr />
+</div>
+<div id="get-add-on-packages" class="section level2">
+<h2>Get add-on packages</h2>
+<p>R has a core set of command libraries (base, graphics, stats, etc), but there is a wealth of add-on packages available (the full list is <a href="http://cran.r-project.org/web/packages/available_packages_by_name.html">available at the CRAN web site</a>).</p>
+<p><br></p>
+<div id="packages-already-included" class="section level3">
+<h3>Packages already included</h3>
+<p>The following are a few of the add-on packages already included with your standard R installation.</p>
+<ul>
+<li><code>boot</code> – bootstrap resampling</li>
+<li><code>foreign</code> – read data from files in the format of other stats programs</li>
+<li><code>ggplot2</code> – graphics</li>
+<li><code>lme4</code> – linear mixed-effects models; general least squares</li>
+<li><code>MASS</code> – package for the book by Venables and Ripley, <em>Modern Applied Statistics with S-PLUS</em></li>
+<li><code>mgcv</code> – generalized additive models</li>
+</ul>
+<p>To use one of them you need to load it,</p>
+<pre class="r"><code>library(packagename)</code></pre>
+<p>You’ll have to do this again every time you run R.</p>
+<p>To see all the libraries available on your computer enter</p>
+<pre class="r"><code>library() </code></pre>
+<p><br></p>
+</div>
+<div id="example-packages" class="section level3">
+<h3>Example packages</h3>
+<p>Most R packages are not included with the standard installation, and you need to download and install it before you can use it. Here are a few add-on packages that might be useful in ecology and evolution. The full list of available packages is here.</p>
+<ul>
+<li><code>car</code> – linear model tools (e.g., alternative sums of squares)</li>
+<li><code>leaps</code> – all subsets regression</li>
+<li><code>emmeans</code> – group means for ANOVA and other linear models</li>
+<li><code>meta</code> – meta-analysis</li>
+<li><code>pwr</code> – power analysis</li>
+<li><code>qtl</code> – QTL analysis</li>
+<li><code>shapes</code> – geometric morphometrics</li>
+<li><code>vegan</code> – ordination methods for community ecology</li>
+<li><code>visreg</code> – visualize linear model fits</li>
+</ul>
+<p><br></p>
+</div>
+<div id="install-an-r-package" class="section level3">
+<h3>Install an R package</h3>
+<p>To install one of these packages use the menu bar in R. Select “Install packages” under the “Packages” menu item. You’ll have to select a download site (Canada BC). Then select your package from the list provided.</p>
+<p>Or, execute the following command instead of using the menu,</p>
+<pre class="r"><code>install.packages(&quot;packagename&quot;, dependencies = TRUE)</code></pre>
+<p>To use a package once it is installed, load it by entering</p>
+<pre class="r"><code>library(packagename)</code></pre>
+<p>R is under constant revision, and periodically it is a good idea to install the latest version. Once you have accomplished this, you should also download and install the latest version of all the add-on packages too.</p>
+<hr />
+</div>
+</div>
+<div id="get-help" class="section level2">
+<h2>Get help</h2>
+<div id="built-in-help" class="section level3">
+<h3>Built-in help</h3>
+<p>Use <code>?</code> in the R command window to get documentation of specific command. For example, to get help on the <code>mean</code> function to calculate a sample mean, enter</p>
+<pre class="r"><code>?mean</code></pre>
+<p>You can also search the help documentation on a more general topic using <code>??</code> or <code>help.search</code>. For example, use the following commands to find out what’s available on anova and linear models.</p>
+<pre class="r"><code>??anova
+??&quot;linear models&quot;  # same as help.search(&quot;linear models&quot;)</code></pre>
+<p>A window will pop up that lists commands available and the packages that include them. To use a command indicated you might have to load the corresponding library. (See “Add-on packages” for help on how to load libraries.) Note the <code>??</code> command will only search documentation in the R packages installed on your computer.</p>
+<p><br></p>
+</div>
+<div id="interpret-a-help-page" class="section level3">
+<h3>Interpret a help page</h3>
+<p>As an example, here’s how to interpret the help page for the sample mean, obtained by</p>
+<pre class="r"><code>?mean</code></pre>
+<p>In the pop-up help window, look under the title “Usage” and you will see something like this:</p>
+<pre class="r"><code>mean(x, trim = 0, na.rm = FALSE, ...)</code></pre>
+<p>The items between the brackets “()” are called arguments.</p>
+<p>Any argument without an “=” sign is required — you must provide it for the command to work. Any argument with an “=” sign represents an option, with the default value indicated. (Ignore the <code>…</code> for now.)</p>
+<p>In this example, the argument <code>x</code> represents the data object you supply to the function. Look under “Arguments” on the help page to see what kind of object R needs. In the case of the mean almost any data object will do, but you will usually apply the function to a vector (representing a single variable).</p>
+<p>If you are happy with the default settings, then you can use the command in its simplest form. If you want the mean of the elements in the variable <code>myvariable</code>, enter</p>
+<pre class="r"><code>mean(myvariable)</code></pre>
+<p>If the default values for the options don’t meet your needs you can alter the values. The following example changes the <code>na.rm</code> option to TRUE. This instruct R to remove missing values from the data object before calculating the mean. (If you fail to do this and have missing values, R will return <code>NA</code>.)</p>
+<pre class="r"><code>mean(myvariable, na.rm = TRUE)</code></pre>
+<p>The following example changes the <code>trim</code> option to calculate a trimmed mean,</p>
+<pre class="r"><code>mean(myvariable, trim = 0.1)</code></pre>
+<p><br></p>
+</div>
+<div id="online-help" class="section level3">
+<h3>Online help</h3>
+<p>R commands to analyze the data for all examples presented in the 2nd edition of <em>The Analysis of Biological Data</em> by Whitlock and Schluter are <a href="http://whitlockschluter.zoology.ubc.ca/r-code">here</a>.</p>
+<p>Several excellent R books are available free to UBC students online through the UBC library. Check the “Books” tab on the main course page.</p>
+<p>Tom Short’s <a href="http://cran.r-project.org/doc/contrib/Short-refcard.pdf"><em>R reference card</em></a></p>
+<p>Venables and Smith’s <a href="http://cran.r-project.org/doc/manuals/R-intro.html"><em>Introduction to R</em></a> (<a href="http://cran.r-project.org/doc/manuals/R-intro.pdf">pdf file</a> — right-click and save to disk)</p>
+<p>An <a href="http://www.r-bloggers.com/"><em>R blog</em></a>! Daily news and tutorials about R.</p>
+<p><br></p>
+</div>
+<div id="someones-solved-your-problem" class="section level3">
+<h3>Someone’s solved your problem</h3>
+<p>Chances are that someone has already solved your problem and the answer is sitting on a web page somewhere. Google might find it for you.</p>
+</div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

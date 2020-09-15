@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>Meta-analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="dolph.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><b>R tips</b> &mdash; Dolph Schluter, University of British Columbia</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">R tips home</a>
+    </li>
+    <li>
+      <a href="Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~bio501/R/workshops/">R workshops home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Meta-analysis</h1>
+
+</div>
+
+
+<p>This page provides tips on how to carry out meta-analysis in R.</p>
+<hr />
+<div id="fixed-effects-meta-analysis" class="section level2">
+<h2>Fixed effects meta-analysis</h2>
+<p>Under the fixed effects model, we assume that all studies in the meta-analysis share the same true effect size. The variation among the studies are assumed to result only from sampling error (i.e., chance).</p>
+<p>To estimate the mean effect size, we weight each effect size in the sample according to the magnitude of its sampling variance, which takes into account the different sample sizes of the studies. Calculate each weight as the inverse of the squared standard error, <span class="math inline">\(w = 1/\mathrm{SE}^2_z\)</span>, where <span class="math inline">\(z\)</span> is the effect size of interest and <span class="math inline">\(\mathrm{SE}\)</span> is its standard error.</p>
+<p>Use the <code>weighted.mean</code> command to calculate a weighted mean of the effect sizes using the weights (see the help page for the command).</p>
+<p>Calculate the standard error of the weighted mean as the square root of the inverse of the sum of sample weights. This standard error measures uncertainty of the estimate of true effect size, <span class="math inline">\(\mathrm{SE}_{\bar z}= \sqrt{1/\sum w}\)</span>.</p>
+<p>Use the normal approximation to calculate an approximate 95% confidence interval for the effect size. The critical value (1.96) is obtained as</p>
+<pre class="r"><code>qnorm(1 - 0.05/2)</code></pre>
+<p>The limits of the 95% confidence interval are then calculated as the estimated weighted mean - 1.96 <span class="math inline">\(\mathrm{SE}_z\)</span> and the mean + 1.96 <span class="math inline">\(\mathrm{SE}_z\)</span>.</p>
+<hr />
+</div>
+<div id="random-effects-meta-analysis" class="section level2">
+<h2>Random effects meta-analysis</h2>
+<p>Under the random effects model we assume that each study estimates a system-specific effect size. There is no “one true” effect size under this model, only a mean effect size. This is more realistic than the fixed effects model for most meta-analyses in ecology and evolution.</p>
+<p>To fit the random effects model, estimate the variance among the system-specific effect sizes, <span class="math inline">\(\tau^2\)</span> (“tau squared”). One way to estimate it involves calculating the heterogeneity among the observed effect sizes (<span class="math inline">\(Q\)</span>), and then “correcting” by subtracting the within-study sampling variance. The correction is needed because the variance among the observed effect sizes among studies is inflated by within-study sampling error.</p>
+<p>First, calculate <span class="math inline">\(Q\)</span>, the weighted heterogeneity among the observed effect sizes <span class="math inline">\(z\)</span>, as <span class="math inline">\(Q = \sum w(z-\bar z)^2\)</span>.</p>
+<p>Then calculate <span class="math inline">\(\tau^2\)</span> by subtraction, being careful not to allow a negative value (since <span class="math inline">\(\tau^2\)</span> is a variance, which can’t be negative). In the following, <span class="math inline">\(N\)</span> refers to the number of studies in the meta-analysis. If <span class="math inline">\(Q &lt; N - 1\)</span>, then set <span class="math inline">\(\tau^2 = 0\)</span>. Otherwise, calculate <span class="math inline">\(\tau^2 = (Q - (N-1))/(\sum w - \sum w^2/\sum w)\)</span>.</p>
+<!--
+
+```r
+if (Q < = (length(z)-1)) tau.sq <- 0
+else tau.sq <- (Q - (length(z)-1))/(sum(w) - sum(w^2)/sum(w))
+```
+-->
+<p><span class="math inline">\(\tau^2\)</span> is then used to calculate new weights for the effect sizes of each study under the random effects model, taking account of both within-study sampling variance and between-study variance in effect sizes. <span class="math inline">\(\mathrm{SE}^2_z\)</span> is the squared standard error of each effect size <span class="math inline">\(z\)</span> (same as we computed in the fixed effects section above). <span class="math inline">\(w&#39; = 1/(\mathrm{SE}^2_z + \tau^2\)</span>)</p>
+<p>To calculate the weighted mean effect size <span class="math inline">\(\bar z\)</span> under the random effects model, use the same procedure as that used before for the fixed effects model except use the new weights <span class="math inline">\(w&#39;\)</span> calculated here.</p>
+<p>The formula for the standard error (SE) of the mean effect size <span class="math inline">\(\bar z\)</span> is the same as that in the fixed-effects model, except use the new weights, <span class="math inline">\(w&#39;\)</span>.</p>
+<p>The 95% confidence interval for the mean effect size under the random effects model is calculated in the same way as under the fixed effects model, except that you would use the standard error for the random effects mean.</p>
+<hr />
+</div>
+<div id="use-the-metafor-package" class="section level2">
+<h2>Use the <code>metafor</code> package</h2>
+<p>The <code>metafor</code> package include functions to fit fixed- and random-effects models for meta-analysis. The models can be specified using a formula method analogous to that used in linear models (e.g., <code>lm()</code>). The formulas make it easy to include covariates in the model (“moderator variables” in meta-analysis jargon).</p>
+<p>Begin by loading the <code>metafor</code> package in R. The variables of interest should be available in a dataframe (here named <code>metadata</code>). Each row in the data frame is a distinct study. Variables in the data frame include include the effect size to be used in the meta-analysis (e,g., Cohen’s <code>d</code>) and a variable containing the standard error of each effect size (here labeled <code>se</code>).</p>
+<p>The estimated grand mean in a random effects model is obtained using the <code>rma.uni</code> command. The default method for estimating <span class="math inline">\(\tau^2\)</span> is REML. Use the DerSimonian-Laird estimator instead (<code>method = “DL”</code>) if you want to obtain the same results as those from your “by hand” calculations based on the equations above.</p>
+<pre class="r"><code>library(metafor)
+z &lt;- rma.uni(d ~ 1, vi = se^2, data = metadata, method = &quot;DL&quot;)
+summary(z)</code></pre>
+<p>To make a forest plot, use the <code>forest</code> command. Each row of the plot can be labeled using the study identifier, for example if it is included as a column of the data frame named <code>reference</code>, as follows. The command to create a funnel plot is also given (use argument <code>addtau2 = TRUE</code> for a random effects model).</p>
+<pre class="r"><code>z &lt;- rma.uni(d ~ 1, vi = se^2, data = metadata)
+forest(z, slab = metadata$reference)
+funnel(z, addtau2 = TRUE)</code></pre>
+<p>To fit a random effects meta-analysis model that includes a covariate <code>A</code> (“moderator variable”), develop the formula as in an ordinary linear model. The coefficients in the summary table can be interpreted in exactly the same way as the coefficients from an ordinary linear model.</p>
+<pre class="r"><code>z &lt;- rma.uni(d ~ A, vi = se^2, data = metadata)
+summary(z)</code></pre>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

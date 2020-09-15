@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>Graphs and Tables</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="dolph.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><b>R tips</b> &mdash; Dolph Schluter, University of British Columbia</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R tips pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">R tips home</a>
+    </li>
+    <li>
+      <a href="Calculate.html">Calculate with R</a>
+    </li>
+    <li>
+      <a href="Data.html">Data sets</a>
+    </li>
+    <li>
+      <a href="Display.html">Graphs &amp; Tables</a>
+    </li>
+    <li>
+      <a href="Plan.html">Planning tools</a>
+    </li>
+    <li>
+      <a href="Loop.html">Loop, repeat</a>
+    </li>
+    <li>
+      <a href="Model.html">Fit model</a>
+    </li>
+    <li>
+      <a href="Prob.html">Probability &amp; Likelihood</a>
+    </li>
+    <li>
+      <a href="Resample.html">Resample, Bootstrap</a>
+    </li>
+    <li>
+      <a href="Meta.html">Meta-analysis</a>
+    </li>
+    <li>
+      <a href="Multivariate.html">Multivariate methods</a>
+    </li>
+    <li>
+      <a href="Phylogenetic.html">Phylogenetic comparison</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~bio501/R/workshops/">R workshops home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Graphs and Tables</h1>
+
+</div>
+
+
+<p>This page provides tips and recommendations for making graphs and tables in R.</p>
+<p>In the examples below, <code>x</code> and <code>y</code> are numeric variables in the data frame, <code>mydata</code>. <code>A</code> and <code>B</code> are categorical variables (factors or character variables) identifying different groups.</p>
+<p>We include examples making use of the add-on packages <code>dplyr</code> and <code>ggplot2</code>. Hadley Wickham’s book is the standard reference (Wickam, H. 2016. <em>ggplot2: Elegant graphics for data analysis. 2nd edition</em>) but plenty of introductory resources are available online (e.g., <a href="http://r-statistics.co/ggplot2-Tutorial-With-R.html">this one</a>).</p>
+<p>Run the <code>theme_set(theme_classic())</code> command at the start of your session to replace <code>ggplot2</code>’s default theme, which has too much chartjunk. Or, add the theme <code>+ theme_classic()</code> to your <code>ggplot()</code> command. Other simple themes include <code>theme_minimal()</code> and <code>theme_bw()</code>.</p>
+<pre class="r"><code>library(dplyr)
+library(ggplot2)
+theme_set(theme_classic())</code></pre>
+<hr />
+<div id="frequency-tables" class="section level2">
+<h2>Frequency tables</h2>
+<p>These commands generate tables of frequencies.</p>
+<p><br></p>
+<div id="one-categorical-variable" class="section level3">
+<h3>One categorical variable</h3>
+<p>This frequency table counts the number (frequency) of cases in each category of a categorical variable <code>A</code>. Using the <code>useNA</code> argument add the category <code>NA</code> if one or more cases is missing.</p>
+<pre class="r"><code>table(mydata$A, useNA = &quot;ifany&quot;)
+# or
+with(mydata, table(A), useNA = &quot;ifany&quot;)</code></pre>
+<p>The <code>summarize</code> command in <code>dplyr</code> package can generate frequency tables with its <code>n()</code> function.</p>
+<pre class="r"><code>summarize(group_by(mydata, A), Frequency = n())</code></pre>
+<p><br></p>
+</div>
+<div id="two-variables-contingency-table" class="section level3">
+<h3>Two variables (contingency table)</h3>
+<p>The following commands generate a frequency table for two categorical variables, <code>A</code> and <code>B</code>. The command can be extended to three or more variables.</p>
+<pre class="r"><code>table(mydata$A, mydata$B, useNA = &quot;ifany&quot;)</code></pre>
+<p>To include the row and column sums, use</p>
+<pre class="r"><code>mytab &lt;- table(mydata$A, mydata$B)
+addmargins(mytab, margin = c(1,2), FUN = sum, quiet = TRUE)</code></pre>
+<p>The same thing can be accomplished with <code>dplyr</code>, except zero counts are given as NA.</p>
+<pre class="r"><code>spread( summarize(group_by(mydata, A, B), n = n()), B, n )</code></pre>
+<p><br></p>
+</div>
+<div id="flat-frequency-table" class="section level3">
+<h3>Flat frequency table</h3>
+<p>The following commands generate a “flat” frequency table for two categorical variables, <code>A</code> and <code>B</code>. In a flat table, <code>A</code> and <code>B</code> are separate columns of a table, and a third column tallies the frequencies of each combination. The table will show a count of 0 for category combinations not present in the data.</p>
+<pre class="r"><code>mytab &lt;- table(Aname = mydata$A, Bname = mydata$B)
+data.frame(mytab, stringsasFactors = FALSE)
+# or
+data.frame(ftable(mydata[, c(&quot;A&quot;,&quot;B&quot;)], row.vars = c(&quot;A&quot;,&quot;B&quot;)))</code></pre>
+<p>The <code>summarize</code> method of <code>dplyr</code> will tally only the combinations of categories that have a frequency greater than 0. Hence, <code>ftable</code> is preferred. Alternatively, a fix is available in the <code>tidyr</code> package (you might need to install first):</p>
+<pre class="r"><code>library(tidyr)
+mytab &lt;- summarize(group_by(mydata, A, B), freq = n())
+complete(ungroup(mytab), A, B, fill = list(freq = 0))</code></pre>
+<hr />
+</div>
+</div>
+<div id="tables-of-descriptive-statistics" class="section level2">
+<h2>Tables of descriptive statistics</h2>
+<p>The <code>tapply</code> command creates tables of descriptive statistics by group (e.g., mean, standard deviation, median, etc). So does the <code>summarize</code> command of the <code>dplyr</code> package, as shown here.</p>
+<p><br></p>
+<div id="one-categorical-variable-1" class="section level3">
+<h3>One categorical variable</h3>
+<p>Here is how to generate a table of group means for a variable <code>y</code>, where <code>A</code> is the categorical grouping variable.</p>
+<pre class="r"><code># result is a vector
+tapply(mydata$y, INDEX = mydata$A, FUN = mean, na.rm = TRUE)
+
+# dplyr method; result is a data frame
+summarize(group_by(mydata, A), ybar = mean(y, na.rm = TRUE)) </code></pre>
+<p>The argument <code>na.rm = TRUE</code> removes missing values (otherwise the mean returns <code>NA</code> if missing values are present). With <code>tapply</code>, pass optional arguments to <code>FUN</code> by including them immediately afterward.</p>
+<p>The <code>dplyr</code> can calculate more than one descriptive statistic at once. Here we calculate mean, standard deviation, and number of observations (including missing observations) for the variable <code>x</code> by group.</p>
+<pre class="r"><code>summarize(group_by(mydata, A), xbar = mean(x, na.rm = TRUE),
+              s = sd(x, na.rm = TRUE), n = n()) </code></pre>
+<p><br></p>
+</div>
+<div id="more-than-one-categorical-variable" class="section level3">
+<h3>More than one categorical variable</h3>
+<p>To calculate descriptive statistics (e.g., the median of <code>x</code>) with more than one grouping variable, use one of the following commands.</p>
+<pre class="r"><code># dplyr command, yields a data frame
+summarize(group_by(mydata, A, B), ybar = median(y, na.rm = TRUE))
+
+# yields a data frame
+aggregate(mydata$y, by = list(A = mydata$A, B = mydata$B), FUN = median) 
+
+# yields a r x c matrix
+tapply(mydata$y, INDEX = list(mydata$A, mydata$B), FUN = median)</code></pre>
+<p><br></p>
+</div>
+<div id="more-than-one-response-variable" class="section level3">
+<h3>More than one response variable</h3>
+<p>The <code>dplyr</code> method allows you to tabulate summaries for more than one variable.</p>
+<p>For example, if your data frame <code>mydata</code> contains a categorical variable named <code>A</code> that has multiple categories, you can obtained means and standard deviations by group for one (or more) numeric variables <code>y1</code>, <code>y2</code>, etc, as follows. Result can be saved as a new data frame (here, named <code>z</code>).</p>
+<pre class="r"><code>z &lt;- summarize(group_by(mydata, A), 
+               mean1 = mean(y1, na.rm = TRUE),
+               mean2 = mean(y2, na.rm = TRUE),
+               mean3 = mean(y3, na.rm = TRUE),
+               sd1 = sd(y1, na.rm = TRUE),
+               sd2 = sd(y2, na.rm = TRUE),
+               sd3 = sd(y3, na.rm = TRUE))
+print(z)</code></pre>
+<hr />
+</div>
+</div>
+<div id="drawing-graphs-in-r" class="section level2">
+<h2>Drawing graphs in R</h2>
+<p>A graph displays a frequency distributions of a variable (e.g., histogram, bar graphs), the association between two (or more) variables, and differences between groups.</p>
+<p><br></p>
+<div id="command-options-for-base-r-plots" class="section level3">
+<h3>Command options for base R plots</h3>
+<p>Many (but not all – try them) of the basic plotting commands in base R will accept the same arguments to control axis limits, labeling, and other options. If you are not sure whether a given option works in your case, try it. The worst that could happen is you get an error message, or R ignores you.</p>
+<pre class="r"><code>main = &quot;Eureka&quot;    # add a title above the graph
+pch = 16           # set plot symbol to a filled circle
+color = &quot;red&quot;      # set the item color
+xlim = c(-10,10)   # set limits of the x-axis (horizontal axis)
+ylim = c(0,100)    # set limits of the y-axis (vertical axis)
+lty = 2            # set line type to dashed
+las = 2            # rotate axis labels to be perpendicular to axis
+cex = 1.5          # magnify the plotting symbols 1.5-fold
+cex.lab = 1.5      # magnify the axis labels 1.5-fold
+cex.axis = 1.3     # magnify the axis annotation 1.3-fold
+xlab = &quot;Body size&quot; # label for the x-axis
+ylab = &quot;Frequency&quot; # label for the y-axis</code></pre>
+<p>For details and the full list of plotting options in base R, get help as follows,</p>
+<pre class="r"><code>?par              # graphical parameters
+?plot.default     # basic plot decorations</code></pre>
+<p><br></p>
+</div>
+<div id="drawing-graphs-with-ggplot" class="section level3">
+<h3>Drawing graphs with <code>ggplot</code></h3>
+<p>Building a graph using <code>ggplot</code>involves the combination of components or “layers” including data, “aesthetics” that map variables to visuals, and “geoms” that create different kinds of plots. A basic scatter plot of <code>yvar</code> against <code>xvar</code> has the three components as follows.</p>
+<pre class="r"><code>ggplot(data = mydata, mapping = aes(x = xvar, y = yvar)) +
+        geom_point() +
+        theme_classic()</code></pre>
+<p>where <code>geom_point()</code> is the specific geom for plotting points. Other graph components can be added, as demonstrated with examples below.</p>
+<p><br></p>
+</div>
+<div id="save-graph-as-a-pdf-file" class="section level3">
+<h3>Save graph as a pdf file</h3>
+<p>After drawing your plot, you can use the menu (File -&lt; Save As) to save to a pdf file. Or, draw the graph on a pdf device to begin with:</p>
+<pre class="r"><code>pdf(file = &quot;mygraph.pdf&quot;)     # opens the pdf device for plotting
+...                           # Issue your R commands here to generate plot
+dev.off()                     # closes the device when you are done</code></pre>
+<hr />
+</div>
+</div>
+<div id="frequency-distribution-of-a-variable" class="section level2">
+<h2>Frequency distribution of a variable</h2>
+<div id="bar-graph" class="section level3">
+<h3>Bar graph</h3>
+<p>In the following examples, <code>A</code> is a categorical variable identifying groups.</p>
+<pre class="r"><code># base R
+barplot(table(mydata$A), col = &quot;firebrick&quot;, space = 0.2, cex.names = 1.2)
+
+# Using ggplot
+ggplot(mydata, aes(x = A)) +
+    geom_bar(stat=&quot;count&quot;)
+
+# ggplot with options:
+ggplot(mydata, aes(x = A)) + 
+    geom_bar(stat=&quot;count&quot;, fill = &quot;firebrick&quot;) +
+    labs(x = &quot;A group&quot;, y = &quot;Frequency&quot;) +
+    theme(text = element_text(size = 15), 
+      axis.text = element_text(size = 12), aspect.ratio = 0.8) +
+    theme_classic()</code></pre>
+<p>R will arrange the categories in alphabetical order by default. Use the <code>factor</code> command to specify a more meaningful order. For example, if the variable A has three groups “a”, “b” and “c”, and you want “c” to come first, use the following and then redraw your barplot.</p>
+<pre class="r"><code>A &lt;- factor(mydata$A, levels = c(&quot;c&quot;,&quot;a&quot;,&quot;b&quot;))
+barplot(table(mydata$A), col = &quot;firebrick&quot;)</code></pre>
+<p>To plot the bars in order of decreasing frequency, (a good idea for bar graphs)</p>
+<pre class="r"><code># Using base R
+barplot(sort(table(mydata$A), decreasing = TRUE), col = &quot;firebrick&quot;, space = 0.2)
+
+# Using ggplot
+mydata$A_ordered &lt;- factor(mydata$A, 
+    levels = names(sort(table(mydata$A), decreasing = TRUE)) )
+ggplot(mydata, aes(x = A_ordered)) + 
+    geom_bar(stat=&quot;count&quot;, fill = &quot;firebrick&quot;) +
+    labs(x = &quot;A group&quot;, y = &quot;Frequency&quot;) +
+    theme(text = element_text(size = 15), 
+      axis.text = element_text(size = 12), aspect.ratio = 0.8) +
+    theme_classic()</code></pre>
+<p>If the frequencies are already tabulated in a data frame named <code>mytab</code>, then modify as follows. <code>A</code> is a variable in <code>mytab</code> that lists each named category exactly once and <code>Freq</code> is a variable containing the corresponding frequency of cases in each category.</p>
+<pre class="r"><code>mytab &lt;- arrange(mytab, desc(Freq))
+barplot(mytab$Freq, names.arg = mytab$A, col = &quot;firebrick&quot;)
+
+# or
+mytab$A_ordered &lt;- factor(mytab$A, levels = mytab$A[order(mytab$Freq, decreasing = TRUE)] )
+ggplot(mytab, aes(x = A_ordered, y = Freq)) + 
+    geom_bar(stat=&quot;identity&quot;, fill = &quot;firebrick&quot;) +
+    labs(x = &quot;A group&quot;, y = &quot;Frequency&quot;) +
+    theme(text = element_text(size = 15), 
+           axis.text = element_text(size = 12), aspect.ratio = 0.8) +
+    theme_classic()</code></pre>
+<p><br></p>
+</div>
+<div id="histogram" class="section level3">
+<h3>Histogram</h3>
+<p>The basic command is</p>
+<pre class="r"><code>hist(mydata$x, col = &quot;navy&quot;, right = FALSE)</code></pre>
+<p>The <code>col</code> argument sets the color of the bars. The <code>right = FALSE</code> option causes all the histogram intervals, or bins, except the last one to be left-closed. In other words, the value 1 would appear in the interval 1-2 rather than in the interval 0-1, which seems to be the convention (unless 1 is the upper limit of the right-most bin, in which case R puts it in the bin 0-1; use the <code>include.lowest</code> option to control that!).</p>
+<p>Use the <code>breaks</code> option to influence the width and number of histogram bins. To set the approximate number of bins to 20, use</p>
+<pre class="r"><code>hist(mydata$x, breaks = 20, right = FALSE)</code></pre>
+<p>For finer control of bin number and location, specify the breakpoints. For example, the following command creates a series of bins 1 unit wide between the limits 0 and 6 (make sure all the data fall between these limits or R will complain),</p>
+<pre class="r"><code>hist(mydata$x, breaks = seq(from=0, to=6, by=1), right = FALSE)</code></pre>
+<p>Notice that a value of exactly 6, the upper limit of breaks, will appear in the interval 5-6. This behavior is restricted to the rightmost bin. To prevent this from happening, increase the upper limit of the breaks by 1:</p>
+<pre class="r"><code>hist(mydata$x, breaks = seq(from=0, to=7, by=1), right = FALSE)</code></pre>
+<p>In <code>ggplot</code>, the barest histogram for a numeric variable <code>x</code> in <code>mydata</code> requires only</p>
+<pre class="r"><code>ggplot(mydata, aes(x)) + geom_histogram() </code></pre>
+<p>The example below improves the graph with a number of options. To see the impact of each option, leave out and rerun.</p>
+<pre class="r"><code>ggplot(mydata, aes(x)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.2, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;The variable x&quot;, y = &quot;Frequency&quot;) + 
+    theme(aspect.ratio = 0.80) +
+    theme_classic()</code></pre>
+<p>To display probability density instead of raw frequencies,</p>
+<pre class="r"><code>hist(mydata$x, prob = TRUE, right = FALSE)
+
+# in ggplot
+ggplot(mydata, aes(x)) +
+    geom_histogram(aes(y = ..density..), closed = &quot;left&quot;) +
+    theme_classic()</code></pre>
+<p>To superimpose a normal density curve on a histogram, try the following commands. First, 101 evenly spaced points along the <code>x</code> axis, are made between the smallest and largest data value using <code>seq</code>. Then <code>dnorm</code> generates the normal density at each <code>x</code> point, using the mean and standard deviation of the data.</p>
+<pre class="r"><code>hist(mydata$x, prob = TRUE, right = FALSE)
+m &lt;- mean(mydata$x, na.rm = TRUE)
+s &lt;- sd(mydata$x, na.rm = TRUE)
+xpts &lt;- seq(from = min(mydata$x, na.rm=TRUE), 
+            to = max(mydata$x, na.rm = TRUE), length.out = 101)
+lines(dnorm(xpts, mean=m, sd=s) ~ xpts, col=&quot;red&quot;, lwd=2)</code></pre>
+<p>In <code>ggplot</code>, add a <code>stat_function()</code> to get the same,</p>
+<pre class="r"><code>ggplot(mydata, aes(x)) + 
+    geom_histogram(aes(y = ..density..), closed = &quot;left&quot;) + 
+    stat_function(fun = dnorm, args = list(mean = mean(mydata$x, na.rm = TRUE), 
+                sd = sd(mydata$x, na.rm = TRUE))) +
+    theme_classic()</code></pre>
+<p><br></p>
+</div>
+<div id="normal-quantile-plot" class="section level3">
+<h3>Normal quantile plot</h3>
+<p><code>x</code> is the numeric variable whose distribution is being compared with the normal.</p>
+<pre class="r"><code>qqnorm(mydata$x)
+qqline(mydata$x)  # adds line through first and third quartiles</code></pre>
+<p>The same can be accomplished in <code>ggplot</code> as follows.</p>
+<pre class="r"><code>ggplot(mydata, aes(sample = x)) +
+    geom_qq() +
+    geom_qq_line() +
+    theme_classic()</code></pre>
+<hr />
+</div>
+</div>
+<div id="association-between-variables" class="section level2">
+<h2>Association between variables</h2>
+<p>The appropriate graph depends on which variables are numeric or categorical.</p>
+<p><br></p>
+<div id="grouped-bar-graph" class="section level3">
+<h3>Grouped bar graph</h3>
+<p><code>A</code> and <code>B</code> can be factors or character variables in a data frame <code>mydata</code>. The first line of code below is the bare minimum, whereas the second adds a few useful options.</p>
+<pre class="r"><code>barplot(table(mydata$A, mydata$B), beside = TRUE)
+
+barplot(table(mydata$A, mydata$B), beside = TRUE, 
+    las = 1, col = rainbow(4), cex.names = 0.8, space = c(0.2,0.8),
+    xlab = &quot;B group&quot;, ylab = &quot;Frequency&quot;, legend.text = TRUE)</code></pre>
+<p>With <code>ggplot</code>, use <code>geom_bar(stat=“count”)</code> and the argument <code>position_dodge2(preserve=“single”)</code>, which can handle category combinations of <code>A</code> and <code>B</code> having a count of 0.</p>
+<pre class="r"><code>ggplot(mydata, aes(x = A, fill = B)) + 
+    geom_bar(stat = &quot;count&quot;, position = position_dodge2(preserve=&quot;single&quot;)) +
+    labs(x = &quot;A group&quot;, y = &quot;Frequency&quot;) +
+    theme(aspect.ratio = 0.80) +
+    theme_classic()</code></pre>
+<p><br></p>
+</div>
+<div id="histograms-by-group" class="section level3">
+<h3>Histograms by group</h3>
+<p>A plot of multiple histograms is useful for comparing the frequency distribution of a numeric variable between groups. Stack the plots above one another if possible, for best results, and use the same minimum and maximum of <code>x</code>-values on the axis. The code below draws a panel of 3 histograms of <code>x</code>, on top of one another, one for each of three groups (<code>a1</code> - <code>a3</code>) of the categorical variable <code>A</code> in <code>mydata</code>.</p>
+<p>A panel of plots is accomplished easily with <code>ggplot</code> or the <code>lattice</code> package (a brief introduction to the lattice package is provided at the bottom of this page). In <code>ggplot</code>, add <code>facet_wrap()</code> to place graphs for different groups on the same page.</p>
+<pre class="r"><code>ggplot(mydata, aes(x = x)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.2, 
+        boundary = 0, closed = &quot;left&quot;) +
+    labs(x = &quot;The variable x&quot;, y = &quot;Frequency&quot;) + 
+    theme(aspect.ratio = 0.5) + 
+    facet_wrap( ~ A, ncol = 1, scales = &quot;free_y&quot;) +
+    theme_classic()</code></pre>
+<p>To accomplish the task in base R, begin by setting up a graphics window with the desired number of rows and columns (here, 3 and 1, respectively) using the <code>mfrow</code> option of <code>par()</code>. Here the <code>mar</code> option is used to adjust the size of the margin around each plot, and <code>cex</code> is used to reduce the font size of labels to make room. The following code loops through the three unique categories of <code>A</code> and draws a histogram for <code>x</code> for each group.</p>
+<pre class="r"><code>par(mfrow=c(3,1), mar = c(4, 4, 2, 1), cex = 0.7) 
+for( i in unique(mydata$A) ){
+    dat &lt;- subset(mydata, mydata$A == i)
+    hist(dat$x, breaks = 20, right = FALSE, xlim = range(mydata$x), 
+        col=&quot;firebrick&quot;, main = i, xlab = &quot;x variable&quot;, ylab = &quot;Frequency&quot;)
+    }</code></pre>
+<p><br></p>
+</div>
+<div id="mosaic-plot" class="section level3">
+<h3>Mosaic plot</h3>
+<p>A and B can be factors or character variables. <code>color = TRUE</code> yields shades of grey, or a vector of colors can be used instead (shown below for 3 categories). A quick way to get a bunch of different colors is to use <code>color = rainbow(n)</code>, where <code>n</code> is the number of categories for the variable B. Other options in the examples below alter the orientation (<code>las</code>) and size (<code>cex.axis</code>) of the labels.</p>
+<pre class="r"><code>mosaicplot(table(mydata$A, mydata$B), color = c(&quot;red&quot;,&quot;blue&quot;,&quot;yellow&quot;), 
+           las = 2, cex.axis = 0.8)</code></pre>
+<p>To draw a mosaic plot using <code>ggplot</code>, first install the <code>ggmosaic</code> package. The example below loads the package, assuming it is installed.</p>
+<pre class="r"><code>library(ggmosaic)
+ggplot(mydata) + 
+    geom_mosaic(aes(x = product(A, B), fill=factor(A))) +
+    labs(x = &quot;B group&quot;) + 
+    theme(aspect.ratio = 1, 
+          axis.text.x = element_text(angle = -25, hjust= .1, size = 12)) + 
+    guides(fill = guide_legend(title = &quot;A group&quot;, reverse = TRUE)) +
+    theme_classic()</code></pre>
+<p><br></p>
+</div>
+<div id="strip-chart" class="section level3">
+<h3>Strip chart</h3>
+<p>A strip chart (a.k.a dot plot) can be used instead of a box plot when the number of data points is not large. Random noise (“jitter”) is used to reduce overlap of points. The first example is a basic plot, whereas the second adds common options.</p>
+<pre class="r"><code># base R
+stripchart(y ~ A, vertical = TRUE, data = mydata, method = &quot;jitter&quot;)
+
+stripchart(y ~ A, vertical = TRUE, data = mydata, method = &quot;jitter&quot;, 
+    jitter = 0.2, cex.axis = 0.8, pch = 1, col = &quot;firebrick&quot;)</code></pre>
+<p>The first line of code below shows the basic strip chart with <code>ggplot()</code>. The second example includes common options.</p>
+<pre class="r"><code>ggplot(mydata, aes(A, y)) + geom_jitter()
+
+ggplot(mydata, aes(A, y)) +
+    geom_jitter(color = &quot;firebrick&quot;, size = 3, width = 0.15) +
+    labs(x = &quot;A group&quot;, y = &quot;y value&quot;) + 
+    theme(aspect.ratio = 0.80, text = element_text(size = 12), 
+          axis.text = element_text(size = 10)) +
+    theme_classic()</code></pre>
+<p><br></p>
+</div>
+<div id="strip-chart-with-error-bars" class="section level3">
+<h3>Strip chart with error bars</h3>
+<p>Use <code>stat_summary()</code> to overlay mean and standard error bars. Use <code>fun.data = mean_cl_normal</code> to get 95% confidence intervals instead of standard error bars. Shift the position of the error bars using <code>position_nudge()</code> to eliminate overlap with the raw data.</p>
+<pre class="r"><code>ggplot(mydata, aes(A, y)) +
+    geom_jitter(color = &quot;firebrick&quot;, size = 3, width = 0.15) +
+  stat_summary(fun.data = mean_se, geom = &quot;errorbar&quot;, 
+        width = 0.1, position=position_nudge(x = 0.2)) +
+  stat_summary(fun.y = mean, geom = &quot;point&quot;, 
+        size = 3, position=position_nudge(x = 0.2)) +
+    labs(x = &quot;A group&quot;, y = &quot;y value&quot;) + 
+    theme(aspect.ratio = 0.80, text = element_text(size = 12), 
+          axis.text = element_text(size = 10)) +
+    theme_classic()</code></pre>
+<p>You can add points or lines to a base R <code>stripchart</code> by using integer numbers to indicate position of categories along the x-axis. For example, to add means and standard errors of <code>y</code> to a strip chart for a numeric variable <code>y</code> and a categorical variable <code>A</code> having four categories, use</p>
+<pre class="r"><code>stripchart(y ~ A, data = mydata, vertical = TRUE, method = &quot;jitter&quot;, pch = 1)
+m &lt;- tapply(mydata$y, mydata$A, mean, na.rm=TRUE)
+se &lt;- tapply(mydata$y, mydata$A, 
+          function(y){ sd(y, na.rm=TRUE)/sqrt(length(na.omit(y))) })
+points( m ~ c(1:4 + 0.2) + 0.2, pch=16, col = &quot;red&quot;)
+segments(x0 = c(1:4 + 0.2), y0 = m - se, 
+          x1 = c(1:4 + 0.2), y1 = m + se, col = &quot;red&quot;)</code></pre>
+<p><br></p>
+</div>
+<div id="strip-chart-for-paired-data" class="section level3">
+<h3>Strip chart for paired data</h3>
+<p>Paired data should be displayed accordingly. The following commands create a strip chart with lines connection the two measurements of the same unit in the two treatments. The data frame <code>mydata</code> includes the response variable <code>y</code>, the treatment variable <code>A</code>, and an <code>id</code> variable indicating identity of individuals measured under both treatments.</p>
+<p>The following works in base R.</p>
+<pre class="r"><code>interaction.plot(response = mydata$y, x.factor = mydata$A, trace.factor = mydata$id,
+    legend = FALSE, lty = 1, xlab = &quot;Treatment&quot;, ylab = &quot;Y variable&quot;, 
+    type = &quot;b&quot;, pch = 16, las = 1, cex = 1.5, cex.lab = 1.5, cex.axis = 1.3)</code></pre>
+<p><img class="imgb" title="paired" src="images/paired data strip chart baseR.jpg" alt="" width="300" height="300"></p>
+<p>Try the following with <code>ggplot</code>.</p>
+<pre class="r"><code>ggplot(mydata, aes(y = y, x = A)) +  
+    geom_point(size = 5, col = &quot;firebrick&quot;, alpha = 0.5) + 
+    geom_line(aes(group = id)) +
+    labs(x = &quot;Treatment&quot;, y = &quot;Y variable&quot;) + 
+    theme(text = element_text(size = 18), 
+          axis.text = element_text(size = 16), aspect.ratio = 0.80) +
+    theme_classic()</code></pre>
+<p><img class="imgb" title="paired" src="images/paired data strip chart ggplot.jpg" alt="" width="300" height="300"></p>
+<p><br></p>
+</div>
+<div id="strip-charts-by-group" class="section level3">
+<h3>Strip charts by group</h3>
+<p>A grouped strip chart displays a numeric response variable <code>y</code> for different levels of two categorical variables, <code>A</code> and <code>B</code>. This can be accomplished in base R by overlaying multiple strip charts, but it is much easier to produce the plot in <code>ggplot</code>.</p>
+<pre class="r"><code>ggplot(data = mydata, aes(y = y, x = A, fill = B, color = B)) + 
+    geom_jitter(size = 3, position = position_dodge(width = 0.7)) +
+    labs(x = &quot;A variable&quot;, y = &quot;y variable&quot;) +
+    theme(aspect.ratio = 0.75, text = element_text(size = 16), 
+          axis.text = element_text(size = 14)) +
+    theme_classic()</code></pre>
+<p><code>position_dodge(width = )</code> controls the horizontal distance between the adjacent strips depicting different levels of the <code>B</code> variable within each group defined by the <code>A</code> variable.</p>
+<p><img class="imgb" title="groupstrip" src="images/groupstrip ggplot.jpg" alt="" width="300" height="300"></p>
+<p><br></p>
+</div>
+<div id="box-plot" class="section level3">
+<h3>Box plot</h3>
+<p>The following code generates a box plot for the numeric variable <code>yvar</code> separately for every group identified in the categorical variable <code>A</code>. The following shows use of the formula method in <code>barplot</code>, written as “response_variable ~ explanatory_variable”. Set <code>varwidth = FALSE</code> if you want all boxes to have the same width.</p>
+<pre class="r"><code>boxplot(yvar ~ A, data = mydata, varwidth = TRUE, 
+    ylab=&quot;y value&quot;, col = &quot;firebrick&quot;, cex.axis = 0.8)</code></pre>
+<p>The next command shows how to make a basic box plot with <code>ggplot</code>. Below it is a command with more options.</p>
+<pre class="r"><code>ggplot(mydata, aes(x = A, y = yvar)) +
+    geom_boxplot()
+
+ggplot(mydata, aes(x = A, y = yvar)) + 
+    geom_boxplot(fill = &quot;firebrick&quot;, notch = FALSE, varwidth = TRUE) + 
+    labs(x = &quot;A group&quot;, y = &quot;y value&quot;) + 
+    theme(text = element_text(size = 15), axis.text = element_text(size = 12), 
+          aspect.ratio = 0.80) +
+    theme_classic()</code></pre>
+<p><br></p>
+</div>
+<div id="box-plots-by-group" class="section level3">
+<h3>Box plots by group</h3>
+<p>A grouped box plot displays a numeric response variable <code>y</code> for different levels of two categorical variables, <code>A</code> and <code>B</code>. This can be accomplished in base R by overlaying multiple box plots, but it is much easier to produce the plot in <code>ggplot</code>.</p>
+<pre class="r"><code>ggplot(data = mydata, aes(y = y, x = A, fill = B)) + 
+    geom_boxplot(width = 0.6, position = position_dodge(width = 0.7)) +
+    labs(x = &quot;A variable&quot;, y = &quot;y variable&quot;) +
+    theme(aspect.ratio = 0.75, text = element_text(size = 16), 
+          axis.text = element_text(size = 14)) +
+    theme_classic()</code></pre>
+<p><code>width</code> controls the width of each box, whereas <code>position_dodge(width = )</code> controls the horizontal distance between the adjacent boxes depicting different levels of the <code>B</code> variable within each group defined by the <code>A</code> variable.</p>
+<p><img class="imgb" title="groupbox" src="images/groupbox ggplot.jpg" alt="" width="300" height="300"></p>
+<p><br></p>
+</div>
+<div id="violin-plot" class="section level3">
+<h3>Violin plot</h3>
+<p>A violin plot shows the frequency distribution for a numerical variable (and its mirror image) for several groups. The frequency distribution is a kernel density estimate, which “smooths” the distribution. The following code generates a violin plot for the numeric variable <code>yvar</code> separately for every group identified in the categorical variable <code>A</code>. This is easiest to accomplish in <code>ggplot</code>. The <code>stat_summary</code> layer adds a dot for the mean of each group.</p>
+<pre class="r"><code>ggplot(mydata, aes(x = A, y = yvar)) + 
+    geom_violin(fill = &quot;firebrick&quot;) + 
+    stat_summary(fun.y = mean,  geom = &quot;point&quot;, color = &quot;black&quot;) +
+    labs(x = &quot;A group&quot;, y = &quot;y value&quot;) + 
+    theme(text = element_text(size = 15), axis.text = element_text(size = 12), 
+          aspect.ratio = 0.80) +
+    theme_classic()</code></pre>
+<p>The job is possible without <code>ggplot</code>, but you’ll need to install the <code>vioplot</code> package first using <code>install.packages()</code>, and then load it. Here, <code>yvar</code> is the variable plotted separately for groups of the variable <code>A</code>. In this example, A has 4 groups named <code>a1</code>, <code>a2</code>, <code>a3</code>, and <code>a4</code>. The amount of “smoothing” for the kernel density estimates is controlled by the <code>h</code> option.</p>
+<pre class="r"><code>library(vioplot)
+vioplot(mydata$yvar[mydata$A==&quot;a1&quot;], mydata$yvar[mydata$A==&quot;a2&quot;], 
+    mydata$yvar[mydata$A==&quot;a3&quot;], mydata$yvar[mydata$A==&quot;a4&quot;],
+    col=&quot;#FFB531&quot;, drawRect = FALSE, names = c(&quot;a1&quot;,&quot;a2&quot;,&quot;a3&quot;,&quot;a4&quot;),
+    h = 0.5)
+mtext(&quot;y value&quot;, side=2, line=2, las = 3)
+mtext(&quot;A group&quot;, side=1, line = 3)</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot" class="section level3">
+<h3>Scatter plot</h3>
+<p>Here’s how to to produce a scatter plot for two numeric variables, <code>x</code> and <code>y</code>.</p>
+<pre class="r"><code># formula method, base R
+plot(y ~ x, data = mydata, pch = 16, col = 2)
+
+# basic scatter plot in ggplot
+ggplot(mydata, aes(x, y)) + geom_point()
+
+# scatter plot with options in ggplot
+ggplot(mydata, aes(x, y)) + 
+    geom_point(size = 2, col = &quot;firebrick&quot;, alpha = 0.5) + 
+    labs(x = &quot;x variable&quot;, y = &quot;y variable&quot;) + 
+    theme(aspect.ratio = 0.80) +
+    theme_classic()</code></pre>
+<p>You can probably guess the intent of most of the <code>ggplot</code> options except <code>alpha</code>, which makes the dots partly transparent.</p>
+<p>To add a smooth curve through the data, use locally weighted regression. “Local” here means that <code>y</code> is predicted for each <code>x</code> using only data in the vicinity of that <code>x</code>, rather than all the data.</p>
+<p>In base R you can control the size of the vicinity using the option <code>f</code>, which is a proportion between 0 (very narrow vicinity) and 1 (uses all the data). Try different values of <code>f</code> to best capture the relationship. The default is <code>f = 2/3</code>.</p>
+<pre class="r"><code>plot(y ~ x, data = mydata)
+x1 &lt;- mydata$x[order(mydata$x)]
+y1 &lt;- mydata$y[order(mydata$x)]
+lines(lowess(mydata$x1, mydata$y1, f = 0.5))</code></pre>
+<p>Using <code>ggplot</code>, you also get SE’s of predicted values (set to FALSE if not desired).</p>
+<pre class="r"><code>ggplot(mydata, aes(x, y)) + 
+    geom_point(size = 2, col = &quot;firebrick&quot;) + 
+    labs(x = &quot;x variable&quot;, y = &quot;y variable&quot;) + 
+    geom_smooth(method = &quot;loess&quot;, size = 1, col = &quot;black&quot;, se = TRUE) +
+    theme(aspect.ratio = 0.80) +
+    theme_classic()</code></pre>
+<p>To add the least squares regression line to a plot, use the following.</p>
+<pre class="r"><code>plot(y ~ x, data = mydata)
+abline(lm(y ~ x, data = mydata))
+
+# in ggplot
+ggplot(mydata, aes(x, y)) + 
+    geom_point(size = 2, col = &quot;firebrick&quot;) + 
+    labs(x = &quot;x variable&quot;, y = &quot;y variable&quot;) + 
+    geom_smooth(method = &quot;lm&quot;, size = 1, col = &quot;black&quot;) +
+    theme(aspect.ratio = 0.80) +
+    theme_classic()</code></pre>
+<p>In base R you can use the cursor to click data points to identify individuals. The following code prints the row number when you click a point (change that by setting the <code>labels</code> option to a character variable that labels the point instead).</p>
+<pre class="r"><code>plot(y ~ x, data = mydata)
+identify(mydata$x, mydata$y, labels = seq_along(mydata$x))</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plots-by-group" class="section level3">
+<h3>Scatter plots by group</h3>
+<p>One way to make a scatter plot for multiple groups is to superimpose them all on a single plot but vary the symbols according to group. In base R, use <code>pch</code> to vary the symbol, <code>col</code> to vary the color, and both to vary both at the same time. <code>x</code> and <code>y</code> are numeric variables, whereas <code>A</code> is a categorical variable identifying groups. If <code>A</code> is already a factor you can use just <code>A</code> instead of <code>factor(A)</code> in the commands below. The <code>legend</code> command adds a legend identifying the groups—click on the plot (inside the plot region) with your cursor to place the legend.</p>
+<pre class="r"><code>plot(y ~ x, data = mydata, pch = as.numeric(factor(mydata$A)),
+         col = as.numeric(factor(mydata$A)))
+legend( locator(1), legend = as.character(levels(factor(mydata$A))), 
+    pch = 1:length(levels(factor(mydata$A))), 
+    col=1:length(levels(factor(mydata$A))) )</code></pre>
+<p>To accomplish the same with <code>ggplot</code>, specify which variable to vary by color and by shape within <code>aes()</code>, which maps variables to visuals. The example below includes an optional <code>geom_smooth()</code> line that will result in the least squares lines for each group also superimposed.</p>
+<pre class="r"><code>ggplot(mydata, aes(x, y, colour = A, shape = A)) + 
+    geom_point(size = 2) + 
+    geom_smooth(method = &quot;lm&quot;, size = 1, se = FALSE) +
+    labs(x = &quot;x variable&quot;, y = &quot;y variable&quot;) + 
+    theme(aspect.ratio = 0.80) +
+    theme_classic()</code></pre>
+<p>Another way to make a scatter plot for multiple groups is to plot them separately in panes of a panel of plots. Use <code>facet_wrap</code>() in <code>ggplot</code> for this purpose, as follows. The <code>lattice</code> package can also be used to make panels of plots, as described briefly at the bottom of the page.</p>
+<pre class="r"><code>ggplot(mydata, aes(x, y) + 
+    facet_wrap(~A, ncol = 2) + 
+    geom_point(col = &quot;firebrick&quot;, size = 2) +
+    geom_smooth(method = &quot;lm&quot;, size = 1, se = FALSE, col = &quot;black&quot;) +
+    labs(x = &quot;x variable&quot;, y = &quot;y variable&quot;) + 
+    theme(aspect.ratio = 0.80) +
+    theme_classic()</code></pre>
+<p><br></p>
+</div>
+<div id="pairwise-scatter-plots" class="section level3">
+<h3>Pairwise scatter plots</h3>
+<p>The following command creates a single graph with scatter plots between all pairs of numeric variables in a data frame, <code>mydata</code>. The option <code>gap</code> adjusts the spacing between separate plots,</p>
+<pre class="r"><code>pairs(mydata, gap = 0.5)</code></pre>
+<p>Use the formula method to plot only the three numeric variables x1, x2, and x3 in the data frame mydata.</p>
+<pre class="r"><code>pairs(~ x1 + x2 + x3, data = mydata)</code></pre>
+<p><br></p>
+</div>
+<div id="line-plot" class="section level3">
+<h3>Line plot</h3>
+<p>Here’s how to plot a sequence of (<code>x, y</code>) points and connect the dots with lines. This is especially useful when the <code>x</code>-variable represents a series of points in time or across a spatial gradient. In base R:</p>
+<pre class="r"><code>plot(y ~ x, data = mydata, pch=16)
+lines(y[order(x)] ~ x[order(x)], data = mydata)
+
+# Eliminate the points, and some options
+plot(y[order(x)] ~ x[order(x)], data = mydata, type = &quot;l&quot;, 
+    lty = 3, lwd = 2, col = &quot;red&quot;)</code></pre>
+<p>The basic <code>ggplot</code> command is below. There’s no need to order by <code>x</code>.</p>
+<pre class="r"><code>ggplot(data = mydata, aes(x, y)) +
+    geom_line()</code></pre>
+<p>A line plot in <code>ggplot</code> works if the explanatory variable is numeric (<code>x</code>) or categorical (<code>A</code>), as show in the two commands below (which also include further options).</p>
+<pre class="r"><code>ggplot(data = mydata, aes(x, y)) +
+    geom_line(color = &quot;red&quot;) +
+    geom_point() +
+    labs(x = &quot;x variable&quot;, y = &quot;y variable&quot;) + 
+    theme(text = element_text(size = 15), 
+        axis.text = element_text(size = 12), aspect.ratio = 0.75) +
+    theme_classic()
+
+# To use categorical variable A, include &quot;group = 1&quot; in aes()
+ggplot(data = mydata, aes(A, y, group = 1)) +
+    geom_line(color = &quot;red&quot;) +
+    geom_point() +
+    labs(x = &quot;A variable&quot;, y = &quot;y variable&quot;) + 
+    theme(text = element_text(size = 15), 
+        axis.text = element_text(size = 12), aspect.ratio = 0.75) +
+    theme_classic()</code></pre>
+</div>
+<div id="interaction-plots" class="section level3">
+<h3>Interaction plots</h3>
+<p>The command <code>interaction.plot</code> is quick but rudimentary, as it fails to show the data.</p>
+<p>Interaction plots display how the mean of a numeric response variable <code>y</code> changes between the levels of two categorical variables, <code>A</code> and <code>B</code>. The graph is especially useful for determine whether an interaction is present between two factors <code>A</code> and <code>B</code> in a factorial experiment, or between a factor <code>A</code> and a blocking variable <code>B</code>. If the lines are parallel then there is no interaction.</p>
+<pre class="r"><code>interaction.plot(A, B, y)</code></pre>
+<p>The levels of the variable listed first (here, <code>A</code>) will be displayed along the x-axis of the plot. The y-axis will then display the mean of y separately for each category of the second variable, <code>B</code>. Variations on this command include</p>
+<pre class="r"><code># Put B along x-axis instead
+interaction.plot(mydata$B, mydata$A, mydata$y)
+
+# Plot the median of y
+interaction.plot(mydata$A, mydata$B, mydata$y, fun = median)
+
+# Color the lines
+interaction.plot(mydata$A, mydata$B, mydata$y, 
+        col = 1:length(unique(mydata$B)))
+
+# More room for A&#39;s labels
+interaction.plot(mydata$A, mydata$B, mydata$y, las=2)</code></pre>
+<hr />
+</div>
+</div>
+<div id="using-the-lattice-package" class="section level2">
+<h2>Using the <code>lattice</code> package</h2>
+<p>The <code>lattice</code> package makes it easy to draw a panel of plots separately by group. The basic plot is simple, but commands to add points and lines to the individual panes can be tricky.</p>
+<p>The <code>lattice</code> package is included with the basic installation but you need to load the library. The graph types available in the lattice package include the standard ones found also in R’s basic graphics package, such as box plots, histograms, and so on. The table below lists the most types and the relevant command.</p>
+<p>For example, to draw a histogram of a numeric variable <code>x</code> separately for four groups identified by the variable <code>B</code> in the data frame <code>mydata</code>, use</p>
+<pre class="r"><code>library(lattice)
+histogram(~ x | B, data = mydata, layout = c(1,4), right = FALSE)</code></pre>
+<p>The <code>layout</code> option is special to lattice and draws the 4 panels in a grid with 1 column with 4 rows, so that the histograms are stacked and most easily compared visually. The <code>right=FALSE</code> option has the same meaning here as for the base R <code>hist</code> command.</p>
+<p>To draw a bar graph showing the frequency distribution of a categorical variable <code>A</code> separately for each group identified by the variable <code>B</code>,</p>
+<pre class="r"><code>barchart( ~ table(A) | B, data = mydata)</code></pre>
+<p>This produces horizontal bar graphs, which leaves room for the category labels. To draw the bars vertically instead, while tilting the group labels on the x-axis by 45 degrees so that they fit,</p>
+<pre class="r"><code>barchart(table(A) ~ names(table(A)) | B, data = mydata, 
+         scales = list(x=list(rot=45)))</code></pre>
+<p>As a third example, draw a scatter plot to show the relationship between the numeric variables <code>x</code> and <code>x</code> separately for each group in the variable <code>B</code>. The <code>pch</code> option in this example replaces the default plot symbol with a filled dot, and the <code>aspect</code> option sets the relative lengths of the vertical and horizontal axes.</p>
+<pre class="r"><code>xyplot(y ~ x | B, data = mydata, pch = 16, aspect = 0.7)</code></pre>
+<p>It is possible to add plot elements to individual panels, but the commands and options take some getting used to. For example, to fit a separate regression line to each scatter plot, one to each group, use the <code>panel</code> argument in <code>xyplot</code> to construct a function that applies built-in panel functions to each group, as follows.</p>
+<pre class="r"><code>xyplot(y ~ x | B, data = mydata, pch = 16, aspect = 0.7,
+    panel=function(x, y){       # Use x and y here, not real variable names
+        panel.xyplot(x, y)  # draws the scatter plot
+        panel.lmline(x, y)  # fits the regression line
+        }
+    )</code></pre>
+<p>This doesn’t even begin to describe what’s possible using the lattice package. Crawley has a few more examples of trellis graphics in <i>The R Book</i>. Sarkar (2008) gives a complete description. See the links to these books on the “Books” tab of the Biology 501 course page.</p>
+<p>The table below shows a few of the commonly used plotting commands in the lattice package. <code>x</code> and <code>y</code> are numeric variables, whereas <code>A</code> is a categorical variable (character or factor). <code>B</code> is a factor or character variable that will define the groups or subsets of the data frame to be plotted in separate panels. A separate plot in the graphics window will be made for each of the groups defined by the variable <code>B</code>.</p>
+<style type="text/css">
+.tg td{font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#000000;color:#.tg  {border-collapse:collapse;border-spacing:0;border-color:#000000;}
+;background-color:##5c7eb8;}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<tr>
+<td class="tg-0lax">
+<strong>Command</strong>
+</td>
+<td class="tg-0lax">
+<strong>Graph type</strong>
+</td>
+<td class="tg-0lax">
+<strong>Syntax (~ is the “tilde” symbol)</strong>
+</td>
+</tr>
+<tr>
+<td class="tg-0lax">
+<code>barchart</code>
+</td>
+<td class="tg-0lax">
+bar graph
+</td>
+<td class="tg-0lax">
+<code>barchart(~table(A) | B, data=mydata)</code>
+</td>
+</tr>
+<tr>
+<td class="tg-0lax">
+<code>bwplot</code>
+</td>
+<td class="tg-0lax">
+box plot
+</td>
+<td class="tg-0lax">
+<code>bwplot(x ~ A | B, data=mydata)</code>
+</td>
+</tr>
+<tr>
+<td class="tg-0lax">
+<code>histogram</code>
+</td>
+<td class="tg-0lax">
+histogram
+</td>
+<td class="tg-0lax">
+<code>histogram(~x | B, data=mydata, right=FALSE)</code>
+</td>
+</tr>
+<tr>
+<td class="tg-0lax">
+<code>stripplot</code>
+</td>
+<td class="tg-0lax">
+strip chart
+</td>
+<td class="tg-0lax">
+<code>stripplot(x ~ A | B, data=mydata, jitter=TRUE)</code>
+</td>
+</tr>
+<tr>
+<td class="tg-0lax">
+<code>xyplot
+</td>
+<td class="tg-0lax">
+scatter plot
+</td>
+<td class="tg-0lax">
+<code>xyplot(y ~ x | B, data=mydata)</code>
+</td>
+</tr>
+</table>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2020 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
