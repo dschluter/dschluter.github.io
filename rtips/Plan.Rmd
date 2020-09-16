@@ -1,0 +1,180 @@
+---
+title: "Planning tools"
+author:
+
+<!--  output: html_document -->
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This page provides tips on how to simulate data to investigate the adequacy of a planned sampling or experimental design. It also introduces some tools for calculating power and sample size.
+
+***
+
+## Simulate data
+The section shows how to simulate data by random sampling from a population having known mean and variance, or a known proportion. Such data sets can be useful for exploring design and analysis strategies prior to beginning an experiment.
+
+Two vector commands we will use frequently are <code>c</code> to concatenate values and <code>rep</code> to replicate values. For example,
+
+```{r eval = FALSE}
+x1 <- c(1,2,3,4,5)             # concatenate the numbers in a vector
+x2 <- c(x1, c(9,8,7))          # combine two vectors into one
+x <- rep(1,10)                 # make a vector with ten 1's
+x <- rep(c(1,2), 5)            # make the vector 1 2 1 2 ... (5 times)
+A <- rep(c("a","b"), c(4,2))   # make the vector a a a a a b b
+```
+
+<br>
+
+### Normally-distributed population
+In the following example we sample 5 random numbers from a normal population having a mean of 2 and a standard deviation of 10. Repeat it several times to convince yourself that the outcomes are different each time. Modify the <code>mean</code> and <code>sd</code> values to see how this affect the results. Change the 5 to another number to obtain a different sample size.
+
+```{r eval = FALSE}
+myrand <- rnorm(5, mean = 2, sd = 10)
+```
+
+You can round the data to 2 decimal places using
+
+```{r eval = FALSE}
+myrand <- round(myrand, 2)
+```
+
+<br>
+
+### Categorical data
+To sample 20 individuals from a population in which 40% of individuals are diseased and 60% are healthy,
+
+```{r eval = FALSE}
+sample(c("diseased","healthy"), size=20, replace=TRUE, prob=c(.4,.6))
+```
+
+<br>
+
+### Two treatments, normal data
+The following commands generate a data frame with data from 20 individuals in two treatment groups (10 in each group). In this first example, the mean response is the same between treatments.
+
+```{r eval = FALSE}
+treatment <- rep(c("treat","control"), c(10,10))
+response <- rnorm(20, mean = 10, sd = 3)
+mydat <- data.frame(treatment, response, stringsAsFactors = FALSE)
+```
+
+The following commands modify the above procedure so that the mean is different between treatment and control groups, but the standard deviation remains the same (the usual assumption of linear models).
+
+```{r eval = FALSE}
+treatment <- rep(c("treat","control"), c(10,10))
+response1 <- rnorm(10, mean = 10, sd = 3)
+response2 <- rnorm(10, mean = 8,sd = 3)
+mydat <- data.frame(treatment, response = c(response1, response2), 
+                    stringsAsFactors = FALSE)
+```
+
+<br>
+
+### Two treatments, categorical data
+The following commands generate a data frame with categorical data from 20 individuals in two treatment groups (10 in each group). The response variable is "dead" or "alive". In this first example, the proportion alive is the same, 0.3, between treatments.
+
+```{r eval = FALSE}
+treatment <- rep(c("treat","control"), c(10,10))
+survival <- sample(c("alive","dead"), size = 20, 
+                   replace = TRUE, prob = c(.3,.7))
+mydat <- data.frame(treatment, survival, stringsAsFactors = FALSE)
+table(mydat) # view the sampling results
+```
+
+The following commands modify the above procedure so that the probability of survival is different between treatment (0.6) and control (0.3) groups.
+
+```{r eval = FALSE}
+treatment <- rep(c("treat","control"), c(10,10))
+s1 <- sample(c("alive","dead"), 10, replace = TRUE, prob = c(.6,.4))
+s2 <- sample(c("alive","dead"), 10, replace = TRUE, prob = c(.3,.7))
+mydat <- data.frame(treatment, survival = c(s1,s2), stringsAsFactors = FALSE)
+table(mydat) # view the sampling results
+```
+
+***
+
+## Power and sample size
+The <span style="font-weight: bold;">power</span> of a test is its probability of rejecting a false null hypothesis. This section covers tools in R to calculate power or sample size for a specified magnitude of difference from the null hypothesis. We'll use the commands in the <code>pwr</code> package. These functions are built on the methods of Cohen (1988) <span style="font-style: italic;">Statistical power analysis for the behavioral sciences</span>.
+
+To begin, load the <code>pwr</code> add-on package (you'll need to download and install the package from the Cran website if you haven't already done so -- it isn't part of the standard installation).
+
+```{r eval = FALSE}
+library(pwr)
+```
+
+The procedures involve two steps. The first converts your quantities of interest to an effect size. Effect sizes are standard measures of the magnitude of an effect or of the strength of the relationship between two variables. They are used in meta-analysis to compare results from diverse studies using different methods and types of variables. Cohen has developed some of effect size measures in common use. The second step is to calculate power or sample size for the given effect size. In all the examples below we use a significance level α = 0.05.
+
+<br>
+
+### For a single proportion
+The binomial test is used to compare the observed frequency of "success" and "failure". The $\chi^2$ goodness of fit test is used in the same context when sample size is large. The null and alternative hypotheses for the test are
+
+$H_O: p = p_0$ <br>
+$H_A: p \ne p_0$
+
+The <code>pwr.p.test</code> command calculates approximate power of this test for a given sample size, or the sample size needed to achieve a specified power. p<sub>A</sub> refers to the proportion under the alternative hypothesis that you would like to detect.
+
+```{r eval = FALSE}
+h <- ES.h(pO, pA)          # convert p's to Cohen's effect size "h"
+pwr.p.test(h, n = 50)      # yields power of test when n=50
+pwr.p.test(h, power = 0.8) # sample size needed to achieve power
+```
+
+For example, to determine the sample size needed to achieve 80% power of a test in which the null hypothesis is 0.5, and in which you hope to detect a proportion at least as large as 0.7, use
+
+```{r eval = FALSE}
+h <- ES.h(0.5, 0.7)
+pwr.p.test(h, power = 0.8)
+```
+
+<br>
+
+### For a 2x2 experiment
+The Fisher exact test and χ<sup>2</sup> contingency test are used to detect association between treatment and response in a 2 x 2 experiment. The pwr package has routines to calculate power and sample size in a 2 x 2 design for the χ<sup>2</sup> contingency test. To use them, you need to specify he probability of "success" and "failure" in both treatment and control. The method below assumes that the sample size is the same in both the treatment and controls. For example, to determine the power of
+
+```{r eval = FALSE}
+control <- c(0.5,0.5)                    # control prob. of success, failure
+treatment <- c(0.3,0.7)                  # treatment probs.
+probs <- data.frame(treatment, control)  # a 2 x 2 data frame of p's
+probs <- cbind(treatment, control)       # this works too: a 2 x 2 matrix of p's
+w <- ES.w2(probs/sum(probs))             # Cohen's effect size "w"
+```
+
+To calculate the power of the test for a given total sample size,
+
+```{r eval = FALSE}
+pwr.chisq.test(w, df = 1, N = 60) # N is the total sample size
+```
+
+To calculate the total sample size needed to achieve a test with 80% power,
+
+```{r eval = FALSE}
+pwr.chisq.test(w, df = 1, power = 0.80)
+```
+
+<br>
+
+### For a two-sample <i>t</i>-test or anova
+If your response variable is normally distributed with equal variance in both groups, you would use a two-sample <i>t</i>-test (or, equivalently, an anova on two groups). The basic stats package in R includes a command to calculate power and sample size for this case.
+
+To calculate power, first calculate <code>delta</code>, the known difference between means. You will also need to know the standard deviation within each group. Then, to calculate power of an experiment for given sample size n in each group (2n overall, since we are assuming equal sample size), power is given as
+
+```{r eval = FALSE}
+power.t.test(n = n, delta = delta, sd = sd)
+```
+
+Sample size for a given predetermined power of 80% is calculated as
+
+```{r eval = FALSE}
+power.t.test(delta = delta, sd = sd, power = 0.80)
+```
+

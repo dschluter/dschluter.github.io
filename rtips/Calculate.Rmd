@@ -1,0 +1,376 @@
+---
+title: "Calculate"
+author:
+
+<!--  output: html_document -->
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This page explains how to get started doing basic calculations and using simple vector functions.
+
+
+***
+
+
+
+## Introduction to vectors
+A vector is a simple array of numbers or characters, such as the measurements of a single variable on a sample of individuals. R makes it easy to carry out mathematical operations and functions to all the values in a vector at once.
+
+<br>
+
+### Enter measurements
+Use the left arrow  "<-"  ("less than" sign followed by a dash) and the <code>c</code> function (for concatenate) to create a vector containing a set of measurements.
+
+```{r eval = FALSE}
+x <- c(11,42,-3,14,5)              # store these 5 numbers in vector x
+x <- c(1:10)                       # store integers 1 to 10
+x <- c("Watson","Crick","Wilkins") # use quotes for character data
+```
+
+Use the <code>seq</code> function to generate a sequence of numbers and store in a vector,
+
+```{r eval = FALSE}
+x <- seq(0, 10, by=0.1)            # 0, 0.1, 0.2, ... 9.9, 10
+```
+
+<small>(note: <code>seq</code> results that include decimals may not be exact -- the result "0.2" may not be exactly equal to the number 0.2 unless rounded using the "round" command) </small>
+
+Use <code>rep</code> to repeat values a specified number of times and store to a vector,
+
+```{r eval = FALSE}
+x <- rep(c(1,2,3), c(2,1,4))       # 1 1 2 3 3 3 3
+```
+
+To view contents of any object, including a vector, type its name and enter, or use the <code>print</code> command,
+
+```{r eval = FALSE}
+x                  # print "x" to the screen
+print(x)           # do the same
+```
+
+
+<br>
+
+### Delete a vector
+The following command removes the vector <code>x</code> from the local R environment.
+
+```{r eval = FALSE}
+rm(x)
+```
+
+
+<br>
+
+### Access elements of a vector
+Use integers in square brackets to indicate specific elements of a vector. For example,
+
+```{r eval = FALSE}
+x[5]           # 5th value of the vector x
+x[2:6]         # 2nd through 6th elements of x
+x[2:length(x)] # everything but the first element
+x[-1]          # everything but the first element
+x[5] <- 4.2    # change the value of the 5th element to 4.2
+```
+
+
+<br>
+
+### Math with vectors
+These operations are carried out on every element of the vector
+
+```{r eval = FALSE}
+x + 1          # add 1 to each element of x
+x^2            # square each element of x
+x/2            # divide each element of x by 2
+10 * x         # multiply each element of x by 10
+```
+
+Operations on two vectors x and y work best when both are the same length (have the same number of elements). For example
+
+```{r eval = FALSE}
+x * y        # yields a new vector whose 
+             # elements are x[1]*y[1], x[2]*y[2], ... x[n]*y[n]
+```
+
+If <code>x</code> and <code>y</code> are not the same length, then the shorter vector is elongated by starting again at the beginning.
+
+
+***
+
+
+
+## Useful vector functions
+Here is a selection of useful functions for data vectors. Many of the functions will also work on other data objects such as data frames, possibly with different effects.
+
+<br>
+
+### Transform numerical data
+The most common data transformations, illustrated using the single variable <code>x</code>.
+
+```{r eval = FALSE}
+sqrt(x)          # square root
+sqrt(x + 0.5)    # modified square root transformation
+log(x)           # the natural log of x
+log10(x)         # log base 10 of x
+exp(x)           # exponential ("antilog") of x
+abs(x)           # absolute value of x
+asin(sqrt(x))    # arcsine square root (used for proportions)
+```
+
+
+<br>
+
+### Statistics
+Here are a few basic statistical functions on a numeric vector named <code>x</code>. Most of them will require the <code>na.rm=TRUE</code> option if the vector includes one or more missing values.
+
+```{r eval = FALSE}
+sum(x)                 # the sum of values in x
+length(x)              # number of elements (including missing)
+mean(x)                # sample mean
+var(x)                 # sample variance
+sd(x)                  # sample standard deviation
+min(x)                 # smallest element in x
+max(x)                 # largest element in x
+range(x)               # smallest and largest elements in x
+median(x)              # median of elements in x
+quantile(x)            # quantiles of x
+unique(x)              # extracts only the unique values of x
+sort(x)                # sort, smallest to largest
+weighted.mean(x, w)    # weighted mean
+```
+
+
+<br>
+
+### Functions for character data
+
+```{r eval = FALSE}
+casefold(x)              # convert to lower case
+casefold(x, upper=TRUE)  # convert to upper case
+substr(x, 2, 4)          # extract 2nd to 4th characters of each element of x
+paste(x, "ly", sep="")   # paste "ly" to the end of each element in x
+nchar(x)                 # no. of characters in each element of x
+grep("a", x)             # which elements of x contain letter "a" ?
+grep("a|b", x)           # which elements of x contain letter "a" or letter "b"?
+strsplit(x, "a")         # split x into pieces wherever the letter "a" occurs
+```
+
+
+<br>
+
+### Functions for factors
+A factor is like a character variable except that its unique values represent “levels” that have names but also have a numerical interpretation. The following commands are useful if <code>x</code> is a factor variable (a vector).
+
+```{r eval = FALSE}
+levels(x)                   # show the unique values of a factor variable
+droplevels(x)               # delete unused levels of a factor variable
+as.character(x)             # convert values of a factor to character strings instead
+as.numeric(as.character(x)) # convert numbers in "x" from factors to numeric type
+```
+
+
+<br>
+
+### TRUE and FALSE data
+Vectors can be assigned logical measurements, directly or as the result of a logical operation. Here's an example of direct assignment.
+
+```{r eval = FALSE}
+z <- c(TRUE, TRUE, FALSE)  # put 3 logical values to a vector z
+```
+
+Logical operations can identify and select those vector elements for which a condition is TRUE. The comparison operations include
+
+```{r eval = FALSE}
+ ==  (equal to)
+ !=  (not equal to)
+ <   (less than)
+ <=  (less than or equal to)
+ %in% (is an element of)
+```
+
+and so on.
+
+For example, put the following numbers into a vector <code>z</code>,
+
+```{r eval = FALSE}
+z <- c(2, -1, 3, 99, 8 )
+```
+
+The following logical operations and functions yield the results shown on the right
+
+```{r eval = FALSE}
+z <= 3             # TRUE TRUE TRUE FALSE FALSE (for each element of z)
+!(z < 3)           # FALSE FALSE TRUE TRUE TRUE
+z[z != 3]          # 2 -1 99  8, the elements of z for which the condition is TRUE
+which(z <= 4)      # 4 5, the indices for elements of z satisfying the condition
+is.na(z)           # FALSE FALSE FALSE FALSE FALSE
+any(z < 0)         # TRUE
+all(z < 0)         # FALSE
+99 %in% z          # TRUE
+100 %in% z         # FALSE
+```
+
+The logical operators "&" and "|" refer to AND and OR. For example, put the following numbers into a vector <code>z</code>,
+
+```{r eval = FALSE}
+z <- c(-10, -5, -1, 0, 3, 92)
+```
+
+The following operations yield the results shown on the right
+
+```{r eval = FALSE}
+z < 0 & abs(z) < 5     # TRUE FALSE FALSE FALSE FALSE FALSE
+z[z < 0 | abs(z) < 5]  # -10  -5  -1  92
+```
+
+
+<br>
+
+### What am I?
+These functions return TRUE or FALSE depending on the structure of <code>x</code> and its data type.
+
+```{r eval = FALSE}
+is.vector(x)
+is.character(x)
+is.numeric(x)
+is.integer(x)
+is.factor(x)
+```
+
+
+
+***
+
+
+
+## Combine vectors into data frame
+Vectors representing different variables measured made on the same unit can be made into columns of a data frame. A data frame is a spreadsheet-like object containing a data set. See the "Data" tab for tips on working with data frames. Here we show how to make a data frame by combining vectors of the same length. The vectors need not be of the same data type.
+
+First, obtain your vectors. For example,
+
+```{r eval = FALSE}
+quadrat <- c(1:7)
+site <- c(1,1,2,3,3,4,5)
+species <- c("a","b","b","a","c","b","a")
+```
+
+Now combine them into a data frame named <code>mydata</code>.
+
+```{r eval = FALSE}
+mydata <- data.frame(quadrat = quadrat, site = site, species = species, 
+                    stringsAsFactors = FALSE)
+```
+
+The argument <code>stringsAsFactors = FALSE</code> is optional but recommended to preserve character data (otherwise character variables are converted to factors).
+
+You can accomplish the same job using the <code>tibble</code> command in the <code>dplyr</code> package (you'll need to install the package if you have not already done so using <code>install.packages()</code>).
+
+```{r eval = FALSE}
+library(dplyr)                                                       # load package
+mydata <- tibble(quadrat = quadrat, site = site, species = species)  # dplyr method
+```
+
+
+
+***
+
+
+
+## Deal with missing values
+Missing values in R are indicated with NA.
+
+```{r eval = FALSE}
+x[5] <- NA        # assign "missing" to the 5th element of x
+x[x == -99] <- NA # change all instances of -99 in x to missing
+which(is.na(x))   # identify which element(s) is missing
+```
+
+Some functions will treat NA as valid entries. For example, the length of a vector (number of elements) includes missing values in the count.
+
+```{r eval = FALSE}
+length(x)
+```
+
+Some functions won't work on variables that include missing values unless default options are modified. For example, if you try to calculate the mean of a vector that contains missing values you will get <code>NA</code> as your result. Most functions have an option "na.rm" that ignores the missing values when calculating.
+
+```{r eval = FALSE}
+x <- c(1,2,3,4,5,NA)  # a vector with one missing value
+mean(x)               # result is NA
+mean(x, na.rm = TRUE) # result is the mean of non-missing values of x
+```
+
+As usual, there's more than one way to solve the problem. For example, you can create a new variable that contains only the non-missing values, but this requires an extra step so it not preferred:
+
+```{r eval = FALSE}
+x1 <- na.omit(x)           # put the non-missing values of x into new vector x1
+x1 <- x[complete.cases(x)] # same
+x1 <- x[!is.na(x)])        # same
+length(x1)                 # count the number of non-missing values
+```
+
+
+
+***
+
+
+
+## Write your own function
+If R is missing a needed function write your own. Here's an example of a function named <code>sep()</code> that calculates the standard error of an estimate of a proportion. The argument <code>n</code> refers to sample size, and <code>X</code> is the number of "successes" (e.g., the number of females in the sample, the number of infected individuals, etc.).
+
+```{r eval = FALSE}
+sep <- function(X, n){
+  p.hat <- X / n                  # The proportion of "successes"
+  sep <- sqrt(p.hat*(1-p.hat)/n)  # The standard error of p.hat
+  return(sep)                     # Return the standard error as the result
+  }
+```
+
+To use the function, copy it to your clipboard. Then paste it into your command window and hit the enter key. (On a Mac, you may need to use the R Edit menu to "Paste as Plain Text" to avoid formatting problems.) The function <code>sep()</code> will be stored in your R workspace so you only need to paste it once. If you save your workspace when you exit R it will remain there when you start up again -- otherwise you'll need to paste it in again.
+
+To use the function on some data, for example <code>n</code>=20 and <code>X</code>=10, enter
+
+```{r eval = FALSE}
+sep(X = 10, n = 20) # yields the standard error
+sep(10,20)          # shorthand ok if X and n are given in correct order
+```
+
+
+
+***
+
+
+
+## Paste clipboard to a vector
+To demonstrate, select the following 10 numbers with your mouse and copy to your clipboard:
+76 75 -52 -70 52 8 -50 -6 57 5
+(choose Edit -< Copy on your browser menu to copy to clipboard)
+Then execute the following command in your R command window:
+
+```{r eval = FALSE}
+z <- scan("clipboard", what=numeric())             # on a PC
+z <- scan(pipe("pbpaste"), what=numeric())         # on a Mac
+```
+
+To paste characters instead of numbers, use the following,
+
+```{r eval = FALSE}
+z <- scan("clipboard", what=character())           # PC
+z <- scan(pipe("pbpaste"), what=character())       # Mac
+```
+
+If characters or numbers of interest are separated by commas, use
+
+```{r eval = FALSE}
+z <- scan("clipboard", what=character(), sep=",")      # PC
+z <- scan(pipe("pbpaste"), what=character(), sep=",")  # Mac
+```
+

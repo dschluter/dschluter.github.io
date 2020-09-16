@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 <meta name="author" content />
@@ -1387,7 +1387,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -1536,6 +1535,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -1548,48 +1548,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = false;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -1603,6 +1564,12 @@ $(document).ready(function ()  {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -1733,7 +1700,7 @@ div.tocify {
   </ul>
 </li>
 <li>
-  <a href="https://www.zoology.ubc.ca/~bio501/R/workshops/">R workshops home</a>
+  <a href="../workshops/">R workshops home</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -1760,7 +1727,7 @@ div.tocify {
 <p>Two vector commands we will use frequently are <code>c</code> to concatenate values and <code>rep</code> to replicate values. For example,</p>
 <pre class="r"><code>x1 &lt;- c(1,2,3,4,5)             # concatenate the numbers in a vector
 x2 &lt;- c(x1, c(9,8,7))          # combine two vectors into one
-x &lt;- rep(1,10)                 # make a vector with ten 1's
+x &lt;- rep(1,10)                 # make a vector with ten 1&#39;s
 x &lt;- rep(c(1,2), 5)            # make the vector 1 2 1 2 ... (5 times)
 A &lt;- rep(c(&quot;a&quot;,&quot;b&quot;), c(4,2))   # make the vector a a a a a b b</code></pre>
 <p><br></p>
@@ -1821,7 +1788,7 @@ table(mydat) # view the sampling results</code></pre>
 <p>The binomial test is used to compare the observed frequency of “success” and “failure”. The <span class="math inline">\(\chi^2\)</span> goodness of fit test is used in the same context when sample size is large. The null and alternative hypotheses for the test are</p>
 <p><span class="math inline">\(H_O: p = p_0\)</span> <br> <span class="math inline">\(H_A: p \ne p_0\)</span></p>
 <p>The <code>pwr.p.test</code> command calculates approximate power of this test for a given sample size, or the sample size needed to achieve a specified power. p<sub>A</sub> refers to the proportion under the alternative hypothesis that you would like to detect.</p>
-<pre class="r"><code>h &lt;- ES.h(pO, pA)          # convert p's to Cohen's effect size &quot;h&quot;
+<pre class="r"><code>h &lt;- ES.h(pO, pA)          # convert p&#39;s to Cohen&#39;s effect size &quot;h&quot;
 pwr.p.test(h, n = 50)      # yields power of test when n=50
 pwr.p.test(h, power = 0.8) # sample size needed to achieve power</code></pre>
 <p>For example, to determine the sample size needed to achieve 80% power of a test in which the null hypothesis is 0.5, and in which you hope to detect a proportion at least as large as 0.7, use</p>
@@ -1834,9 +1801,9 @@ pwr.p.test(h, power = 0.8)</code></pre>
 <p>The Fisher exact test and χ<sup>2</sup> contingency test are used to detect association between treatment and response in a 2 x 2 experiment. The pwr package has routines to calculate power and sample size in a 2 x 2 design for the χ<sup>2</sup> contingency test. To use them, you need to specify he probability of “success” and “failure” in both treatment and control. The method below assumes that the sample size is the same in both the treatment and controls. For example, to determine the power of</p>
 <pre class="r"><code>control &lt;- c(0.5,0.5)                    # control prob. of success, failure
 treatment &lt;- c(0.3,0.7)                  # treatment probs.
-probs &lt;- data.frame(treatment, control)  # a 2 x 2 data frame of p's
-probs &lt;- cbind(treatment, control)       # this works too: a 2 x 2 matrix of p's
-w &lt;- ES.w2(probs/sum(probs))             # Cohen's effect size &quot;w&quot;</code></pre>
+probs &lt;- data.frame(treatment, control)  # a 2 x 2 data frame of p&#39;s
+probs &lt;- cbind(treatment, control)       # this works too: a 2 x 2 matrix of p&#39;s
+w &lt;- ES.w2(probs/sum(probs))             # Cohen&#39;s effect size &quot;w&quot;</code></pre>
 <p>To calculate the power of the test for a given total sample size,</p>
 <pre class="r"><code>pwr.chisq.test(w, df = 1, N = 60) # N is the total sample size</code></pre>
 <p>To calculate the total sample size needed to achieve a test with 80% power,</p>
@@ -1877,6 +1844,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

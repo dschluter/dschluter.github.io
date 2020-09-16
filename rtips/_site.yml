@@ -30,7 +30,7 @@ navbar:
         - text: "Phylogenetic comparison"
           href: Phylogenetic.html
     - text: "R workshops home"
-      href: https://www.zoology.ubc.ca/~bio501/R/workshops/
+      href: ../workshops/
 
 output_dir: "."
 output:

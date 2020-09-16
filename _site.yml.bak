@@ -1,0 +1,35 @@
+name: "R workshops"
+navbar:
+  title: "Biology 501 &mdash; The University of British Columbia"
+  type: default
+  left:
+    - text: "Biol 501 pages"
+      menu:
+        - text: "Home page"
+          href: index.html
+        - text: "Lectures"
+          href: lectures.html
+        - text: "Handouts"
+          href: handouts.html
+        - text: "Calendar"
+          href: calendar.html
+        - text: "Homework"
+          href: homework.html
+        - text: "Books"
+          href: books.html
+        - text: "R workshops page"
+          href: workshops/index.html
+    - text: "R workshops home"
+      href: workshops/index.html
+    - text: "R tips home"
+      href: https://www.zoology.ubc.ca/~schluter/R/
+
+output_dir: "."
+output:
+  html_document:
+    theme: yeti
+    highlight: null
+    includes: 
+      after_body: footer.html
+    css: workshops.css
+

@@ -22,7 +22,7 @@ navbar:
     - text: "R workshops home"
       href: workshops/index.html
     - text: "R tips home"
-      href: https://www.zoology.ubc.ca/~schluter/R/
+      href: rtips/index.html
 
 output_dir: "."
 output:
