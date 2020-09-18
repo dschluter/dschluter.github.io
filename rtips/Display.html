@@ -778,7 +778,7 @@ segments(x0 = c(1:4 + 0.2), y0 = m - se,
 <p>The following code generates a box plot for the numeric variable <code>yvar</code> separately for every group identified in the categorical variable <code>A</code>. The following shows use of the formula method in <code>barplot</code>, written as “response_variable ~ explanatory_variable”. Set <code>varwidth = FALSE</code> if you want all boxes to have the same width.</p>
 <pre class="r"><code>boxplot(yvar ~ A, data = mydata, varwidth = TRUE, 
     ylab=&quot;y value&quot;, col = &quot;firebrick&quot;, cex.axis = 0.8)</code></pre>
-<p>The next command shows how to make a basic box plot with <code>ggplot</code>. Below it is a command with more options.</p>
+<p>The next command shows how to make a basic box plot with <code>ggplot()</code>. Below it is a command with more options. if FALSE (default) make a standard box plot. Set <code>varwidth = TRUE</code> if you want box widths proportional to the square-roots of the number of observations in each group.</p>
 <pre class="r"><code>ggplot(mydata, aes(x = A, y = yvar)) +
     geom_boxplot()
 
