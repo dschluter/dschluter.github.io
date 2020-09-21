@@ -52,8 +52,8 @@ Below is an approximate list of lecture topics and contents. Links to the lectur
 
 <br>
 
-## Design of experiments<!--
-<a href="lecturepdf/03.Design.pdf">Lecture slides</a>
+## Design of experiments
+<a href="lecturepdf/03.Design.pdf">Lecture slides</a><!--
 <br><a href="https://youtu.be/27b-qZKkraU">Lecture video</a> -->
 <br>Plan your sample size
 <br>Experiments vs observational studies

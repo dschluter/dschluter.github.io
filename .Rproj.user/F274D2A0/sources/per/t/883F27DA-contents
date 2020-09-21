@@ -565,7 +565,7 @@ boxplot(yvar ~ A, data = mydata, varwidth = TRUE,
 	ylab="y value", col = "firebrick", cex.axis = 0.8)
 ```
 
-The next command shows how to make a basic box plot with <code>ggplot</code>. Below it is a command with more options.
+The next command shows how to make a basic box plot with <code>ggplot()</code>. Below it is a command with more options. if FALSE (default) make a standard box plot. Set <code>varwidth = TRUE</code> if you want box widths proportional to the square-roots of the number of observations in each group.
 
 ```{r eval = FALSE}
 ggplot(mydata, aes(x = A, y = yvar)) +
