@@ -42,8 +42,8 @@ Below is an approximate list of lecture topics and contents. Links to the lectur
 
 ## Graphics
 <a href="lecturepdf/02.Graphics.pdf">Lecture slides</a>
-<br><a href="https://www.dropbox.com/s/11pj2d5k9gd7pzj/01%20Graphics%20-%20zoom%20audio_only.m4a?dl=0">Lecture audio</a>
-<br><a href="https://www.dropbox.com/s/nu83p4qmeq1jc23/01%20Graphics%20-%20zoom%20video.mp4?dl=0">Lecture video</a>
+<br><a href="https://www.dropbox.com/s/11pj2d5k9gd7pzj/02%20Graphics%20-%20zoom%20audio_only.m4a?dl=0">Lecture audio</a>
+<br><a href="https://www.dropbox.com/s/nu83p4qmeq1jc23/02%20Graphics%20-%20zoom%20video.mp4?dl=0">Lecture video</a>
 <br>The purpose of graphs
 <br>Principles of effective display
 <br>Types of graphs to achieve these principles
@@ -53,8 +53,9 @@ Below is an approximate list of lecture topics and contents. Links to the lectur
 <br>
 
 ## Design of experiments
-<a href="lecturepdf/03.Design.pdf">Lecture slides</a><!--
-<br><a href="https://youtu.be/27b-qZKkraU">Lecture video</a> -->
+<a href="lecturepdf/03.Design.pdf">Lecture slides</a>
+<br><a href="https://www.dropbox.com/s/11pj2d5k9gd7pzj/03%20Design%20-%20zoom%20audio_only.m4a?dl=0">Lecture audio</a> (Apologies, only the second half recorded, see 2019 link below for a full lecture)
+<br><a href="https://www.dropbox.com/s/nu83p4qmeq1jc23/03%20Design%20-%20zoom%20video.mp4?dl=0">Lecture video</a> (Apologies, only the second half recorded, see 2019 link below for a full lecture)
 <br>Plan your sample size
 <br>Experiments vs observational studies
 <br>Why do experiments

@@ -1,21 +1,24 @@
 {
-    "id": "112C7283",
+    "id": "D8B0F71A",
     "path": "~/Documents/dschluter.github.io/lectures.Rmd",
     "project_path": "lectures.Rmd",
     "type": "r_markdown",
-    "hash": "2519285314",
+    "hash": "4289277591",
     "contents": "",
     "dirty": false,
-    "created": 1600291290468.0,
+    "created": 1600913779891.0,
     "source_on_save": false,
-    "relative_order": 1,
-    "properties": {},
+    "relative_order": 3,
+    "properties": {
+        "cursorPosition": "57,128",
+        "scrollLine": "0"
+    },
     "folds": "",
-    "lastKnownWriteTime": 1600271898,
+    "lastKnownWriteTime": 1600913801,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1600271898,
+    "last_content_update": 1600913801647,
     "read_only": false,
     "read_only_alternatives": []
 }
