@@ -54,7 +54,7 @@ Below is an approximate list of lecture topics and contents. Links to the lectur
 
 ## Design of experiments
 <a href="lecturepdf/03.Design.pdf">Lecture slides</a>
-<br><a href="https://www.dropbox.com/s/11pj2d5k9gd7pzj/03%20Design%20-%20zoom%20audio_only.m4a?dl=0">Lecture audio</a> (Apologies, only the second half recorded, see 2019 link below for a full lecture)
+<br><a href="https://www.dropbox.com/s/11pj2d5k9gd7pzj/03%20Design%20-%20zoom%20audio_only.m4a?dl=0">Lecture audio</a>(Apologies, only the second half recorded, see 2019 link below for a full lecture)
 <br><a href="https://www.dropbox.com/s/nu83p4qmeq1jc23/03%20Design%20-%20zoom%20video.mp4?dl=0">Lecture video</a> (Apologies, only the second half recorded, see 2019 link below for a full lecture)
 <br>Plan your sample size
 <br>Experiments vs observational studies
@@ -66,8 +66,8 @@ Below is an approximate list of lecture topics and contents. Links to the lectur
 
 <br>
 
-## Linear models<!--
-<a href="lecturepdf/04.Linear models.pdf">Lecture slides</a>
+## Linear models
+<a href="lecturepdf/04.Linear models.pdf">Lecture slides</a> <!--
 <br><a href="https://youtu.be/WYKBgzDjpbs">Lecture video</a> -->
 <br>What is a linear model
 <br>Several examples
