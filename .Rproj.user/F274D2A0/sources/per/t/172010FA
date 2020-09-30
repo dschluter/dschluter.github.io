@@ -3,19 +3,22 @@
     "path": "~/Documents/dschluter.github.io/rtips/Model.Rmd",
     "project_path": "rtips/Model.Rmd",
     "type": "r_markdown",
-    "hash": "586093741",
+    "hash": "226438523",
     "contents": "",
     "dirty": false,
     "created": 1601498453258.0,
     "source_on_save": false,
     "relative_order": 5,
-    "properties": {},
+    "properties": {
+        "cursorPosition": "373,49",
+        "scrollLine": "365"
+    },
     "folds": "",
-    "lastKnownWriteTime": 1601494080,
+    "lastKnownWriteTime": 1601498742,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1601494080,
+    "last_content_update": 1601498742581,
     "read_only": false,
     "read_only_alternatives": []
 }

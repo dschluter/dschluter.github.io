@@ -450,7 +450,7 @@ Estimating effects is highly recommended. To obtain model predicted means (or ca
 <p>By default, the <code>anova()</code> method in R tests model terms <i>sequentially</i> (“type I sum of squares”). Other statistical packages such as SAS and JMP use <i>marginal</i> testing of terms in ANOVA tables (“type III sum of squares”) instead. A bit of explanation about how they differ is found <a href="https://cran.r-project.org/doc/FAQ/R-FAQ.html#Why-does-the-output-from-anova_0028_0029-depend-on-the-order-of-factors-in-the-model_003f">here</a>).</p>
 <p>Under sequential fitting, the sum of squares for each term or factor in the ANOVA table is the improvement in the error sum of squares when that term is added to the linear model, compared with a model including only the terms listed above it (but not those listed below it) in the table. This means that the order in which you list the variables in the <code>lm</code> formula affects the ANOVA table of results, including the <i>P</i>-values. The formula <code>y~A+B+A:B</code> will lead to different sums of squares than the formula <code>y~B+A+A:B</code> when the design is unbalanced. Note that <code>anova()</code> also respects hierarchy: the intercept is fitted first, before any other terms, main effects are fitted next, and interactions are fitted last. An interaction is never tested without its corresponding main effects included in the model.</p>
 <p>Under <i>marginal</i> testing of terms (“type III sum of squares”), order of appearance of terms in the formula doesn’t matter, and neither does hierarchy. The contribution of each model term is measured by the improvement in the error sum of squares when that term is entered last into the model. Main effects are tested with their interactions already in the model. The <code>Anova()</code> function in the <code>car</code> package, <em>combined with a change in the contrasts used to calculate sums of squares</em>, can be used to fit models using type III sum of squares (and also Type II, an in-between solution). Instructions are given below.</p>
-<p>A warning from the maker of the <code>car</code> package:<br> “Be careful of type-III tests: For a traditional multifactor ANOVA model with interactions, for example, these tests will normally only be sensible when using contrasts that, for different terms, are Anova orthogonal in the row-basis of the model, such as those produced by <code>contr.sum</code>, <code>contr.poly</code>, or <code>contr.helmert</code>, but not by the default <code>contr.treatment</code>. In a model that contains factors, numeric covariates, and interactions, main-effect tests for factors will be for differences over the origin. In contrast (pun intended), type-II tests are invariant with respect to (full-rank) contrast coding. If you don’t understand this issue, then you probably shouldn’t use Anova for type-III tests.”</p>
+<p>A warning from the maker of the <code>car</code> package about type-III tests:<br> “Be careful of type-III tests: For a traditional multifactor ANOVA model with interactions, for example, these tests will normally only be sensible when using contrasts that, for different terms, are Anova orthogonal in the row-basis of the model, such as those produced by <code>contr.sum</code>, <code>contr.poly</code>, or <code>contr.helmert</code>, but not by the default <code>contr.treatment</code>. In a model that contains factors, numeric covariates, and interactions, main-effect tests for factors will be for differences over the origin. In contrast (pun intended), type-II tests are invariant with respect to (full-rank) contrast coding. If you don’t understand this issue, then you probably shouldn’t use Anova for type-III tests.”</p>
 </div>
 <div id="on-lmer-vs-lme" class="section level3">
 <h3>On <code>lmer()</code> vs <code>lme()</code></h3>
@@ -641,18 +641,7 @@ z &lt;- lm(y ~ A * B, data = mydata) # main effects and interaction terms fitted
 summary(z)                        # coefficients table
 confint(z, level = 0.95)          # confidence intervals for parameters
 anova(z)                          # A is tested before B; interaction tested last</code></pre>
-<!--
-To accomplish this we need to override R's default contrasts. Then we use the <code>drop1</code> command in place of <code>anova</code> to get the ANOVA table.
-
-
-```r
-z <- lm(y ~ A * B, contrasts = list(A = contr.sum, B = contr.sum), 
-    data = mydata)
-drop1(z, .~., test = "F")
-```
-
--->
-<p>We can use the <code>Anova()</code> command in the <code>car</code> package to give us the ANOVA table based on marginal fitting of terms (“type III sum of squares”). To accomplish this we first <em>need to override R’s default contrasts for categorical variables</em>, as follows.</p>
+<p>We can use the <code>Anova()</code> command in the <code>car</code> package to give us the ANOVA table based on marginal fitting of terms (“type III sum of squares”). To accomplish this we first <em>need to override R’s default contrasts for categorical variables only</em>, as follows.</p>
 <pre class="r"><code>z &lt;- lm(y ~ A * B, contrasts = list(A = contr.sum, B = contr.sum), data = mydata)
 library(car)
 Anova(z, type = 3)</code></pre>
@@ -692,18 +681,7 @@ anova(z)                          # sequential fitting of terms</code></pre>
 <p>Check model assumptions:</p>
 <pre class="r"><code>plot(z)        # residual plots, etc
 hist(resid(z)) # histogram of residuals</code></pre>
-<p>Use <code>Anova</code> command in the <code>car</code> package to carry out marginal fitting of terms instead (“type III sum of squares”). First, we <em>need to override R’s default contrasts</em>.</p>
-<!--
-To accomplish this we need to refit the model and override R's default contrasts. Then we use the <code>drop1</code> command in place of <code>anova</code> to get the ANOVA table.
-
-
-```r
-z <- lm(y ~ x * A, contrasts = list(A = contr.sum),
-    data = mydata)
-drop1(z, .~., test = "F")
-```
-
--->
+<p>Use <code>Anova</code> command in the <code>car</code> package to carry out marginal fitting of terms instead (“type III sum of squares”). First, we <em>need to override R’s default contrasts for categorical variables only</em>.</p>
 <pre class="r"><code>z &lt;- lm(y ~ x * A, contrasts = list(A = contr.sum), data = mydata)
 library(car)
 Anova(z, type = 3)</code></pre>

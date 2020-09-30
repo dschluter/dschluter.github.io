@@ -54,7 +54,7 @@ Under sequential fitting, the sum of squares for each term or factor in the ANOV
 
 Under <i>marginal</i> testing of terms ("type III sum of squares"), order of appearance of terms in the formula doesn't matter, and neither does hierarchy. The contribution of each model term is measured by the improvement in the error sum of squares when that term is entered last into the model. Main effects are tested with their interactions already in the model. The <code>Anova()</code> function in the <code>car</code> package, *combined with a change in the contrasts used to calculate sums of squares*, can be used to fit models using type III sum of squares (and also Type II, an in-between solution). Instructions are given below.
 
-A warning from the maker of the ```car``` package:<br>
+A warning from the maker of the ```car``` package about type-III tests:<br>
 "Be careful of type-III tests: For a traditional multifactor ANOVA model with interactions, for example, these tests will normally only be sensible when using contrasts that, for different terms, are Anova orthogonal in the row-basis of the model, such as those produced by ```contr.sum```, ```contr.poly```, or ```contr.helmert```, but not by the default ```contr.treatment```. In a model that contains factors, numeric covariates, and interactions, main-effect tests for factors will be for differences over the origin. In contrast (pun intended), type-II tests are invariant with respect to (full-rank) contrast coding. If you don’t understand this issue, then you probably shouldn’t use Anova for type-III tests."
 
 ### On <code>lmer()</code> vs <code>lme()</code>
@@ -368,18 +368,7 @@ confint(z, level = 0.95)          # confidence intervals for parameters
 anova(z)                          # A is tested before B; interaction tested last
 ```
 
-<!--
-To accomplish this we need to override R's default contrasts. Then we use the <code>drop1</code> command in place of <code>anova</code> to get the ANOVA table.
-
-```{r eval = FALSE}
-z <- lm(y ~ A * B, contrasts = list(A = contr.sum, B = contr.sum), 
-    data = mydata)
-drop1(z, .~., test = "F")
-```
-
--->
-
-We can use the <code>Anova()</code> command in the <code>car</code> package to give us the ANOVA table based on marginal fitting of terms ("type III sum of squares"). To accomplish this we first *need to override R's default contrasts for categorical variables*, as follows.
+We can use the <code>Anova()</code> command in the <code>car</code> package to give us the ANOVA table based on marginal fitting of terms ("type III sum of squares"). To accomplish this we first *need to override R's default contrasts for categorical variables only*, as follows.
 
 ```{r eval = FALSE}
 z <- lm(y ~ A * B, contrasts = list(A = contr.sum, B = contr.sum), data = mydata)
@@ -439,18 +428,7 @@ plot(z)        # residual plots, etc
 hist(resid(z)) # histogram of residuals
 ```
 
-Use <code>Anova</code> command in the <code>car</code> package to carry out marginal fitting of terms instead ("type III sum of squares"). First, we *need to override R's default contrasts*.
-
-<!--
-To accomplish this we need to refit the model and override R's default contrasts. Then we use the <code>drop1</code> command in place of <code>anova</code> to get the ANOVA table.
-
-```{r eval = FALSE}
-z <- lm(y ~ x * A, contrasts = list(A = contr.sum),
-    data = mydata)
-drop1(z, .~., test = "F")
-```
-
--->
+Use <code>Anova</code> command in the <code>car</code> package to carry out marginal fitting of terms instead ("type III sum of squares"). First, we *need to override R's default contrasts for categorical variables only*.
 
 ```{r eval = FALSE}
 z <- lm(y ~ x * A, contrasts = list(A = contr.sum), data = mydata)
