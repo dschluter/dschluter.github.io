@@ -69,7 +69,7 @@ However, ML (```REML = FALSE```) should be used if you decide to use likelihood 
 ***
 
 ## Fit a linear model
-Linear models for fixed effects are implemented in the <code>lm</code> method in R. You can pass a data frame to the <code>lm</code> command, using a formula to indicate the model you want to fit.
+Linear models for fixed effects are implemented in the <code>lm()</code> method in R. You can pass a data frame to the <code>lm()</code> command, using a formula to indicate the model you want to fit.
 
 ```{r eval = FALSE}
 z <- lm(response ~ explanatory, data = mydata)
@@ -95,7 +95,7 @@ anova(z)       # ANOVA table (** terms tested sequentially **)
 
 The command <code>predict(z, newdata = mynewdata)</code> will used the model to predict values for new observations contained in the data frame <code>mynewdata</code>. The explanatory variables (the X variables) in <code>mynewdata</code> must have exactly the same names as in <code>mydata</code>.
 
-In the case of simple linear regression you can add a line to a scatter plot of the data using the <code>abline</code> function.
+In the case of simple linear regression you can add a line to a scatter plot of the data using the <code>abline()</code> function.
 
 ```{r eval = FALSE}
 plot(response ~ explanatory, data = mydata)
@@ -187,7 +187,7 @@ ggplot(x, aes(y = age, x = black)) +
 	theme_classic()
 ```
 
-You can use the following also to include 95% prediction intervals on your <code>ggplot</code> graph. Heed the warning from the <code>predict</code> command.
+You can use the following also to include 95% prediction intervals on your <code>ggplot()</code> graph. Heed the warning from the <code>predict()</code> command.
 
 ```{r eval = FALSE}
 x.p <- predict(z, interval = "prediction")
@@ -304,11 +304,10 @@ Use <code>emmeans</code> to carry out Tukey tests between all pairs of means.
 grpMeans <- emmeans(z, "A", data = mydata)
 grpMeans
 pairs(grpMeans)
-cld(grpMeans)
 plot(grpMeans, comparisons = TRUE)
 ```
 
-The <code>pairs()</code> command from the <code>emmeans</code> package produces a table of Tukey pairwise comparisons between means. The <code>cld()</code> command makes a table depicting comparisons between means using compact-letter display (e.g, "1", "2"). Two means sharing a symbol are not significantly different from each other. The plot command produces a visual of the comparisons as follows: "The blue bars are confidence intervals for the EMMs, and the red arrows are for the comparisons among them. If an arrow from one mean overlaps an arrow from another group, the difference is not significant, based on the adjust setting (which defaults to "tukey")."
+The <code>pairs()</code> command from the <code>emmeans</code> package produces a table of Tukey pairwise comparisons between means. The ```plot()``` command produces a visual of the comparisons as follows: "The blue bars are confidence intervals for the EMMs, and the red arrows are for the comparisons among them. If an arrow from one mean overlaps an arrow from another group, the difference is not significant, based on the adjust setting (which defaults to "tukey")."
 
 Check assumptions of single factor ANOVA:
 
@@ -561,7 +560,7 @@ intervals(z) # lme: 95% confidence intervals fixed effects
 Repeatability of a measurement is calculated as
 <i>r</i> = var<sub>among</sub> / (var<sub>among</sub> + var<sub>within</sub>)
 
-where var<sub>among</sub> is the variance among the means of groups (individuals, in this case), and var<sub>within</sub> is the variance among repeat measurements within groups. In the output of the <code>VarCorr</code> command, the estimated variance among groups is shown as the variance associated with the random intercepts. The variance associated with the residual is the estimate of the within-group variance.
+where var<sub>among</sub> is the variance among the means of groups (individuals, in this case), and var<sub>within</sub> is the variance among repeat measurements within groups. In the output of the <code>VarCorr()</code> command, the estimated variance among groups is shown as the variance associated with the random intercepts. The variance associated with the residual is the estimate of the within-group variance.
 
 To see a plot of the residual values against fitted values,
 
@@ -625,7 +624,7 @@ You can use <code>interaction.plot</code> to view how the mean <code>y</code> ch
 interaction.plot(A, B, y)
 ```
 
-The <code>visreg</code> function seems to work in this case to visualize model fits to data (although it won't include the confidence intervals). If <code>A</code> is the fixed (treatment) effect and <code>B</code> is the random effect, try one of the following.
+The <code>visreg()</code> function seems to work in this case to visualize model fits to data (although it won't include the confidence intervals). If <code>A</code> is the fixed (treatment) effect and <code>B</code> is the random effect, try one of the following.
 
 ```{r eval = FALSE}
 visreg(z, xvar = "A")
@@ -863,7 +862,7 @@ anova(z, test = "F")          # Use F test for gaussian, quasibinomial or quasip
 
 "Deviance residuals" are not the same as ordinary residuals in linear models. They are a measure of the goodness of fit of the model to each data point. Each residual can be thought of as the contribution of the corresponding data point to the residual deviance (given in the analysis of deviance table).
 
-There is no <code>plot(z)</code> method for <code>glm()</code> model objects. If you enter <code>plot(z)</code>, the resulting plots will look strange and won't be easy to interpret. R is using the plot function for <code>lm()</code> model objects, and they aren't valid for <code>glm()</code> objects. Instead, it is more useful to visualize the data by adding the fitted curves or means onto scatter plots or other graphs that show the data.
+There is no <code>plot(z)</code> method for <code>glm()</code> model objects. If you enter <code>plot(z)</code>, the resulting plots will look strange and won't be easy to interpret. R is using the ```plot()``` function for <code>lm()</code> model objects, and they aren't valid for <code>glm()</code> objects. Instead, it is more useful to visualize the data by adding the fitted curves or means onto scatter plots or other graphs that show the data.
 
 <br>
 
@@ -880,7 +879,7 @@ z <- glm(y ~ x, family = binomial(link="logit"), data = mydata)
 z <- glm(y ~ x, family = poisson(link="log"), data = mydata)
 ```
 
-Use <code>visreg</code> with the <code>scale = "response"</code> argument to see the fitted relationship on the original scale. Use <code>visreg</code> to visualize the model fit on the transformed scale (the function uses <code>predict(z)</code> to generate the result) and "working values".
+Use <code>visreg</code> with the <code>scale = "response"</code> argument to see the fitted relationship on the original scale. Use <code>visreg()</code> to visualize the model fit on the transformed scale (the function uses <code>predict(z)</code> to generate the result) and "working values".
 
 ```{r eval = FALSE}
 # Visualize fit on the original scale
@@ -1035,7 +1034,7 @@ The summary coefficients of interest are those corresponding to the <span style=
 ### Check assumptions
 Generalized linear models are freed from the assumption that residuals are normally distributed with equal variance, but the method nevertheless makes important assumptions that should be checked.
 
-Unfortunately there is no <code>plot(z)</code> method for <code>glm()</code> model objects. If you enter <code>plot(z)</code>, the resulting plots will look strange because the data are discrete, and they won't be easy to interpret. (R is using the plot function for <code>lm()</code> model objects, which aren't valid for <code>glm()</code> objects.)
+Unfortunately there is no <code>plot(z)</code> method for <code>glm()</code> model objects. If you enter <code>plot(z)</code>, the resulting plots will look strange because the data are discrete, and they won't be easy to interpret. (R is using the ```plot()``` function for <code>lm()</code> model objects, which aren't valid for <code>glm()</code> objects.)
 
 <!-- THIS IS BLANKED OUT, see http://stats.stackexchange.com/questions/121490/interpretation-of-plotglm-model for explanation
 
@@ -1117,7 +1116,7 @@ AIC(z, k = log(n)) # Bayesian Information Criterion (n is the sample size)
 BIC(z)             # Bayesian Information Criterion
 ```
 
-The function <code>AIC</code> can be used to compare two or more models fitted to the same data. The model with the <b>smallest</b> AIC values is the "best". The same response variable must be fitted in each case, but the explanatory variables can differ.
+The function <code>AIC()</code> can be used to compare two or more models fitted to the same data. The model with the <b>smallest</b> AIC values is the "best". The same response variable must be fitted in each case, but the explanatory variables can differ.
 
 ```{r eval = FALSE}
 z1 <- lm(y ~ x1 + x2 + x3, data = mydata)  # first model
@@ -1165,7 +1164,7 @@ BIC weights can be interpreted as posterior probabilities of the models, assumin
 <br>
 
 ### Stepwise search for best model
-<code>stepAIC</code>, a command in the MASS library, will automatically carry out a restricted search for the "best" model, as measured by either AIC or BIC (Bayesian Information criterion) (but not AICc, unfortunately). <code>stepAIC</code> accepts both categorical and numerical variables. It does not search all possible subsets of variables, and so cannot provide a list of all models that fit the data nearly equally well as the best model. Rather, it searches in a specific sequence determined by the order of the variables in the formula of the model object. (This can be a problem if a design is severely unbalanced, in which case it may be necessary to try more than one sequence.) The search sequence obeys restrictions regarding inclusion of interactions and main effects, such as
+<code>stepAIC()</code>, a command in the MASS library, will automatically carry out a restricted search for the "best" model, as measured by either AIC or BIC (Bayesian Information criterion) (but not AICc, unfortunately). <code>stepAIC</code> accepts both categorical and numerical variables. It does not search all possible subsets of variables, and so cannot provide a list of all models that fit the data nearly equally well as the best model. Rather, it searches in a specific sequence determined by the order of the variables in the formula of the model object. (This can be a problem if a design is severely unbalanced, in which case it may be necessary to try more than one sequence.) The search sequence obeys restrictions regarding inclusion of interactions and main effects, such as
 <ul>
  	<li>A quadratic term $\chi^2$ is not fitted unless x is also present in the model</li>
  	<li>The interaction a:b is not fitted unless both a and b are also present</li>
@@ -1213,7 +1212,7 @@ z <- stepAIC(full, direction = "both", k = log(nrow(mydata)))
 <br>
 
 ### Search with <code>dredge</code>
-The <code>dredge</code> command in the <code>MuMIn</code> package carries out a computationally expensive search for the best model, ranking the results by AIC or AICc. The search sequence obeys the same restrictions as <code>stepAIC()</code> (i.e., interactions between variables are not fitted without their main effects; see above).
+The <code>dredge()</code> command in the <code>MuMIn</code> package carries out a computationally expensive search for the best model, ranking the results by AIC or AICc. The search sequence obeys the same restrictions as <code>stepAIC()</code> (i.e., interactions between variables are not fitted without their main effects; see above).
 
 ```{r eval = FALSE}
 library(MuMIn)
@@ -1228,7 +1227,7 @@ full <- lm(y ~(.)^2, data = mydata) # includes 2-way interactions
 full <- lm(y ~(.)^3, data = mydata) # includes 3-way interactions
 ```
 
-Now run the dredge command on the full model, saving the results in a model selection object (here, named <code>z</code>). You can choose to rank on AIC, AICc, or BIC.
+Now run the ```dredge()``` command on the full model, saving the results in a model selection object (here, named <code>z</code>). You can choose to rank on AIC, AICc, or BIC.
 
 ```{r eval = FALSE}
 z <- dredge(full, rank = "AICc")
@@ -1251,7 +1250,7 @@ summary(model.avg(z, subset = delta < 2))              # model averaging
 <br>
 
 ### All subsets regression
-The <code>leaps</code> command in the <code>leaps</code> library carries out an exhaustive search for the best subsets of the explanatory variables for predicting a response variable. The method is only suited to analyzing <b>numeric </b>variables, not categorical variables (a variable having just two categories can be recoded as a numeric variable with indicator 0's and 1's). To begin, load the <code>leaps</code> library,
+The <code>leaps()</code> command in the <code>leaps</code> library carries out an exhaustive search for the best subsets of the explanatory variables for predicting a response variable. The method is only suited to analyzing <b>numeric </b>variables, not categorical variables (a variable having just two categories can be recoded as a numeric variable with indicator 0's and 1's). To begin, load the <code>leaps</code> library,
 
 ```{r eval = FALSE}
 library(leaps)
@@ -1285,16 +1284,16 @@ i <- which(z$Cp==min(z$Cp)) # finds the model with smallest <i>C<sub>p</sub></i>
 vars <- which(z$which[i,])  # id variables of best model
 ```
 
-At the end of this section is a home-made (and rather slow) <code>leaps2aic</code> command that will calculate additional quantities of interest from the <code>leaps</code> output. To use it, copy and paste the text into your R command window (you will need to do this only once in a session). These calculations assume that the the set of saved models from <code>leaps</code> includes that model having the lowest AICc and AIC, which is likely. However, the <code>leaps</code> output might not include all runners up (to be safe, increase the number of models saved using the <code>nbest</code> option in <code>leaps</code>). <code>leaps2aic</code> computes differences in AIC (AIC relative to the best) as well as differences in AICc (AIC adjusted for small sample size) and BIC (Bayesian Information Criterion).
+At the end of this section is a home-made (and rather slow) <code>leaps2aic()</code> command that will calculate additional quantities of interest from the <code>leaps</code> output. To use it, copy and paste the text into your R command window (you will need to do this only once in a session). These calculations assume that the the set of saved models from <code>leaps</code> includes that model having the lowest AICc and AIC, which is likely. However, the <code>leaps</code> output might not include all runners up (to be safe, increase the number of models saved using the <code>nbest</code> option in <code>leaps</code>). <code>leaps2aic</code> computes differences in AIC (AIC relative to the best) as well as differences in AICc (AIC adjusted for small sample size) and BIC (Bayesian Information Criterion).
 
-To use the <code>leaps2aic</code> command, make certain that the arguments <code>x</code>, <code>y</code> and <code>z</code> are exactly the same as the ones you passed to the leaps command immediately beforehand. <code>y</code> is the response variable, <code>x</code> is the data frame containing the explanatory variables, and <code>z</code> is the saved output object from the leaps command.
+To use the <code>leaps2aic()</code> command, make certain that the arguments <code>x</code>, <code>y</code> and <code>z</code> are exactly the same as the ones you passed to the ```leaps()``` command immediately beforehand. <code>y</code> is the response variable, <code>x</code> is the data frame containing the explanatory variables, and <code>z</code> is the saved output object from the ```leaps()``` command.
 
 ```{r eval = FALSE}
 z1 <- leaps2aic(x, y, z)
 z1[,c("model","AICc", "AIC")] # prints model and AIC differences
 ```
 
-The leaps package also includes the command <code>regsubsets</code>, which has the advantage of a formula method, but the output is not as functional.
+The leaps package also includes the command <code>regsubsets()</code>, which has the advantage of a formula method, but the output is not as functional.
 
 ```{r eval = FALSE}
 z <- regsubsets(y ~ x1 + x2 + x3, data = mydata)
@@ -1302,7 +1301,7 @@ summary(z)
 plot(z)
 ```
 
-Here is the <code>leaps2aic</code> function.
+Here is the <code>leaps2aic()</code> function.
 
 ```{r eval = FALSE}
 leaps2aic <- function(x,y,z){
@@ -1341,7 +1340,7 @@ leaps2aic <- function(x,y,z){
 ***
 
 ## Fit a nonlinear model
-The function <code>nls</code> in R allows fitting of nonlinear relationships between a response variable and one or more explanatory variables using for nonlinear least squares. Table 20.1 in Crawley's The R book lists a variety of nonlinear functions useful in biology. Examples of nonlinear functions include 
+The <code>nls()</code> command in R allows fitting of nonlinear relationships between a response variable and one or more explanatory variables using for nonlinear least squares. Table 20.1 in Crawley's The R book lists a variety of nonlinear functions useful in biology. Examples of nonlinear functions include 
 
 ### the power function,
 
@@ -1376,9 +1375,9 @@ to fit the same model in <code>nls</code> you would instead write the formula as
 y ~ a + b*x
 ```
 
-which includes "a" for the intercept and "b" for the slope. Including them in the formula tells the <code>nls</code> function what to estimate.
+which includes "a" for the intercept and "b" for the slope. Including them in the formula tells the <code>nls()</code> function what to estimate.
 
-To fit a power function to the data, the complete <code>nls</code> command would be
+To fit a power function to the data, the complete <code>nls()</code> command would be
 
 ```{r eval = FALSE}
 z <- nls(y ~ a * x^b, data = mydata, start = list(a=1, b=1))
@@ -1415,7 +1414,7 @@ The control option <code>warnOnly=TRUE</code> ensures that when the program stop
 ***
 
 ## Fit a cubic spline
-The function <code>gam</code> allows estimation of a function, <i>f,</i> relating a response variable <i>Y</i> to a continuous explanatory variable <i>X</i>,
+The function <code>gam()</code> allows estimation of a function, <i>f,</i> relating a response variable <i>Y</i> to a continuous explanatory variable <i>X</i>,
 
 <i>Y = f(X) + random error</i>
 
