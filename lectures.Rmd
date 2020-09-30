@@ -67,8 +67,9 @@ Below is an approximate list of lecture topics and contents. Links to the lectur
 <br>
 
 ## Linear models
-<a href="lecturepdf/04.Linear models.pdf">Lecture slides</a> <!--
-<br><a href="https://youtu.be/WYKBgzDjpbs">Lecture video</a> -->
+<a href="lecturepdf/04.Linear models.pdf">Lecture slides</a>
+<br><a href="https://www.dropbox.com/s/11pj2d5k9gd7pzj/02%20Graphics%20-%20zoom%20audio_only.m4a?dl=0">Lecture audio</a>
+<br><a href="https://www.dropbox.com/s/11pj2d5k9gd7pzj/04 Linear models - zoom video.mp4?dl=0">Lecture video</a>
 <br>What is a linear model
 <br>Several examples
 <br>Estimating parameters vs testing hypotheses
