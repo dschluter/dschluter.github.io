@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Linear models</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="workshops.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UBC Biology 501 R workshops</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Biol 501 home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    R Workshops
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Main workshops page</a>
+    </li>
+    <li>
+      <a href="workshops-intro.html">1. Introduction to R</a>
+    </li>
+    <li>
+      <a href="graphics.html">2. Graphs and tables</a>
+    </li>
+    <li>
+      <a href="exp-design.html">3. Plan experiments</a>
+    </li>
+    <li>
+      <a href="linearmodels.html">4. Linear models</a>
+    </li>
+    <li>
+      <a href="lme.html">5. Mixed-effects models</a>
+    </li>
+    <li>
+      <a href="likelihood.html">6. Likelihood</a>
+    </li>
+    <li>
+      <a href="glm.html">7. Generalized linear models</a>
+    </li>
+    <li>
+      <a href="modelselection.html">8. Model selection</a>
+    </li>
+    <li>
+      <a href="bayes.html">9. Bayesian inference</a>
+    </li>
+    <li>
+      <a href="resampling.html">10. Bootstrap and permutation</a>
+    </li>
+    <li>
+      <a href="meta.html">11. Meta-analysis</a>
+    </li>
+    <li>
+      <a href="multivariate.html">12. Multivariate methods</a>
+    </li>
+    <li>
+      <a href="phylogenetic.html">13. Phylogeny and comparison</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~schluter/R/">R tips home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Linear models</h1>
+<h4 class="author"></h4>
+
+</div>
+
+
+<p>In this workshop we will use R to fit linear models to data. It would
+be useful to re-read the lecture notes ahead of time to review basic
+principles of linear model fitting and implementation in R.</p>
+<p>Linear models for <u>fixed effects</u> are implemented in the R
+command <code>lm()</code>. This method is not suitable for models that
+contain random effects. See the “Fit model” and “Graphs &amp; Tables”
+pages of R tips for additional help with commands.</p>
+<p>More information on interpreting diagnostic plots from the
+<code>plot(z)</code> command can be found <a
+href="https://library.virginia.edu/data/articles/diagnostic-plots">here</a>.</p>
+<hr />
+<div id="prediction-with-linear-regression" class="section level2">
+<h2>Prediction with linear regression</h2>
+<p>These data are from Whitman et al (2004 <em>Nature</em> 428:
+175-178), who noticed that the amount of black pigmentation on the noses
+of male lions increases as they get older. They used data on the
+proportion of black on the noses of 32 male lions of known age (years)
+in Tanzania. Use a linear model to fit these data to predict a lion’s
+age from the proportion of black in his nose. The data can be downloaded
+<a href="https://www.zoology.ubc.ca/~bio501/R/data/lions.csv">here</a>.</p>
+<p><br></p>
+<div id="read-and-examine-the-data" class="section level3">
+<h3>Read and examine the data</h3>
+<ol style="list-style-type: decimal">
+<li><p>Read the data from the file.</p></li>
+<li><p>View the first few lines of data to make sure it was read
+correctly.</p></li>
+<li><p>Create a scatter plot of the data. Choose the response and
+explanatory variables with care: we want to predict age from the
+proportion black in the nose.</p></li>
+</ol>
+</div>
+<div id="answers" class="section level3">
+<h3>Answers</h3>
+<pre class="r"><code>library(visreg)
+library(ggplot2)
+
+# 1. Read and examine the data
+x &lt;- read.csv(url(&quot;https://www.zoology.ubc.ca/~bio501/R/data/lions.csv&quot;))
+
+# 2.
+head(x)</code></pre>
+<pre><code>##   age black
+## 1 1.1  0.21
+## 2 1.5  0.14
+## 3 1.9  0.11
+## 4 2.2  0.13
+## 5 2.6  0.12
+## 6 3.2  0.13</code></pre>
+<pre class="r"><code># 3. Scatter plot
+plot(age ~ black, data = x, pch = 16, las = 1, col = &quot;firebrick&quot;, cex = 1.5,
+    xlab = &quot;Proportion nose black&quot;, ylab = &quot;Age (years)&quot;)</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-1-1.png" width="528" /></p>
+<p><br></p>
+</div>
+<div id="fit-a-linear-model" class="section level3">
+<h3>Fit a linear model</h3>
+<ol style="list-style-type: decimal">
+<li><p>Fit a linear model to the lion data. Store the output in an
+<code>lm()</code> object. Choose the response and explanatory variables
+with care: we want to predict age from the proportion black in the
+nose.</p></li>
+<li><p>Add the best-fit line to the scatter plot. Does the relationship
+appear linear? From the scatter plot, visually check for any serious
+problems such as outliers or changes in the variance of
+residuals.*</p></li>
+<li><p>Using the same fitted model object, obtain the estimates for the
+coefficients and standard errors. What does the first coefficient refer
+to? What does the second coefficient refer to? What is the <span
+class="math inline">\(R^2\)</span> value for the model fit?**</p></li>
+<li><p>Obtain 95% confidence intervals for the slope and
+intercept.</p></li>
+<li><p>Test the fit of the model to the data with an ANOVA
+table.</p></li>
+<li><p>Apply the <code>plot()</code> command to the <code>lm()</code>
+object created in (1) to diagnose violations of assumptions (keep
+hitting &lt;return&gt; in the command window to see all the plots).
+Recall the assumptions of linear models. Do the data conform to the
+assumptions? Are there any potential concerns? What options would be
+available to you to overcome any potential problems with meeting the
+assumptions?***<br>       Most of the plots will be self-explanatory,
+except perhaps the last one. “Leverage” calculates the influence that
+each data point has on the estimated parameters. For example if the
+slope changes a great deal when a point is removed, that point is said
+to have high leverage. “Cook’s distance” measures the effect of each
+data point on the predicted values for all the other data points. A
+value greater than 1 is said to be worrisome. Points with high leverage
+don’t necessarily have high Cook’s distance, and vice versa.</p></li>
+<li><p>Optional: One of the data points (the oldest lion) has rather
+high leverage. To see the effect this has on the results, refit the data
+leaving this point out. Did this change the regression line
+substantially?</p></li>
+</ol>
+<p><small>* The variance of the residuals for black in the nose tends to
+rise with increasing age but the trend is not severe. The residuals
+might not be quite normal, but they are not badly skewed so we are
+probably OK.</p>
+<p>** Estimate of regression intercept. Estimate of slope. 0.61</p>
+<p>*** It is even easier to see with these plots how the variance of the
+residuals tends to increase at higher fitted values. A transformation of
+one or both of the variables is usually the first course of action. R
+also has a toolkit for robust regression, which as the name suggests is
+more robust to violations of standard assumptions.</small></p>
+</div>
+<div id="answers-1" class="section level3">
+<h3>Answers</h3>
+<pre class="r"><code># 1. fit model
+z &lt;- lm(age ~ black, data=x)
+
+# 2. Add the best-fit line to the scatter plot
+plot(age ~ black, data = x, pch = 16, las = 1, col = &quot;firebrick&quot;, cex = 1.5,
+    xlab = &quot;Proportion nose black&quot;, ylab = &quot;Age (years)&quot;)
+abline(z)</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-2-1.png" width="528" /></p>
+<pre class="r"><code># Or use visreg
+visreg(z, xlab = &quot;Proportion nose black&quot;, ylab = &quot;Age (years)&quot;)</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-2-2.png" width="528" /></p>
+<p>Or use <code>ggplot()</code></p>
+<pre class="r"><code>ggplot(x, aes(y = age, x = black)) +
+  geom_point(size = 3, col = &quot;firebrick&quot;) +
+  geom_smooth(method = lm, col = &quot;black&quot;, size = 0.5, se = FALSE) +
+  labs(x = &quot;Proportion nose black&quot;, y = &quot;Age (years)&quot;) + 
+  theme_classic()</code></pre>
+<pre><code>## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-3-1.png" width="480" /></p>
+<pre class="r"><code># 3. Estimate coefficients
+# &quot;(Intercept)&quot; refers to intercept, &quot;black&quot; to slope
+summary(z)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = age ~ black, data = x)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.5449 -1.1117 -0.5285  0.9635  4.3421 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   0.8790     0.5688   1.545    0.133    
+## black        10.6471     1.5095   7.053 7.68e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.669 on 30 degrees of freedom
+## Multiple R-squared:  0.6238, Adjusted R-squared:  0.6113 
+## F-statistic: 49.75 on 1 and 30 DF,  p-value: 7.677e-08</code></pre>
+<pre class="r"><code># 4. 95% confidence intervals
+visreg(z, points.par = list(pch = 16, cex = 1.2, col = &quot;firebrick&quot;))</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-4-1.png" width="528" /></p>
+<pre class="r"><code># 5. ANOVA table
+anova(z)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: age
+##           Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+## black      1 138.544 138.544   49.75 7.677e-08 ***
+## Residuals 30  83.543   2.785                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># 6. Diagnostics
+plot(z)</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-4-2.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-4-3.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-4-4.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-4-5.png" width="528" /></p>
+<pre class="r"><code># 7. Redo after removing oldest lion
+z1 &lt;- lm(age ~ black, data=x[x$age &lt; 12, ])
+summary(z1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = age ~ black, data = x[x$age &lt; 12, ])
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.0522 -0.9810 -0.4072  0.6353  3.4973 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   1.2938     0.5089   2.542   0.0166 *  
+## black         8.8498     1.4175   6.243 8.19e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.447 on 29 degrees of freedom
+## Multiple R-squared:  0.5734, Adjusted R-squared:  0.5587 
+## F-statistic: 38.98 on 1 and 29 DF,  p-value: 8.191e-07</code></pre>
+<p><br></p>
+</div>
+<div id="prediction" class="section level3">
+<h3>Prediction</h3>
+<ol style="list-style-type: decimal">
+<li><p>Display the data once again in a scatter plot. Add the regression
+line.</p></li>
+<li><p>Add 95% confidence bands to the scatter plot. These are
+confidence limits for the prediction of <u>mean</u> of lion age at each
+value of the explanatory variable. You can think of these as putting
+bounds on the most plausible values for the “true” or population
+regression line. Note the spread between the upper and lower limits and
+how this changes across the range of values for age.</p></li>
+<li><p>Add 95% prediction intervals to the scatter plot. These are
+confidence limits for the prediction of new <u>individual</u> lion ages
+at each value of the explanatory variable. Whereas confidence bands
+address questions like “what is the mean age of lions whose proportion
+black in the nose is 0.5 ?”, prediction intervals address questions like
+“what is the age of that new lion over there, which has a proportion
+black in the nose of 0.5 ?”. Which of these predictions should have the
+greater uncertainty?</p></li>
+<li><p>Examine the confidence bands and prediction intervals. Is the
+prediction of mean lion age from black in the nose relatively precise?
+Is prediction of individual lion age relatively precise? Could this
+relationship be used in the field to age lions?</p></li>
+</ol>
+</div>
+<div id="answers-2" class="section level3">
+<h3>Answers</h3>
+<pre class="r"><code>z &lt;- lm(age ~ black, data=x)
+x2 &lt;- predict(z, interval = &quot;prediction&quot;)</code></pre>
+<pre><code>## Warning in predict.lm(z, interval = &quot;prediction&quot;): predictions on current data refer to _future_ responses</code></pre>
+<pre class="r"><code>x2 &lt;- cbind.data.frame(x, x2)
+ggplot(x2, aes(y = age, x = black)) +
+    geom_point(size = 3, col = &quot;firebrick&quot;) +
+    geom_smooth(method = &quot;lm&quot;, se = TRUE) +
+    geom_line(aes(y = lwr), color = &quot;black&quot;, linetype = &quot;dashed&quot;) +
+    geom_line(aes(y = upr), color = &quot;black&quot;, linetype = &quot;dashed&quot;) +
+    labs(x = &quot;Proportion nose black&quot;, y = &quot;Age (years)&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-5-1.png" width="480" /></p>
+<hr />
+</div>
+</div>
+<div id="light-and-circadian-rhythms" class="section level2">
+<h2>Light and circadian rhythms</h2>
+<p>Our second example fits a linear model with a categorical explanatory
+variable. The data are from an experiment by Wright and Czeisler (2002.
+<em>Science</em> 297: 571) that re-examined a previous claim that light
+behind the knees could reset the circadian rhythm of an individual the
+same way as light to the eyes. One of three light treatments was
+randomly assigned to 22 subjects (a three-hour episode of bright lights
+to the eyes, to the knees, or to neither). Effects were measured two
+days later as the magnitude of phase shift in each subject’s daily cycle
+of melatonin production, measured in hours. A negative measurement
+indicates a delay in melatonin production, which is the predicted effect
+of light treatment. The data can be downloaded
+<a href="https://www.zoology.ubc.ca/~bio501/R/data/knees.csv">here</a>.</p>
+<p><br></p>
+<div id="read-and-examine-the-data-1" class="section level3">
+<h3>Read and examine the data</h3>
+<ol style="list-style-type: decimal">
+<li><p>Read the data from the file.</p></li>
+<li><p>View the first few lines of data to make sure it was read
+correctly.</p></li>
+<li><p>Plot the phase shift data, showing the individual data points in
+each treatment group.</p></li>
+<li><p>Determine whether the categorical variable “treatment” is a
+factor. If not a factor, convert treatment to a factor using the
+<code>factor()</code> command. This will be convenient when we fit the
+linear model.</p></li>
+<li><p>Use the <code>levels()</code> command on the factor variable
+“treatment” to see how R has ordered the different treatment groups. The
+order will be alphabetical, by default. Conveniently, you will find that
+the control group is listed first in the alphabetical sequence. (As you
+are about to analyze these data with a linear model in R, can you think
+of why having the control group first in the order is
+convenient?)</p></li>
+<li><p>To get practice, change the order of the levels so that the
+“knee” treatment group is second in the order, after “control”, and the
+“eyes” group is listed third.</p></li>
+<li><p>Plot the phase shift data again to see the result.</p></li>
+</ol>
+<p><br></p>
+</div>
+<div id="fit-a-linear-model-1" class="section level3">
+<h3>Fit a linear model</h3>
+<ol style="list-style-type: decimal">
+<li><p>Fit a linear model to the light treatment data. Store the output
+in an <code>lm()</code> object.</p></li>
+<li><p>Create a graphic that illustrates the fit of the model to the
+data. In other words, include the predicted (fitted) values to your
+plot.</p></li>
+<li><p>Use <code>plot()</code> to check whether the assumptions of
+linear models are met in this case. Examine the plots. Are there any
+potential concerns? There are several options available to you if the
+assumptions are not met (transformations, robust regression methods,
+etc.) but we don’t seem to need them in this case.</p></li>
+<li><p>Remember from lecture that R represents the different levels of
+the categorical variable using dummy variables. To peek at this
+behind-the-scenes representation, use the <code>model.matrix()</code>
+command on the model object from your linear model fit in step (1). The
+output should have a column of 1’s for the intercept and two additional
+columns representing two of the three levels of the explanatory
+variable. Why is one level left out? Which level is the one not
+represented by a dummy variable?*</p></li>
+<li><p>Using the <code>lm()</code> model object, obtain the parameter
+estimates (coefficients) along with standard errors. Examine the
+parameter estimates. If you’ve done the analysis correctly, you should
+see the three coefficients. Rounded, they are -0.309, -0.027, and -1.24.
+What do each of these coefficients represent – what is being estimated
+by each value?** Note that the output will also include an <span
+class="math inline">\(R^2\)</span> value. This is loosely interpretable
+as the “percent of the variance in phase shift that is explained by
+treatment.”</p></li>
+<li><p>The <i>P</i>-values associated with the three coefficients are
+generally invalid. Why? Under what circumstance might one of the
+<i>P</i>-values be valid?***</p></li>
+<li><p>Obtain 95% confidence intervals for the three
+parameters.</p></li>
+<li><p>Test the effect of light treatment on phase shift with an ANOVA
+table.</p></li>
+<li><p>Produce a table of the treatment means using the fitted model
+object, along with standard errors and confidence intervals. Why are
+these values not the same as those you would get if you calculated means
+and SE’s separately on the data from each treatment group?</p></li>
+</ol>
+<p><small>* One of the columns must be dropped because the information
+in the 4 columns is redundant in a particular way (a combination of
+three of the columns exactly equals the fourth). By default, R drops the
+column corresponding to the first level of the categorical
+variables.</p>
+<p>** The mean of the first group; the difference between the means of
+the second and first groups; the difference between the means of the
+third and first groups.</p>
+<p>*** The tests shown are <em>t</em>-tests of differences between
+means. However, <em>a posteriori</em> pairwise comparisons (unplanned
+comparisons) between groups requires a Tukey test or other test that
+accounts for the total number of pairwise comparisons of means. The only
+time a <em>t</em>-test is valid is when you carry out a planned
+comparison. </small></p>
+</div>
+<div id="answers-3" class="section level3">
+<h3>Answers</h3>
+<p>Read and examine the data.</p>
+<pre class="r"><code>library(visreg)
+library(ggplot2)
+library(emmeans)
+
+# 1.
+x &lt;- read.csv(url(&quot;https://www.zoology.ubc.ca/~bio501/R/data/knees.csv&quot;))
+
+# 2.
+head(x)</code></pre>
+<pre><code>##   treatment shift
+## 1   control  0.20
+## 2   control  0.53
+## 3   control -0.68
+## 4   control -0.37
+## 5   control -0.64
+## 6   control  0.36</code></pre>
+<pre class="r"><code># 3.
+is.factor(x$treatment)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>x$treatment &lt;- factor(x$treatment)
+
+# 4. 
+stripchart(shift ~ treatment, data=x, vertical = TRUE, method = &quot;jitter&quot;, 
+    jitter = 0.2, pch = 16, las = 1, cex = 1.5, col = &quot;firebrick&quot;,
+    ylab = &quot;Phase shift (h)&quot;)</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-6-1.png" width="528" /></p>
+<pre class="r"><code># 5. 
+levels(x$treatment)</code></pre>
+<pre><code>## [1] &quot;control&quot; &quot;eyes&quot;    &quot;knee&quot;</code></pre>
+<pre class="r"><code># 6. 
+x$treatment &lt;- factor(x$treatment, levels = c(&quot;control&quot;, &quot;knee&quot;, &quot;eyes&quot;))
+levels(x$treatment)</code></pre>
+<pre><code>## [1] &quot;control&quot; &quot;knee&quot;    &quot;eyes&quot;</code></pre>
+<pre class="r"><code># 7.
+stripchart(shift ~ treatment, data=x, vertical = TRUE, method = &quot;jitter&quot;, 
+    jitter = 0.2, pch = 16, las = 1, cex = 1.5, col = &quot;firebrick&quot;,
+    ylab = &quot;Phase shift (h)&quot;)</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-6-2.png" width="528" /></p>
+<p>Fit a linear model</p>
+<pre class="r"><code># 1.
+z &lt;- lm(shift ~ treatment, data=x)
+
+# 2.
+visreg(z, whitespace = 0.4, points.par = list(cex = 1.2, col = &quot;firebrick&quot;))</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-7-1.png" width="528" /></p>
+<pre class="r"><code># 3.
+plot(z)</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-7-2.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-7-3.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-7-4.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-7-5.png" width="528" /></p>
+<pre class="r"><code># 4. 
+model.matrix(z)</code></pre>
+<pre><code>##    (Intercept) treatmentknee treatmenteyes
+## 1            1             0             0
+## 2            1             0             0
+## 3            1             0             0
+## 4            1             0             0
+## 5            1             0             0
+## 6            1             0             0
+## 7            1             0             0
+## 8            1             0             0
+## 9            1             1             0
+## 10           1             1             0
+## 11           1             1             0
+## 12           1             1             0
+## 13           1             1             0
+## 14           1             1             0
+## 15           1             1             0
+## 16           1             0             1
+## 17           1             0             1
+## 18           1             0             1
+## 19           1             0             1
+## 20           1             0             1
+## 21           1             0             1
+## 22           1             0             1
+## attr(,&quot;assign&quot;)
+## [1] 0 1 1
+## attr(,&quot;contrasts&quot;)
+## attr(,&quot;contrasts&quot;)$treatment
+## [1] &quot;contr.treatment&quot;</code></pre>
+<pre class="r"><code># 5.
+summary(z)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = shift ~ treatment, data = x)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.27857 -0.36125  0.03857  0.61147  1.06571 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)   -0.30875    0.24888  -1.241  0.22988   
+## treatmentknee -0.02696    0.36433  -0.074  0.94178   
+## treatmenteyes -1.24268    0.36433  -3.411  0.00293 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.7039 on 19 degrees of freedom
+## Multiple R-squared:  0.4342, Adjusted R-squared:  0.3746 
+## F-statistic: 7.289 on 2 and 19 DF,  p-value: 0.004472</code></pre>
+<pre class="r"><code># 7.
+confint(z)</code></pre>
+<pre><code>##                    2.5 %     97.5 %
+## (Intercept)   -0.8296694  0.2121694
+## treatmentknee -0.7895122  0.7355836
+## treatmenteyes -2.0052265 -0.4801306</code></pre>
+<pre class="r"><code># 8.
+anova(z)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: shift
+##           Df Sum Sq Mean Sq F value   Pr(&gt;F)   
+## treatment  2 7.2245  3.6122  7.2894 0.004472 **
+## Residuals 19 9.4153  0.4955                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># 9.
+# The ANOVA method assumes that the variance of the residuals is the same
+# in every group. The SE&#39;s and confidence intervals for means make use of
+# the mean squared error from the model fit, not just the values in the group.
+emmeans(z, &quot;treatment&quot;)</code></pre>
+<pre><code>##  treatment emmean    SE df lower.CL upper.CL
+##  control   -0.309 0.249 19   -0.830    0.212
+##  knee      -0.336 0.266 19   -0.893    0.221
+##  eyes      -1.551 0.266 19   -2.108   -0.995
+## 
+## Confidence level used: 0.95</code></pre>
+<hr />
+</div>
+</div>
+<div id="fly-sex-and-longevity" class="section level2">
+<h2>Fly sex and longevity</h2>
+<p>We analyzed these data previously in our graphics workshop. Here we
+will continue our analysis by fitting a linear model to the data.</p>
+<p>The data are from L. Partridge and M. Farquhar (1981) Sexual activity
+and the lifespan of male fruit flies, <i>Nature</i> 294: 580-581. The
+experiment placed male fruit flies with varying numbers of
+previously-mated or virgin females to investigate whether mating
+activity affects male lifespan. To begin, download the file
+fruitflies.csv from
+<a href="https://www.zoology.ubc.ca/~bio501/R/data/fruitflies.csv">here</a>.</p>
+<p>The linear model will have longevity as the response variable, and
+two explanatory variables: treatment (categorical) and thorax length
+(numerical; representing body size). The goal will be to compare
+differences in fly longevity among treatment groups, correcting for
+differences in thorax length. Correcting for thorax length will possibly
+improve the estimates of treatment effect. The method is also known as
+analysis of covariance, or ANCOVA.</p>
+<p><br></p>
+<div id="read-and-examine-data" class="section level3">
+<h3>Read and examine data</h3>
+<ol style="list-style-type: decimal">
+<li><p>Read the data from the file.</p></li>
+<li><p>View the first few lines of data to make sure it was read
+correctly.</p></li>
+<li><p>Determine whether the categorical variable “treatment” is a
+factor. If not a factor, convert treatment to a factor. This will be
+convenient when we fit the linear model.</p></li>
+<li><p>Use the <code>levels()</code> command on the factor variable
+“treatment” to see how R has ordered the different treatment groups
+(should be alphabetically).</p></li>
+<li><p>Change the order of the categories so that a sensible control
+group is first in the order of categories. Arrange the order of the
+remaining categories as you see fit.</p></li>
+<li><p>Optional: This repeats an exercise from the graphics workshop.
+Create a scatter plot, with longevity as the response variable and body
+size (thorax length) as the explanatory variable. Use a single plot with
+different symbols (and colors too, if you like) for different treatment
+groups. Or make a multipanel plot using the <code>lattice</code> or
+<code>ggplot2</code> package</p></li>
+</ol>
+</div>
+<div id="answers-4" class="section level3">
+<h3>Answers</h3>
+<p>Read and examine the data.</p>
+<pre class="r"><code># 1.
+fly &lt;- read.csv(url(&quot;https://www.zoology.ubc.ca/~bio501/R/data/fruitflies.csv&quot;))
+
+# 2.
+head(fly)</code></pre>
+<pre><code>##   Npartners          treatment longevity.days thorax.mm
+## 1         8 8 pregnant females             35      0.64
+## 2         8 8 pregnant females             37      0.68
+## 3         8 8 pregnant females             49      0.68
+## 4         8 8 pregnant females             46      0.72
+## 5         8 8 pregnant females             63      0.72
+## 6         8 8 pregnant females             39      0.76</code></pre>
+<pre class="r"><code># 3.
+is.factor(fly$treatment)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>fly$treatment &lt;- factor(fly$treatment)
+
+# 4.
+levels(fly$treatment)</code></pre>
+<pre><code>## [1] &quot;1 pregnant female&quot;  &quot;1 virgin female&quot;    &quot;8 pregnant females&quot;
+## [4] &quot;8 virgin females&quot;   &quot;no females added&quot;</code></pre>
+<pre class="r"><code># 5.
+# Put the controls first
+fly$treatment &lt;- factor(fly$treatment, levels=c(&quot;no females added&quot;, 
+        &quot;1 virgin female&quot;, &quot;1 pregnant female&quot;, &quot;8 virgin females&quot;,
+        &quot;8 pregnant females&quot;))
+
+# 6.
+# See earlier workshop for overlaid graph.
+# Here&#39;s a multipanel plot
+ggplot(fly, aes(thorax.mm, longevity.days)) + 
+    geom_point(col = &quot;firebrick&quot;, size = 2) +
+  geom_smooth(method = lm, size = I(1), se = FALSE, col = &quot;black&quot;) +
+    xlab(&quot;Thorax (mm)&quot;) + ylab(&quot;Longevity (days)&quot;) +
+  facet_wrap(~treatment, ncol = 2) + 
+  theme_classic()</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-8-1.png" width="480" />
+<a href="--%3E">//</a>: –&gt;</p>
+<p><br></p>
+</div>
+<div id="fit-a-linear-model-2" class="section level3">
+<h3>Fit a linear model</h3>
+<ol style="list-style-type: decimal">
+<li><p>Fit a linear model to the fly data, including both body size
+(thorax length) and experimental treatment as explanatory variables.
+Place thorax length before treatment in the model formula. Why is this a
+good idea? <u>Leave out the interaction term</u> for now – we’ll assume
+for now that there is no interaction between the explanatory variables
+thorax and treatment.</p></li>
+<li><p>Use <code>plot()</code> to check whether the assumptions of
+linear models are met in this case. Are there any potential concerns? If
+you have done the analysis correctly, you will see that the variance of
+the residuals is not constant, but increases with increasing fitted
+values. This violates the linear model assumption of equal variance of
+residuals.</p></li>
+<li><p>Attempt to fix the problem identified in step (3) using a
+log-transformation of the response variable. Refit the model and reapply
+the graphical diagnostic tools to check assumptions. Any improvements?
+(To my eye the situation is improved but the issue has not gone away
+entirely.) Let’s continue anyway with the log-transformed
+analysis.</p></li>
+<li><p>Visualize the fit of the model to the data using the
+<code>visreg</code> package. Plot the fit of the response variable to
+thorax length separately for each treatment group. Plot in separate
+panels or overlay the different treatments onto a single plot. Which is
+more successful at showing the fit of the model to the data?</p></li>
+<li><p>Obtain the parameter estimates and standard errors for the fitted
+model. Interpret the parameter estimates. What do they represent**?
+Which treatment group differs most from the control group?</p></li>
+<li><p>Obtain 95% confidence intervals for the treatment and slope
+parameters.</p></li>
+<li><p>Test overall treatment effects with an ANOVA table. Interpret
+each significance test – what exactly is being tested?</p></li>
+<li><p>Refit the model to the data but this time reverse the order in
+which you entered the two explanatory variables in the model. I’m not
+saying this is a good idea, but bear with me. Test the treatment effects
+with an ANOVA table. Why isn’t the table identical to the one from your
+analysis in (7)***?</p></li>
+<li><p>Our analysis so far has constrained the regression slopes for
+different treatment groups to be the same. We did this by leaving out an
+interaction term, which would allow the slopes to vary freely. Is this a
+reasonable assumption? We have the opportunity to investigate just how
+different the estimated slopes really are. To do this, fit a new linear
+model to the data, but this time include an interaction term between the
+explanatory variables. Plot the model fit. How different are the slopes
+to the eye?</p></li>
+<li><p>The parameters will be more complicated to interpret in a model
+that includes an interaction term, so lets skip <code>summary()</code>
+for now. Instead, go right to the ANOVA table to test the interaction
+term using the new model fit. Interpret the result. Does it mean that
+the interaction term really is zero?</p></li>
+<li><p>Another way to help assess whether the assumption of no
+interaction is a sensible one for these data is to determine whether the
+fit of the model is “better” when an interaction term is present or not,
+and by how much. We will learn new methods later in the course to
+determine this, but in the meantime a simple measure of model fit can be
+obtained using the <u>adjusted</u> <i>R</i><sup>2</sup> value. The
+ordinary <i>R</i><sup>2</sup> measures the fraction of the total
+variation in the response variable that is “explained” by the
+explanatory variables. This, however, cannot be compared between models
+that differ in the number of parameters because fitting more parameters
+always results in a larger <i>R</i><sup>2</sup>, even if the added
+variables are just made-up random numbers. To compare the fit of models
+having different parameters, use the adjusted <i>R</i><sup>2</sup> value
+instead, which takes account of the number of parameters being fitted.
+Use the <code>summary()</code> command on each of two fitted models, one
+with and the other without an interaction term, and compare their
+adjusted <i>R</i><sup>2</sup> values. Are they much different? If not,
+then maybe it is OK to assume that any interaction term is likely small
+and can be left out.</p></li>
+</ol>
+<p><small>*The <code>anova()</code> command in R tests terms
+sequentially. Putting the covariate first in the model formula ensures
+it is included in the “reduced” and “full” models when testing treatment
+effects.</p>
+<p>**In a linear model with a factor and a continuous covariate, and no
+interaction term, the coefficient for the covariate is the common
+regression slope. The “intercept” coefficient represents the y-intercept
+of the first category (first level in the order of levels) of the
+treatment variable. Remaining coefficients represent the difference in
+intercept between that of each treatment category and the first
+category.</p>
+<p>***R fits model terms sequentially when testing. Change the order of
+the terms in the formula for the linear model and the results might
+change.</small></p>
+</div>
+<div id="answers-5" class="section level3">
+<h3>Answers</h3>
+<pre class="r"><code># 1.
+z &lt;- lm(longevity.days ~ thorax.mm + treatment, data = fly)
+
+# 2.
+plot(z)</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-9-1.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-9-2.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-9-3.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-9-4.png" width="528" /></p>
+<pre class="r"><code># 3.
+fly$log.longevity&lt;-log(fly$longevity)
+z &lt;- lm(log.longevity ~ thorax.mm + treatment, data = fly)
+plot(z)</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-9-5.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-9-6.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-9-7.png" width="528" /><img src="linearmodels_files/figure-html/unnamed-chunk-9-8.png" width="528" /></p>
+<pre class="r"><code># 4.
+# Separate plots in separate panels
+visreg(z, xvar = &quot;thorax.mm&quot;, by = &quot;treatment&quot;, whitespace = 0.4, 
+    points.par = list(cex = 1.1, col = &quot;firebrick&quot;))</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-9-9.png" width="528" /></p>
+<pre class="r"><code># Separate plots overlaid
+visreg(z, xvar = &quot;thorax.mm&quot;, by = &quot;treatment&quot;, overlay = TRUE, 
+    band = FALSE, points.par = list(cex = 1.1))</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-9-10.png" width="528" /></p>
+<pre class="r"><code># 5. 
+summary(z)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = log.longevity ~ thorax.mm + treatment, data = fly)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.52208 -0.13457 -0.00799  0.13807  0.39234 
+## 
+## Coefficients:
+##                             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                  1.82123    0.19442   9.368 5.89e-16 ***
+## thorax.mm                    2.74895    0.22795  12.060  &lt; 2e-16 ***
+## treatment1 virgin female    -0.12391    0.05448  -2.275   0.0247 *  
+## treatment1 pregnant female   0.05203    0.05453   0.954   0.3419    
+## treatment8 virgin females   -0.41826    0.05509  -7.592 7.79e-12 ***
+## treatment8 pregnant females  0.08401    0.05491   1.530   0.1287    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1926 on 119 degrees of freedom
+## Multiple R-squared:  0.7055, Adjusted R-squared:  0.6932 
+## F-statistic: 57.02 on 5 and 119 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code># 6.
+confint(z)</code></pre>
+<pre><code>##                                   2.5 %      97.5 %
+## (Intercept)                  1.43626358  2.20619388
+## thorax.mm                    2.29759134  3.20030370
+## treatment1 virgin female    -0.23177841 -0.01604413
+## treatment1 pregnant female  -0.05593661  0.15999702
+## treatment8 virgin females   -0.52734420 -0.30918075
+## treatment8 pregnant females -0.02472886  0.19273902</code></pre>
+<pre class="r"><code># 7.
+anova(z)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: log.longevity
+##            Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## thorax.mm   1 6.4256  6.4256  173.23 &lt; 2.2e-16 ***
+## treatment   4 4.1499  1.0375   27.97 2.231e-16 ***
+## Residuals 119 4.4141  0.0371                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># 8.
+z1 &lt;- lm(log.longevity ~ treatment + thorax.mm, data = fly)
+anova(z1)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: log.longevity
+##            Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## treatment   4 5.1809  1.2952  34.918 &lt; 2.2e-16 ***
+## thorax.mm   1 5.3946  5.3946 145.435 &lt; 2.2e-16 ***
+## Residuals 119 4.4141  0.0371                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># 9.
+z &lt;- lm(log.longevity ~ thorax.mm * treatment, data = fly)
+visreg(z, xvar = &quot;thorax.mm&quot;, by = &quot;treatment&quot;, whitespace = 0.4, 
+    points.par = list(cex = 1.1, col = &quot;firebrick&quot;))</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-9-11.png" width="528" /></p>
+<pre class="r"><code># Separate plots overlaid
+visreg(z, xvar = &quot;thorax.mm&quot;, by = &quot;treatment&quot;, overlay = TRUE, 
+    band = FALSE, points.par = list(cex = 1.1))</code></pre>
+<p><img src="linearmodels_files/figure-html/unnamed-chunk-9-12.png" width="528" /></p>
+<pre class="r"><code># 10.
+anova(z)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: log.longevity
+##                      Df Sum Sq Mean Sq  F value Pr(&gt;F)    
+## thorax.mm             1 6.4256  6.4256 176.4955 &lt;2e-16 ***
+## treatment             4 4.1499  1.0375  28.4970 &lt;2e-16 ***
+## thorax.mm:treatment   4 0.2273  0.0568   1.5611 0.1894    
+## Residuals           115 4.1868  0.0364                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code># 11.
+summary(z1)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.6931502</code></pre>
+<pre class="r"><code>summary(z)$adj.r.squared</code></pre>
+<pre><code>## [1] 0.6988301</code></pre>
+</div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2026 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

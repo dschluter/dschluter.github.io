@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Homework assignments</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="biol501.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biology 501 &mdash; The University of British Columbia</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Biol 501 pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Home page</a>
+    </li>
+    <li>
+      <a href="lectures.html">Lectures</a>
+    </li>
+    <li>
+      <a href="handouts.html">Handouts</a>
+    </li>
+    <li>
+      <a href="calendar.html">Calendar</a>
+    </li>
+    <li>
+      <a href="homework.html">Homework</a>
+    </li>
+    <li>
+      <a href="books.html">Books</a>
+    </li>
+    <li>
+      <a href="workshops/index.html">R workshops page</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="workshops/index.html">R workshops home</a>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~schluter/R/">R tips home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Homework assignments</h1>
+<h4 class="author"></h4>
+
+</div>
+
+
+<p>Assignments will be posted here.</p>
+<hr />
+<div id="try-r-markdown" class="section level2">
+<h2>Try R Markdown</h2>
+<p>Try to write your report using <strong>R Markdown</strong>. The
+advantage is that R code chunks written inline are executed when you
+make the html file.</p>
+<p>An example using R Markdown is found
+<a href="https://www.zoology.ubc.ca/~schluter/R/#Use_R_Markdown">here</a>.
+Save example files to a folder on your hard disk and then open with
+RStudio. To render it, click “Knit” at the top of the Source file pane
+in RStudio.</p>
+<p>Email the TA for the course if you have questions.</p>
+<!-- ################### ASSIGNMENT 1 ################################################## -->
+</div>
+<div id="assignment-1-improve-a-graph" class="section level2">
+<h2>Assignment 1: Improve a graph</h2>
+<p>This assignment is due Feb 6 at 5 pm.</p>
+<ul>
+<li><p>Find a bad graph drawn from data and published by your thesis
+supervisor. If your supervisor is flawless, pick another published
+graph, eg from a paper published from your lab or department. Come talk
+to us if you are having trouble with this step.</p></li>
+<li><p>Students from the same lab: don’t choose the same or very similar
+graphs.</p></li>
+<li><p>It is important that you choose a graph that requires significant
+improvement. Too little improvement means we can’t assign many
+marks.</p></li>
+<li><p>In your report, explain the original study, what the data are and
+the goal of the study.</p></li>
+<li><p>Analyze the bad graph. What is its goal? Explain what patterns
+the graph was intended to show. Explain why you think it is not
+successful. Explain the flaws in the graph. How does it fall
+short?</p></li>
+<li><p>Make a new graph using principles of effective display. Try to
+obtain and make use of the raw data, otherwise extract them from the
+graph or simulate raw data. Use R to make the graph.</p></li>
+<li><p>While we recognize that coding is all-absorbing, don’t lose sight
+of the real aim of this assignment, which is to analyze and improve
+visual displays following the principles we have discussed. Review
+recommendations made in lectures and workshops.</p></li>
+<li><p>Analyze your new graph. Why is it an improvement? Remind us of
+the goal of the graph. Explain how your improvements achieve the goal
+more effectively than the original. Explain why your graph
+succeeds.</p></li>
+<li><p>Append your R script at the end (or submit your document in R
+Markdown, which combines text and R code).</p></li>
+<li><p>If you used an AI, include an acknowledgement at the end that
+explains how you used it.</p></li>
+<li><p>Email paper to both me and Lucia as a single .pdf file:
+LASTNAME.FIRSTNAME.ASSIGNMENT1.PDF</p></li>
+<li><p>Grade will be based on: the quality of your analysis of the
+original graph; the magnitude of improvement of the new graph; your
+interpretation of it and explanation of how it is improved; the quality
+of your R script.</p></li>
+</ul>
+<!-- ################### ASSIGNMENT 2 ################################################## -->
+<hr />
+</div>
+<div id="assignment-2-analyze-linear-model" class="section level2">
+<h2>Assignment 2: Analyze linear model</h2>
+<p>This assignment is due Friday, March 13 at 5 pm.</p>
+<p>Obtain a data set and analyze it by fitting a linear, mixed, or
+generalized linear model in R.</p>
+<ul>
+<li>Obtain a data set from your supervisor or online data depository
+(e.g. datadryad.org).</li>
+<li>Include just one response variable.</li>
+<li>Include at least one categorical fixed factor as an explanatory
+variable, such as an experimental or observational treatment.</li>
+<li>Include at least 1, and no more than 2, additional explanatory
+variables (random or fixed factors, blocks, covariates, etc).</li>
+</ul>
+<p>Prepare a thorough report on the analysis and interpretation of the
+data. Below I suggest some of the things to include in your report, but
+note that the list might not be complete. Review the topics of lectures
+and discussion to date to remind yourself what is important when
+analyzing data.</p>
+<p>Include all your writing and graphs in a single pdf file (titled
+LASTNAME.FIRSTNAME.ASSIGNMENT2.PDF) and email to me.</p>
+<ul>
+<li><p>Explain (in a paragraph) the purpose of the study that yielded
+the data.</p></li>
+<li><p>Explain the specific data set you are using. For example, say
+where the data are from, give the meaning of the variables, and so
+on.</p></li>
+<li><p>Illustrate and describe the main patterns revealed in the
+data.</p></li>
+<li><p>State what parameters (magnitudes) you will estimate with these
+data.</p></li>
+<li><p>State what hypotheses you will test with these data.</p></li>
+<li><p>Fit a linear (or mixed or generalized linear) model to the data
+in R. Explain in words the model you fit.</p></li>
+<li><p>Interpret the output. To assess biological significance, explain
+the parameter estimates (magnitudes). What do they mean and what are
+your conclusions based on these parameter estimates. To assess
+statistical significance, explain the null hypotheses and interpret the
+test results.</p></li>
+<li><p>Visualize the model fit to the data. Explain what the graph is
+showing.</p></li>
+<li><p>Address how well the statistical assumptions of your analysis
+were met. How did you handle violations?</p></li>
+<li><p>State the overall conclusions reached from your analyses of
+biological and statistical significance.</p></li>
+<li><p>If you used an AI, include an acknowledgement at the end that
+explains how you used it.</p></li>
+<li><p>Include your clean R code in an appendix.</p></li>
+<li><p>Email paper to both me and Lucia as a single .pdf file:
+LASTNAME.FIRSTNAME.ASSIGNMENT1.PDF</p></li>
+</ul>
+<!-- ################### ASSIGNMENT 3 - Agrostis ########################################### 
+     The following data set was analyzed in Sept 2016, Sept 2018, Sept 2020, Jan 2024, Jan 2026 semesters -->
+<hr />
+</div>
+<div id="assignment-3-determine-best-model" class="section level2">
+<h2>Assignment 3: Determine best model</h2>
+<p>This assignment is due April 10, 2026</p>
+<p>Clues to the inheritance patterns of population differences can be
+gained by fitting linear models to measurements of traits in parents and
+hybrids. In this assignment you will use model selection methods to
+compare the fit of three alternative genetic models of divergence in
+soil arsenic tolerance in two populations of the grass <i>Agrostis
+capillaris</i> (Watkins and MacNair 1991, Genetics of arsenic tolerance
+in <i>Agrostis capillaris</i>. Heredity 66: 47-54). One population
+occurred on an abandoned, arsenic-contaminated mine; the other was from
+an edaphically similar, non-toxic site.</p>
+<p>To accomplish this you will need to choose a criterion (AIC or BIC)
+to decide the fit of models to the data, and to determine which is best
+suited to your purposes. You need to defend your choice of method
+vigorously in your report, which will require some research. Why did you
+decide to use it instead of the other criterion? Decide on the criterion
+<em>before</em> you analyze the data.</p>
+<p>Height of plant tillers of different cross generations can be
+downloaded
+<a href="https://www.zoology.ubc.ca/~bio501/R/data/arsenic.csv">here</a>.</p>
+<p>Height is the cube root of tiller height (in mm) when grown on
+arsenic-laced soil. Line refers to the parent population from the
+contaminated site (“high” tolerance), the parent population from the
+uncontaminated site (“low” tolerance), their F1 and F2 hybrids (“f1”,
+“f2”), and the backcrosses between the F1 hybrid and each parent
+population (“bh” for high and “bl” for low tolerance). I’ll refer to
+these crosses as genotypes.</p>
+<p>Analyze these data in R according to the following methods. Note that
+this is not a complete list of expectations. Fit linear models with
+fixed effects only. Assume that all the data for a given cross type are
+independent. Provide all necessary explanations in your report. No
+<i>P</i>-values are allowed in your report. Include your R commands in
+an appendix.</p>
+<ul>
+<li><p>Visualise the data. What is the pattern in the data?</p></li>
+<li><p>Create a table of means and standard deviations of genotypes.
+Design the table as you would if you were publishing it. Don’t worry too
+much about font.</p></li>
+<li><p>Add a numeric variable in the data set to represent the
+proportion of the genome inherited from the high-tolerance parent: <br> 
+1 for the high-tolerance parent genotype <br>  0 for the low-tolerance
+parent genotype <br>  0.5 for the F1 and F2 hybrids <br>  0.25 for the
+backcross to the low tolerance population <br>  0.75 for the backcross
+to the high tolerance population <br>Make sure that the variable is
+numeric rather than a factor or character.</p></li>
+<li><p>Fit the numeric variable you created in (3) to the height data
+using a linear model. This is called the additive model, whereby
+tolerance increases linearly with the proportion of the genome inherited
+from the high tolerance parent. Evaluate the model fit (Remember: no
+<i>P</i> values!).</p></li>
+<li><p>Add another numeric variable to the data set to represent
+dominance effects that might be present in the hybrids: <br>  0 for both
+parent genotypes <br>  1 for the F1 hybrid <br>  0.5 for the remaining
+three hybrid genotypes <br>Make sure that the variable is numeric rather
+than a factor or character.</p></li>
+<li><p>Fit a second model to the same data that includes both of the
+numeric variables created in (3) and (5). Leave out any interaction
+terms. This is the additive plus dominance model. Any dominance effects
+present will displace the mean value of the hybrids toward one or other
+of the parents relative to the values predicted by the additive model.
+Evaluate model fit.</p></li>
+<li><p>Finally, fit a third model that has the original genotype
+variable as the only explanatory variable. The fit of this model will
+deviate from the model fitted in (6) if there is interaction (epistasis)
+between genes inherited from the two parents.</p></li>
+<li><p>Present your results, comparing model fits. Which genetic model
+best fit the data? Explain and summarize.</p></li>
+<li><p>Explain how the procedure you used above to analyze these data
+differs from that of conventional null hypothesis significance testing.
+In your view, would a null hypothesis significance testing approach be a
+poorer, equivalent, or superior approach to the one used above to decide
+between the three models? Explain.</p></li>
+<li><p>If you used an AI, include an acknowledgement at the end that
+explains how you used it.</p></li>
+<li><p>Include your clean R code in an appendix.</p></li>
+<li><p>Email paper to both me and Lucia as a single .pdf file:
+LASTNAME.FIRSTNAME.ASSIGNMENT1.PDF</p></li>
+</ul>
+<!-- ################### ASSIGNMENT 3 - planthopper ######################################## -->
+<!-- This data set was analyzed in Sept 2014, Sept 2017, Sept 2019, Jan 2022, Jan 2025 semesters -->
+<!--
+***
+
+## Assignment 3: Best genetic model
+This assignment is due April 11, 2025.
+
+Clues to the genetic basis of species differences can be gained by fitting linear models to measurements of traits in parents and hybrids. In this assignment you will use model selection methods to compare the fit of alternative genetic models to oviposition preference data in two host races of the planthopper <i>Nilaparvate nugens</i> (Sezer and Butlin 1998, Proc. Roy. Soc. Lond. B 265: 2399-2405). One race occurs on cultivated rice. The other lives on the aquatic plant <i>Leersia</i>, which is probably the ancestral host.
+
+To accomplish this you will need to choose a criterion (AIC or BIC) to evaluate the fit of models to the data. You need to defend your choice of method vigorously in your report, which will require some independent research. Why did you decide to use it instead of the other criterion? Decide on the criterion *before* you analyze the data.
+
+Host oviposition preference data of females can be downloaded <a href="https://www.zoology.ubc.ca/~bio501/R/data/hopper.csv">HERE</a>.
+
+Preference is the log-transformed ratio of the number of eggs laid on rice to the number laid on <i>Leersia</i>, when both plants were provided by the experimenters. Genotype refers to the parent race on rice ("rice"), the parent race on <i>Leersia</i> ("leer"), their F1 and F2 hybrids ("f1", "f2"), and the backcrosses between the F1 hybrid and each parent race ("br" for rice and "bl" for <i>Leersia</i>).
+
+Analyze these data in R according to the following methods. Note that this is not a complete list of expectations for the assignment. Fit linear models with fixed effects only. Assume that all the data for a given cross type are independent. Provide all necessary explanations in your report. No $P$-values are allowed in your report. Include your R commands in an appendix.
+
+1. Visualize the oviposition preference of the different genotypes. What is the pattern in the data? Explain.
+2. Create a table of means and standard deviations of the genotypes. Make this a presentation quality table rather than simply computer output. Don't worry about font.
+3. Add a numeric variable in the data set to represent the proportion of the genome inherited from the rice parent:
+<br>&nbsp; 1 for the rice parent genotype
+<br>&nbsp; 0 for the <i>Leersia</i> parent genotype
+<br>&nbsp; 0.5 for the F1 and F2 hybrids
+<br>&nbsp; 0.25 for the backcross to the <i>Leersia</i> population
+<br>&nbsp; 0.75 for the backcross to the rice backcross
+<br>Make sure that the variable is numeric rather than a factor or character.
+4. Fit the numeric variable you created in (3) to the preference data using a linear model. This is called the additive model, whereby mean preference for rice increases linearly with the proportion of the genome inherited from the rice parent. Evaluate the model fit. (Remember: no <i>P</i> values!)
+5. Add another numeric variable to the data set to represent dominance effects that might be present in the hybrids:
+<br>&nbsp; 0 for both parental genotypes
+<br>&nbsp; 1 for the F1 hybrid genotype
+<br>&nbsp; 0.5 for the remaining three hybrid genotypes
+<br>Make sure that the variable is numeric rather than a factor or character.
+6. Fit a second model to the same preference data that includes both of the numeric variables created in (3) and (5). Leave out any interaction terms. This is the additive plus dominance model. Any dominance effects present will displace the mean value of the hybrids toward one or other of the parents relative to the values predicted by the additive model. Evaluate model fit.
+7. Finally, fit a third model that has the original genotype variable as the only explanatory variable. The fit of this model will deviate from the model fitted in (6) if there is interaction (epistasis) between genes inherited from the two parents.
+8. Present your results, comparing model fits. Which genetic model best fit the data? Explain and summarize.
+9. Explain how the procedure you used above to analyze these data differs from that of conventional null hypothesis significance testing. In your view, would a null hypothesis significance testing approach be a poorer, equivalent, or superior approach to the one used above to decide between the three models? Explain.
+10. If you used an AI, include an acknowledgement at the end that explains how you used it.
+11. Include your clean R code in an appendix.
+
+Email paper to me as a single pdf file: LASTNAME.FIRSTNAME.ASSIGNMENT3.PDF
+
+[//]: -->
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2026 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

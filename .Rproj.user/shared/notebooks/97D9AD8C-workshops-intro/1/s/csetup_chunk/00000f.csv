@@ -1,0 +1,15 @@
+"0","knitr::opts_chunk$set(echo = TRUE, fig.width = 5.5, fig.height=4.5)"
+"2","Warning messages:
+"
+"2","1: "
+"2","In readLines(index, encoding = encoding) :"
+"2","
+ "
+"2"," incomplete final line found on '/Users/schluter/Library/CloudStorage/Dropbox/Courses/biol501 - www/index.Rmd'
+"
+"2","2: "
+"2","In readLines(index, encoding = encoding) :"
+"2","
+ "
+"2"," incomplete final line found on '/Users/schluter/Library/CloudStorage/Dropbox/Courses/biol501 - www/index.Rmd'
+"

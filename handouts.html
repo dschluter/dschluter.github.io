@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Handouts</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="biol501.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biology 501 &mdash; The University of British Columbia</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Biol 501 pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Home page</a>
+    </li>
+    <li>
+      <a href="lectures.html">Lectures</a>
+    </li>
+    <li>
+      <a href="handouts.html">Handouts</a>
+    </li>
+    <li>
+      <a href="calendar.html">Calendar</a>
+    </li>
+    <li>
+      <a href="homework.html">Homework</a>
+    </li>
+    <li>
+      <a href="books.html">Books</a>
+    </li>
+    <li>
+      <a href="workshops/index.html">R workshops page</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="workshops/index.html">R workshops home</a>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~schluter/R/">R tips home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Handouts</h1>
+<h4 class="author"></h4>
+
+</div>
+
+
+<p>This page lists and links to the required readings for the term.
+Readings might change as the term progresses. Refresh the page on your
+browser to see the latest version.</p>
+<p>Dates indicate when the paper is to be <strong>discussed</strong>, so
+read beforehand.</p>
+<p><br></p>
+<div id="discussion-dates-and-papers" class="section level2">
+<h2>Discussion dates and papers</h2>
+<div id="january-13" class="section level3">
+<h3>January 13</h3>
+<p><a
+href="readings/wainer%201984%20amer%20stat%20-%20how%20to%20display%20data%20badly.pdf">Wainer:
+How to display data badly</a></p>
+<p><br></p>
+</div>
+<div id="january-20" class="section level3">
+<h3>January 20</h3>
+<p><a
+href="readings/hurlbert%201984%20ecol%20monogr%20-%20pseudoreplication.pdf">Hurlbert:
+Pseudoreplication and the design of experiments</a></p>
+<p><br></p>
+</div>
+<div id="january-27" class="section level3">
+<h3>January 27</h3>
+<p><a
+href="readings/colegrave%20&amp;%20ruxton%202003%20behav%20ecol%20-%20use%20confidence%20intervals%20not%20post-hoc%20power%20when%20Ho%20not%20rejected.pdf">Colegrave
+&amp; Ruxton: Confidence intervals</a></p>
+<p>Optional additional reading: <a
+href="readings/hoenig%20&amp;%20heisey%202001%20am%20stat%20-%20fallacy%20of%20power%20calculations%20for%20data%20analysis.pdf">Hoenig
+&amp; Heisey (2001)</a></p>
+<p><br></p>
+</div>
+<div id="february-3" class="section level3">
+<h3>February 3</h3>
+<p><a
+href="readings/kelly%20&amp;%20price%202005%20am%20nat%20-%20regression%20toward%20the%20mean.pdf">Kelly
+and Price: Correcting for regression to the mean</a></p>
+<p>Optional additional readings: <a
+href="readings/forstmeier%202011%20anat%20rec%20-%20brain%20size%20fallacy.pdf">Forstmeier
+2011</a> and <a
+href="https://www.zoology.ubc.ca/~schluter/reprints/schluter%201992%20nature%20-%20brain%20size%20differences.pdf">Schluter
+1992</a> on a brain size fallacy.</p>
+<p><br></p>
+</div>
+<div id="february-10" class="section level3">
+<h3>February 10</h3>
+<p><a
+href="readings/murtaugh%202007%20ecology%20-%20simplicity%20and%20complexity%20in%20data%20analysis.pdf">Murtaugh:
+Simplicity in data analysis</a></p>
+<p><br></p>
+</div>
+<div id="february-24" class="section level3">
+<h3>February 24</h3>
+<p><a
+href="readings/verhoeven%20et%20al%202005%20oikos%20-%20controlling%20the%20false%20discovery%20rate.pdf">Verhoeven
+et al: Controlling false discovery rate</a></p>
+<p><br></p>
+</div>
+<div id="march-3" class="section level3">
+<h3>March 3</h3>
+<p><a
+href="readings/whittingham%20et%20al%202006%20jae%20-%20why%20not%20to%20use%20stepwise%20modeling.pdf">Whittingham
+et al: Why do we still use stepwise regression?</a></p>
+<p>Optional additional reading: <a
+href="readings/mundry%20et%20al%202009%20am%20nat%20-%20more%20on%20why%20not%20to%20use%20stepwise%20model%20fitting.pdf">Mundry
+&amp; Nunn: more on stepwise regression</a></p>
+<p><br></p>
+</div>
+<div id="march-10" class="section level3">
+<h3>March 10</h3>
+<p><a
+href="readings/cohen%201994%20am%20psych%20-%20the%20earth%20is%20round.pdf">Cohen:
+The earth is round (p &lt; 0.05)</a></p>
+<p><br></p>
+</div>
+<div id="march-17" class="section level3">
+<h3>March 17</h3>
+<p><a
+href="readings/dochtermann%20&amp;%20jenkins%202011%20bes%20-%20developing%20multiple%20hypotheses%20in%20behavioural%20ecology.pdf">Dochtermann
+&amp; Jenkins: Working with multiple hypotheses</a></p>
+<p>Optional additional reading: <a
+href="readings/bettini%20et%20al%202017%20rsos%20-%20why%20are%20we%20not%20testing%20multiple%20hypotheses.pdf">Betini
+et al: why are we not testing multiple hypotheses</a></p>
+<p><br></p>
+</div>
+<div id="march-24" class="section level3">
+<h3>March 24</h3>
+<p><a
+href="readings/palmer%201999%20metaanalysis%20of%20fluctuating%20asymmetry%20and%20sexual%20selection.pdf">Palmer:
+Publication bias in fluctuating asymmetry</a></p>
+<p><br></p>
+</div>
+<div id="march-31" class="section level3">
+<h3>March 31</h3>
+<p><a
+href="readings/maynard%20et%20al%202022%20nature%20comm%20-%20global%20relationships%20in%20tree%20functional%20traits.pdf">Maynard
+et al: Multidimensional trait relationships</a>.</p>
+<p><br></p>
+</div>
+<div id="april-7" class="section level3">
+<h3>April 7</h3>
+<p><a
+href="readings/jetz%20et%20al%202014%20curr%20biol%20-%20conservation%20and%20phylogenetic%20distinctness.pdf">Jetz
+et al: Phylogenetic distinctness and conservation</a></p>
+</div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2026 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

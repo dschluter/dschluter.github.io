@@ -1,0 +1,505 @@
+---
+title: "Multivariate methods"
+author:
+
+<!--  output: html_document -->
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5.5, fig.height=5, message = FALSE)
+```
+
+In this workshop will explore two commonly used multivariate methods for ordination and visualization: principal components analysis and simple correspondence analysis. 
+
+We will also explore a more advanced method, the convolutional neural network (CNN), for classification of images. The goal is not to perfect a CNN in this workshop, but to show you that this can be done in R and to give you a sense of how it works. It is essential that you learn about what a CNN is and gain some intuition for how it works before trying this exercise. I can recommend a couple of youtube videos for this: [3Blue1Brown](https://www.youtube.com/watch?v=aircAruvnKk) and [Brandon Rohrer](https://www.youtube.com/watch?v=FmpDIaiMIeA). Watch them in advance of the workshop, maybe twice.
+
+***
+
+## Leaf economics spectrum
+The Leaf Economics Spectrum (LES) is based on the idea that leaf lifespan and other leaf traits of plant species are correlated across a wide continuum of strategies for acquiring resources. The spectrum was first discovered and described using principal components analysis on a large data set of leaf traits amassed by Wright et al (2004, Nature 428: 821-827). The data set includes 2,548 species from 219 families and 175 sites, although there are many missing values for some leaf variables. A subset of the variables in their data set can be downloaded [here](https://www.zoology.ubc.ca/~bio501/R/data/LES.csv). The file contains the following variables:
+
+* Dataset
+* BIOME
+- Species
+- GrowthForm (epiphyte E, fern or fern ally F, grass or sedge G, herb H, shrub S, tree T, vine, twiner or liana V)
+- Decid_Evergreen: deciduous D or evergreen E
+- Needle_Broadleaf: needleleaf N or broadleaf B
+- C3C4: C3 or C4 photosynthesis
+- N2_fixer: nitrogen fixer (Y or N)
+- logLL: log10 of leaf lifespan in months
+- logLMA: log10 of leaf mass per area in g/m<sup>2</sup>
+- logNmass: log10 of leaf nitrogen per unit dry mass in %
+- logPmass: log10 of leaf phosphorus per unit dry mass in %
+- logAmass: log10 of photosynthetic capacity (photosynthetic assimilation rates measured under high light, ample soil moisture and ambient CO2) in nmol/g/s
+- logRdmass: log10 of dark respiration rate per unit dry mass in nmol/g/s
+
+Download the data set and carry out the following analyses.
+
+1. Read the data from the file and inspect the variables.
+
+2. Use pairwise scatter plots to examine associations among the 6 continuous variables. Which variables are most strongly correlated with one another? Which traits are positively correlated with leaf lifespan (log10LL). Which traits are negatively correlated with leaf lifespan?
+
+3. Carry out a principal components analysis on the six log-transformed continuous variables. Note that any case having at least one missing variable will not be included. How many cases were included in the analysis? 
+
+4. You can see from your pairwise scatter plot in (2) that the variable ```logRdmass``` has the most sparse data. Redo the PCA leaving this variable out. How many cases did you include this time?
+
+5. From (4) we can see that we still are missing a lot of cases, but let's proceed with what we have. Examine the proportion of variance explained by each principal component. How may principal components are there? What proportion of the variance is accounted for by the first principal component? How many components are needed to capture 95% of the total variance among species*?
+
+6. What are eigenvalues? Create a scree plot to visualize the magnitudes of the eigenvalues.
+
+7. Create a biplot to visualize the contribution of traits to the first two principal components. For this analysis, PC1 is the "Leaf Economics Spectrum". What continuum of leafs traits does it describe: what other traits do long-lived leaves possess, in general, in contrast to short-lived leaves?
+
+8. What are eigenvectors? Compare the eigenvectors for the first two principal components with the previous biplot. Which variables contribute positively to the first two principal components? Which contribute negatively?
+
+9. Save the scores for the first two principal components to your original data frame and plot them in a scatter plot.
+
+10. (Optional) Plot the first two principal components and color the points according to the variable ```Decid_Evergreen```. Do you see a pattern? You would already have predicted that deciduous leaves would be short lived compared with evergreen leaves. A third color indicates cases where the category is missing. Can you predict from this graph whether they are likely to be mainly deciduous or evergreen?
+
+<small>* 5 (There will be as many principal components as original variables in the analysis, except under special circumstances); 68.7%; 4
+</small>
+
+<!--
+### Answers
+
+```{r eval = TRUE}
+library(ggplot2)
+
+# 1. Read and inspect
+leaf <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/LES.csv"))
+head(leaf)
+```
+
+```{r eval = TRUE, fig.width = 7, fig.height = 7}
+# 2. Pairwise scatter plots. All correlations are positive.
+pairs(leaf[, 9:14], pch = ".", cex = 2, col = "Firebrick")
+```
+
+```{r eval = TRUE, fig.width = 6, fig.height = 6}
+# 3. Principal components analysis
+z <- prcomp(~ ., data = leaf[, 9:14], na.action = na.exclude) 
+
+# Number of non-missing cases
+table(!is.na(z$x[, "PC1"]))
+
+# 4. PCA excluding dropping logRdmass
+z <- prcomp(~ ., data = leaf[, 9:13], na.action = na.exclude) 
+table(!is.na(z$x[, "PC1"]))
+
+# 5. Proportion of variance explained
+summary(z)
+
+# 6. Scree plot.
+screeplot(z, type = "line", col = "firebrick", main = "Leaf PCA")
+
+# 7. Biplot
+biplot(z, cex = 0.5, las = 1)
+
+# 8. Eigenvectors
+z$rotation
+```
+
+```{r eval = TRUE, fig.width = 6.5, fig.height = 4.5}
+# 9. Scores for the first two principal components
+leaf[, c("PC1","PC2")] <- predict(z)[, 1:2]
+
+ggplot(leaf, aes(PC1, PC2)) + 
+    geom_point(size = 2) + 
+    theme_classic()
+
+# 10. Evergreen vs deciduous leaves
+ggplot(leaf, aes(PC1, PC2, colour = Decid_Evergreen)) + 
+    geom_point(size = 2) + 
+    theme_classic()
+```
+
+[//]: -->
+
+***
+
+## Rodent ordination
+Correspondence analysis is used to ordinate species assemblages based on species composition and similarity in species abundances. The data for this exercise are rodent species abundance from 28 sites in California (Bolger et al. 1997, <i>Response of rodents to habitat fragmentation in coastal Southern California</i>, Ecological Applications 7: 552-563). The file in contingency table format is located <a href="https://www.zoology.ubc.ca/~bio501/R/data/rodent.csv">here</a>. I modified the data table downloaded from the <a href="http://www.zoology.unimelb.edu.au/qkstats/data.html">web site</a> of Quinn and Keough (2002, Experimental Design and Data Analysis for Biologists, Cambridge Univ. Press, Cambridge, UK).
+
+The 9 species are indicated by variable (column) names. Genus abbreviations are: Rt (<i>Rattus</i>), Rs (<i>Reithrodontomys</i>),  Mus (<i>Mus</i>), Pm (<i>Peromyscus</i>), Pg (<i>Perognathus</i>), N (<i>Neotoma</i>) and M (<i>Microtus</i>). <i>Rattus</i> and <i>Mus</i> are invasive species, whereas the others are native.
+
+1. Download the file and read into a data frame in R. Inspect the data frame to get a sense of which species are abundant and which are rare, which are widely distributed and which occur infrequently. The first column of this data frame will have the site variable. Make sure not to include the site variable in the correspondence analysis. Also, the plots will use the row names of the data frame as the site names. If you want to see the actual site names rather than row numbers in your plots, rename the row names accordingly.
+
+2. Carry out a correspondence analysis using these data. Extract two axes from the species abundance data at sites. How strongly are the site and species data correlated along the two axes?
+
+3. Plot the results from (2). Overlap of points may make it difficult to identify some plots and species (unfortunately there's no built-in "jitter" option for this plot). You can use the species scores to help identify them.
+
+4. Use the plot in (3) and the species scores to interpret the results of your analysis. How are each of the species contributing to the correspondence axes? Do you notice any differences between the invasive and native species in their distributions?
+
+5. As you probably surmised, the results of the first round of analysis were chiefly driven by the introduced species. To examine the native species as well, create a new data frame with <i>Rattus</i> and <i>Mus</i> deleted. This will generate some sites with no species present. Delete these sites from the new data frame.
+
+6. Carry out a correspondence analysis on the native species. Extract two axes from the species abundance data at sites. How strongly are the species and site data correlated?
+
+7. Plot the results from your analysis in (6). Is the plot useful in helping you to identify which species tend to co-occur? And which species tend not to occur together? Confirm this by looking at the original data. Are your interpretations correct?
+
+8. Based on the plot in (7), which sites tend to have similar species composition and abundances? Which have different species assemblages? Confirm this by looking at the original data.
+
+9. Based on the same plot, can you match the species to specific sites? Confirm this by looking at the original data.
+It would be easier to compare the plot of the correspondence analysis with the abundance data in the data frame if the rows and columns of the data frame were reordered according to the position of sites (rows) and species (columns) along the first axis from the correspondence analysis. Print the data frame with this reordering. The positions of the sites and species along the first axis are given in the first columns of the rscore and cscore matrices in your correspondence model object. Your results should look like the following:
+
+```{r eval = FALSE}
+            N.lepida Pm.eremicus M.californicus Rs.megalotis Pm.californicus N.fuscipes Pg.fallax
+Sandmark           8          65              3            9              57         16         2
+Altalajolla       12          35              2           12              48          8         2
+Katesess           0          21              0           11              63         16         0
+Delmarmesa         0           1              0            0              10          1         0
+Florida            0           1              0            1               3          2         0
+Oakcrest           0           1              0            0              27          0         0
+Spruce             0           0              0            0               1          0         0
+34street           0           0              0            2              36          9         0
+Edison             0           0              0           10              78         14         4
+Tec2               0           0              0           10              29          9         1
+Syracuse           0           0              0            4              39         12         0
+Tec1               0           0              0            0              22         11         2
+Balboaterr         0           1              3            5              53         30        18
+Montanosa          0           0              0            2               0          8         2
+Solanadrive        0           0              0            5               1         16         7
+```
+
+With this ordering of the original abundance data, you can see how the different sites (rows) might lie along some environmental gradient. However, this is inferred only from the ordering of species abundances among the sites. No environmental variable has been included in this analysis.
+
+<!--
+### Answers
+
+```{r eval = TRUE, message = FALSE}
+library(MASS)
+
+# 1. Download and inspect
+x <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/rodent.csv"), 
+        stringsAsFactors = FALSE)
+rownames(x) <- x$site
+x
+
+# 2. Correspondence analysis
+z <- corresp(x[, -1], nf = 2)
+names(z)
+z$cor
+
+# 3. Plot results
+biplot(z, las = 1, xlab = "First axis", ylab = "Second axis")
+
+# 4. Species (column) scores
+z$cscore
+
+# 5. Drop introduced species
+x1 <- x[ , -c(2,3)]
+x1 <- x1[rowSums(x1[, -1]) > 0, ]
+
+# 6. Correspondence analysis on native species
+z1 <- corresp(x1[, -1], nf = 2)
+z1$cor
+
+# 7. Plot results
+biplot(z1, las = 1, xlab = "First axis", ylab = "Second axis")
+
+# 9. Order species and sites according to position along the first axis
+x2 <- x1[, -1][order(z1$rscore[,1]), order(z1$cscore[,1])]
+x2
+
+```
+
+[//]: -->
+
+*** 
+
+## Classify images with CNNs
+
+In this exercise you'll make a CNN to distinguish images of dogs from cats. This is not as easy as it sounds. The data are a subset of the Kaggle Dogs vs. Cats competition, and the dogs and cats are in different poses and on different backgrounds. For this exercise we're using low-resolution grayscale images. I've downsampled the images to 50x50 pixel black and white images to keep the computations manageable for the workshop. 
+
+See the R tips AI page for hints on how to construct and run a CNN model. The R tips Data page has additional information on how to manipulate images in R. 
+
+<br>
+
+### Computing options
+
+See the R tips AI page for help with the two options: run in a notebook in your browser at Kaggle.com (you'll need to open a free account) or run in R after installing the ```keras``` package on your own computer. Setting up ```keras``` on your own computer might be challenging, so unless you already have it working already we prefer that you run this workshop on Kaggle. 
+
+1. Once you have an R notebook open on Kaggle, enter the following to get started. 
+<pre class="fakechunk">
+library(keras)
+library(reticulate)
+library(tensorflow)
+library(imager)
+</pre>
+
+2. Or, in R on your own computer run 
+
+```{r eval = TRUE, echo = FALSE}
+library(keras)
+library(imager)
+```
+
+<br>
+
+### Load the data
+
+For this workshop I've created a training data set of 10,000 images named ```train_x```, and a corresponding vector ```train_y``` indicating whether each image is of a cat (```y``` = 0) or dog (```y``` = 1). I've also made a second, test data set of 2000 images named ```test_x```, and a corresponding vector ```test_y``` indicating whether the image is of a cat (0) or dog (1). The purpose of the test data is to see how well our trained CNN model performs. 
+
+The files are located on the Zoology server. The 10,000 cat and dog images are stored in ```train_x```, and the corresponding vector ```train_y``` indicating whether each image is of a cat (0) or dog (1). Test images are stored the same way but there are only 2,000 images.
+
+The easiest way that works for all is to download the files to your computer by clicking the following links:\
+[train_x](https://www.zoology.ubc.ca/~bio501/R/data/train_x.rdd)\
+[train_y](https://www.zoology.ubc.ca/~bio501/R/data/train_y.rdd)\
+[test_x](https://www.zoology.ubc.ca/~bio501/R/data/test_x.rdd)\
+[test_y](https://www.zoology.ubc.ca/~bio501/R/data/test_y.rdd)
+
+If you are running on Kaggle, you first need to upload the data files to your notebook:
+
+1. In the right pane of your notebook, under Input, click Upload and choose "New Dataset"
+2. Drag and drop all 4 of the downloaded files onto the indicated window.
+3. Name your dataset "myfolder" or something convenient. 
+4. It will take a few minutes for your dataset to appear and become available.
+
+The data are stored in R internal format. Use the ```load()``` command to load the data into your R session. The commands here assume the files are in "myfolder" but use the actual name of your folder if you used a different name.
+```{r eval = FALSE, message = FALSE}
+# on Kaggle
+load("/kaggle/input/myfolder/train_x.rdd")
+load("/kaggle/input/myfolder/test_x.rdd")
+load("/kaggle/input/myfolder/train_y.rdd")
+load("/kaggle/input/myfolder/test_y.rdd")
+
+# on own computer
+load("/myfolder/train_x.rdd")
+load("/myfolder/test_x.rdd")
+load("/myfolder/train_y.rdd")
+load("/myfolder/test_y.rdd")
+```
+
+<!-- hopefully only I can see this next bit, which is just for me: -->
+```{r echo = FALSE, eval = TRUE, message = FALSE}
+load(url("https://www.zoology.ubc.ca/~bio501/R/data/train_x.rdd"))
+load(url("https://www.zoology.ubc.ca/~bio501/R/data/train_y.rdd"))
+load(url("https://www.zoology.ubc.ca/~bio501/R/data/test_x.rdd"))
+load(url("https://www.zoology.ubc.ca/~bio501/R/data/test_y.rdd"))
+```
+
+The grayscale images are stored in an array with three dimensions. The second and third dimensions are the height and width of each image (50 x 50 pixels), and the first dimension is the number of images. The images were originally stored as integers between 0 and 255 but I have rescaled them to lie between 0 and 1. Enter ```train_x[1, , ]``` to see the first image in the training set. ```train_y``` is a vector of 0s and 1s indicating whether each image is of a cat or dog.
+
+```{r eval = TRUE, message = FALSE}
+dim(train_x)
+
+# Show the top left few pixels of the first image. Pixel value ranges from 0 to 1
+train_x[1, , ][1:5,1:5]
+
+# Show the first few true classifications
+head(train_y)
+```
+
+To plot image ```i``` in the training set, use the following commands (set ```i``` to any integer between 1 and 10000). The image is stored as a matrix and must be converted to a ```cimg``` object to plot with the ```imager``` package. It also has to be transposed with ```t()``` to view in the right orientation The ```text()``` command labels the image with the corresponding classification.
+
+```{r eval = TRUE, message = FALSE}
+i <- 1
+x1 <- t(train_x[i, , ])
+plot(as.cimg(x1), axes = FALSE)
+text(x = 5, y = 2, labels = (c("cat", "dog")[train_y[i] + 1]), col = "firebrick", cex = 1.5)
+```
+
+<br>
+
+### Reshape the images
+
+The image pixel numbers have already been rescaled to lie between 0 and 1 (from the original range of 0 to 255), so nothing to do here. However, the image arrays need to be reshaped.
+
+1. Even though a grayscale image has just one channel, for consistency the ```keras``` package expects it to be coded with three dimensions rather than just the two for height and width, with the last dimension a 1 (rather than a 3 as for an RGB color image). Reshape ```train_x``` and ```test_x``` to put them in the required format. See the R tips AI page for help.
+
+2. For the CNN, the response variables for the training and test data must be converted to binary class matrices. Reshape ```train_y``` and ```test_y``` to put them in the required format.
+
+<!--
+### Answers
+
+```{r eval = TRUE, message = FALSE}
+# 1. Reshape images
+# grab the oringinal array dimensions
+dims_train <- dim(train_x)
+dims_test <- dim(test_x)
+
+# Reshape arrays
+train_x_reshape <- array_reshape(train_x, c(dims_train, 1))
+test_x_reshape <- array_reshape(test_x, c(dims_test, 1))
+
+# 2. Convert response variables to binary class matrices
+num_classes <- length(unique(train_y))
+num_classes
+
+train_y_reshape <- to_categorical(train_y, num_classes)
+test_y_reshape <- to_categorical(test_y, num_classes)
+head(train_y_reshape)
+```
+[//]: -->
+
+<br>
+
+### Make the CNN
+
+3. Construct a CNN model. Ask ChatGPT for help if you need it. You can follow the example on the R tips page, but you'll need to change the input shape from 28 x 28 x 1 to 50 x 50 x 1. 
+
+4. Configure the model. You can follow the example on the R tips page, but you'll need to change the loss function to ```binary_crossentropy``` because there are only two categories here rather than 10 in that example.
+
+5. Finally, fit the model to the training data. You'll need o choose the batch size and the number of epochs. Too may epochs can take time and lead to overfitting. Too few can lead to reduced accuracy. You can follow the example on the R tips page, but be careful with the names of the reshaped training data set.
+
+6. Plot the training history. Focus on the accuracy of the model applied to the validation portion of the data with increasing number of training epochs. It should rise and flatten. A decrease at later epochs will indicate overfitting. How high is the accuracy of the model on the validation data after all epochs? Don't be disappointed if it's not very high. The images are low resolution and grayscale. 
+
+7. Test the accuracy of the model on the test data set.
+
+8. Make predictions on the test data set and compare them with the true classification.
+
+9. Check out a couple of the images that were misclassified. Can you see how the CNN might have been confused?
+
+10. If you brought in a photo of your own cat or dog, let's see what your model predicts! You'll need to import the image and then transform and reshape the image following the instructions on the R tips Data page. If you didn't bring an image, you can try your model on a photo of [my dog](https://www.zoology.ubc.ca/~bio501/R/data/pip_transposed.jpg) instead (click the link to the left to download to your computer). It is already resized, converted to grayscale and transposed. If you are using Kaggle, you'll need to upload the image in the same way as you uploaded the training and test data sets above. Save in a dataset named "mypets".
+
+11. Use the ```load.image()``` command to import the image into R.\
+On Kaggle (use the actual file name having your pet image)
+<pre class="fakechunk">
+pip <- load.image("/kaggle/input/mypets/pip_transposed.jpg")
+dimpip <- dim(pip)
+dimpip
+</pre>
+On your laptop (use the actual folder name and file name having your pet image)
+<pre>
+pip <- load.image("/mypets/pip_transposed.jpg")
+dimpip <- dim(pip)
+dimpip
+</pre>
+
+12. You'll need to reshape your image to the same dimensions as the training data set. For example, if you used pip, the command is as follows.
+<pre class="fakechunk">
+pip_array <- array_reshape(as.array(pip), c(1, dimpip[1], dimpip[2], 1))
+dim(pip_array)
+</pre>
+
+13. Now you can make a prediction on your image. The result will be a vector of probabilities that the image is a cat or a dog, in that order. For example, if you used pip, the command is as follows. What kind of pet do you own?
+<pre class="fakechunk">
+pip_prob <- predict(my_model, pip_array)
+pip_prob
+</pre>
+
+
+<!--
+### Answers
+
+The solution below used a model and parameters similar to the one on the R tips page but fewer layers and more epochs. If you happened to build the same model as mine, your results will differ from those shown here because there are multiple sources of randomness in the training process (initialization of weights, the gradient descent process, the partitioning of training and validation sets, etc).
+
+```{r eval = TRUE, message = FALSE}
+# 3. Build model
+image_shape <- c(50, 50, 1)
+
+# Initialize
+my_model <- keras_model_sequential()
+
+# Add layers
+my_model <- layer_conv_2d(my_model, filters = 32, kernel_size = c(3, 3), 
+              activation = 'relu', input_shape = image_shape)
+my_model <- layer_max_pooling_2d(my_model, pool_size = c(2, 2))
+my_model <- layer_conv_2d(my_model, filters = 64, kernel_size = c(3, 3), 
+              activation = 'relu')
+my_model <- layer_max_pooling_2d(my_model, pool_size = c(2, 2))
+my_model <- layer_flatten(my_model)
+my_model <- layer_dense(my_model, units = num_classes, activation = 'softmax')
+
+# 4. Configure model
+my_model <- compile(my_model,
+              loss = 'binary_crossentropy',
+              optimizer = 'rmsprop',
+              metrics = c('accuracy'))
+
+# 5. Fit model to training data
+model_fit <- fit(my_model, 
+              train_x_reshape, train_y_reshape,
+              batch_size = 128,
+              epochs = 15,
+              validation_split = 0.2)
+
+# 6. Plot training history
+plot(model_fit)
+
+# 7. Test model accuracy on the testing dataset
+evaluate(my_model, test_x_reshape, test_y_reshape)
+
+# 8. Model prediction and comparison with true classification
+y_test_probs <- predict(my_model, test_x_reshape)
+y_test_pred <- as.vector(k_argmax(y_test_probs))
+
+# "0" is cat, 1" is dog
+table(test_y, y_test_pred)
+
+# 9. Misclassified images
+z <- which(test_y == 0 & y_test_pred == 1)
+z
+plot(as.cimg(t(test_x[z[1], , ])), axes = FALSE)
+
+# 10. Load a pet image
+pip <- load.image("https://www.zoology.ubc.ca/~bio501/R/data/pip_transposed.jpg")
+dimpip <- dim(pip)
+dimpip
+
+# Plot the image
+plot(pip, axes = FALSE)
+
+# To view in correct orientation, transpose the matrix and convert to cimg object
+plot(as.cimg(t(pip[, , 1, 1])), axes = FALSE)
+
+# 11. Reshape image
+pip_array <- array_reshape(as.array(pip), c(1, 50, 50, 1))
+
+# Probabilities pip is cat and dog
+pip_prob <- predict(my_model, pip_array)
+pip_prob
+
+```
+[//]: -->
+
+
+
+<!-- Blanked out this part
+## <i>Anolis</i> ecomorph discrimination
+Principal components analysis finds axes of maximum variation but pays no attention to the groups  to which individuals belong. In contrast, discriminant analysis finds axes that maximize separation among groups, relative to variation within groups. This exercise will use the same data set as in the first exercise on this page.
+
+1. Read the <i>Anolis</i> data set into memory once again. Drop the species classified as having a "Unique" ecomorph from the data frame. If your ecomorph variable is a factor, make sure that "Unique" has also been dropped from the factor levels for this variable.
+
+2. Carry out a discriminant function analysis to find trait combinations that best discriminate <i>Anolis</i> ecomorphs.
+
+3. Plot the first two discriminant functions, using different symbols for different ecomorphs. How much separation between groups is evident? How does it compare with the separation observed between the ecomorphs on the principal component axes, which is blind to the groupings?
+
+4. On the basis of the plot, and your interpretation of the eigenvectors of the discriminant functions, what traits maximally discriminate different <i>Anolis</i> ecomorphs?
+
+5. Reclassify the species used in the calculation of the discriminant functions to ecomorphs. Compare the classification with the true ecomorphs in a table. How successful was the classification?
+(Note that the mis-classification is expected to be unrealistically low when carried out on the same individuals used to calculate the discriminant function. Typically, half the data would be used to generate the discriminant function, and classification success would be evaluated using the other half).
+
+### Answers
+
+```{r eval = FALSE, message = FALSE}
+library(MASS)
+
+# 1. Read and drop "Unique" ecomorph
+anolis <- read.csv(url("https://www.zoology.ubc.ca/~bio501/R/data/anolis.convergence.csv"), 
+            stringsAsFactors = FALSE)
+anolis <- anolis[anolis$Ecomorph != "Unique", ]
+head(anolis)
+
+# 2. Discriminant function analysis
+z <- lda(Ecomorph ~., data = anolis[, 3:14])
+
+# 3. Plot first two discriminant functions
+predict.anolis <- predict(z)
+anolis[, c("df1","df2")] <- predict.anolis$x[, 1:2]
+ggplot(anolis, aes(df1, df2, colour = Ecomorph, symbol = Ecomorph)) + 
+    geom_point(size = 2) + 
+    theme_classic() + 
+    theme(legend.position="top")
+
+# 4. Eigenvectors of the discriminant functions
+z$scaling
+
+# 5. Reclassify
+table(predict.anolis$class, anolis$Ecomorph)
+```
+-->

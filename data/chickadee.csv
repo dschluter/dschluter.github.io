@@ -1,0 +1,14 @@
+species,mass.kg,length.cm,wingspan.cm,activetime,eatsbirds,D.per.call
+ Northern pygmy-owl,0.07,15,31, Day,yes,3.95
+ Saw-whet owl,0.08,17,39, Night,yes,4.08
+ American kestrel,0.12,25,58, Day,no,2.75
+ Merlin,0.19,28,61, Day,yes,3.03
+ Short-eared owl,0.35,34,89, Both,no,2.27
+ Coopers hawk,0.45,44,81, Day,yes,3.16
+ Prairie falcon,0.72,45,100, Day,yes,2.19
+ Peregrine falcon,0.72,47,120, Day,yes,2.8
+ Great horned owl,1.4,48,121, Night,no,2.45
+ Rough-legged hawk,0.99,49,138, Day,no,1.33
+ Gyrfalcon,1.4,52,115, Day,yes,2.24
+ Red-tailed hawk,1.08,53,120, Day,yes,2.56
+ Great gray owl,1.08,58,132, Both,no,2.06

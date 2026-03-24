@@ -1,0 +1,91 @@
+---
+title: "Handouts"
+author:
+
+<!--  output: html_document -->
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This page lists and links to the required readings for the term. Readings might change as the term progresses. Refresh the page on your browser to see the latest version.
+
+Dates indicate when the paper is to be <strong>discussed</strong>, so read beforehand.
+
+<br>
+
+## Discussion dates and papers
+
+### January 13
+[Wainer: How to display data badly](readings/wainer%201984%20amer%20stat%20-%20how%20to%20display%20data%20badly.pdf)
+
+<br>
+
+### January 20
+[Hurlbert: Pseudoreplication and the design of experiments](readings/hurlbert 1984 ecol monogr - pseudoreplication.pdf)
+
+<br>
+
+### January 27
+[Colegrave & Ruxton: Confidence intervals](readings/colegrave & ruxton 2003 behav ecol - use confidence intervals not post-hoc power when Ho not rejected.pdf)
+
+Optional additional reading: [Hoenig & Heisey (2001)](readings/hoenig & heisey 2001 am stat - fallacy of power calculations for data analysis.pdf)
+
+<br>
+
+### February 3
+[Kelly and Price: Correcting for regression to the mean](readings/kelly & price 2005 am nat - regression toward the mean.pdf)
+
+Optional additional readings: [Forstmeier 2011](readings/forstmeier 2011 anat rec - brain size fallacy.pdf) and [Schluter 1992](https://www.zoology.ubc.ca/~schluter/reprints/schluter%201992%20nature%20-%20brain%20size%20differences.pdf) on a brain size fallacy.
+
+<br>
+
+### February 10
+[Murtaugh: Simplicity in data analysis](readings/murtaugh 2007 ecology - simplicity and complexity in data analysis.pdf)
+
+<br>
+
+### February 24
+[Verhoeven et al: Controlling false discovery rate](readings/verhoeven et al 2005 oikos - controlling the false discovery rate.pdf)
+
+<br>
+
+### March 3
+[Whittingham et al: Why do we still use stepwise regression?](readings/whittingham et al 2006 jae - why not to use stepwise modeling.pdf)
+
+Optional additional reading:&nbsp;[Mundry & Nunn: more on stepwise regression](readings/mundry et al 2009 am nat - more on why not to use stepwise model fitting.pdf)
+
+<br>
+
+### March 10
+[Cohen: The earth is round (p < 0.05)](readings/cohen 1994 am psych - the earth is round.pdf)
+
+<br>
+
+### March 17
+[Dochtermann & Jenkins: Working with multiple hypotheses](readings/dochtermann & jenkins 2011 bes - developing multiple hypotheses in behavioural ecology.pdf)
+
+Optional additional reading:&nbsp;[Betini et al: why are we not testing multiple hypotheses](readings/bettini et al 2017 rsos - why are we not testing multiple hypotheses.pdf)
+
+<br>
+
+### March 24
+[Palmer: Publication bias in fluctuating asymmetry](readings/palmer 1999 metaanalysis of fluctuating asymmetry and sexual selection.pdf)
+
+<br>
+
+### March 31
+[Maynard et al: Multidimensional trait relationships](readings/maynard et al 2022 nature comm - global relationships in tree functional traits.pdf). 
+
+<br>
+
+### April 7
+[Jetz et al: Phylogenetic distinctness and conservation](readings/jetz et al 2014 curr biol - conservation and phylogenetic distinctness.pdf)
+

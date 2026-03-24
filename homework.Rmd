@@ -1,0 +1,188 @@
+---
+title: "Homework assignments"
+author:
+
+<!--  output: html_document -->
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Assignments will be posted here. 
+
+***
+
+## Try R Markdown
+
+Try to write your report using **R Markdown**. The advantage is that R code chunks written inline are executed when you make the html file.
+
+An example using R Markdown is found <a href="https://www.zoology.ubc.ca/~schluter/R/#Use_R_Markdown">here</a>. Save example files to a folder on your hard disk and then open with RStudio. To render it, click "Knit" at the top of the Source file pane in RStudio. 
+
+Email the TA for the course if you have questions.
+
+<!-- ################### ASSIGNMENT 1 ################################################## -->
+
+[//]: <!--
+
+## Assignment 1: Improve a graph
+
+This assignment is due Feb 6 at 5 pm.
+
+* Find a bad graph drawn from data and published by your thesis supervisor. If your supervisor is flawless, pick another published graph, eg from a paper published from your lab or department. Come talk to us if you are having trouble with this step.
+
+* Students from the same lab: don’t choose the same or very similar graphs.
+
+* It is important that you choose a graph that requires significant improvement. Too little improvement means we can't assign many marks. 
+
+* In your report, explain the original study, what the data are and the goal of the study.
+
+* Analyze the bad graph. What is its goal? Explain what patterns the graph was intended to show. Explain why you think it is not successful. Explain the flaws in the graph. How does it fall short?
+
+* Make a new graph using principles of effective display. Try to obtain and make use of the raw data, otherwise extract them from the graph or simulate raw data. Use R to make the graph. 
+
+* While we recognize that coding is all-absorbing, don't lose sight of the real aim of this assignment, which is to analyze and improve visual displays following the principles we have discussed. Review recommendations made in lectures and workshops. 
+
+* Analyze your new graph. Why is it an improvement? Remind us of the goal of the graph. Explain how your improvements achieve the goal more effectively than the original. Explain why your graph succeeds.
+
+* Append your R script at the end (or submit your document in R Markdown, which combines text and R code).
+
+* If you used an AI, include an acknowledgement at the end that explains how you used it.
+
+* Email paper to both me and Lucia as a single .pdf file: LASTNAME.FIRSTNAME.ASSIGNMENT1.PDF
+
+* Grade will be based on: the quality of your analysis of the original graph; the magnitude of improvement of the new graph; your interpretation of it and explanation of how it is improved; the quality of your R script.
+
+<!-- ################### ASSIGNMENT 2 ################################################## -->
+
+[//]: <!--
+
+***
+
+## Assignment 2: Analyze linear model
+
+This assignment is due Friday, March 13 at 5 pm.
+
+Obtain a data set and analyze it by fitting a linear, mixed, or generalized linear model in R.
+
+* Obtain a data set from your supervisor or online data depository (e.g. datadryad.org).
+* Include just one response variable.
+* Include at least one categorical fixed factor as an explanatory variable, such as an experimental or observational treatment.
+* Include at least 1, and no more than 2, additional explanatory variables (random or fixed factors, blocks, covariates, etc).
+
+Prepare a thorough report on the analysis and interpretation of the data. Below I suggest some of the things to include in your report, but note that the list might not be complete. Review the topics of lectures and discussion to date to remind yourself what is important when analyzing data. 
+
+Include all your writing and graphs in a single pdf file (titled LASTNAME.FIRSTNAME.ASSIGNMENT2.PDF) and email to me.
+
+* Explain (in a paragraph) the purpose of the study that yielded the data.
+* Explain the specific data set you are using. For example, say where the data are from, give the meaning of the variables, and so on.
+* Illustrate and describe the main patterns revealed in the data.
+* State what parameters (magnitudes) you will estimate with these data.
+* State what hypotheses you will test with these data.
+* Fit a linear (or mixed or generalized linear) model to the data in R. Explain in words the model you fit.
+* Interpret the output. To assess biological significance, explain the parameter estimates (magnitudes). What do they mean and what are your conclusions based on these parameter estimates. To assess statistical significance, explain the null hypotheses and interpret the test results.
+* Visualize the model fit to the data. Explain what the graph is showing.
+* Address how well the statistical assumptions of your analysis were met. How did you handle violations?
+* State the overall conclusions reached from your analyses of biological and statistical significance.
+* If you used an AI, include an acknowledgement at the end that explains how you used it.
+* Include your clean R code in an appendix.
+
+* Email paper to both me and Lucia as a single .pdf file: LASTNAME.FIRSTNAME.ASSIGNMENT1.PDF
+
+[//]: -->
+
+<!-- ################### ASSIGNMENT 3 - Agrostis ########################################### 
+     The following data set was analyzed in Sept 2016, Sept 2018, Sept 2020, Jan 2024, Jan 2026 semesters -->
+
+[//]: <!--
+***
+
+## Assignment 3: Determine best model
+This assignment is due April 10, 2026
+
+Clues to the inheritance patterns of population differences can be gained by fitting linear models to measurements of traits in parents and hybrids. In this assignment you will use model selection methods to compare the fit of three alternative genetic models of divergence in soil arsenic tolerance in two populations of the grass <i>Agrostis capillaris</i> (Watkins and MacNair 1991, Genetics of arsenic tolerance in <i>Agrostis capillaris</i>. Heredity 66: 47-54). One population occurred on an abandoned, arsenic-contaminated mine; the other was from an edaphically similar, non-toxic site.
+
+To accomplish this you will need to choose a criterion (AIC or BIC) to decide the fit of models to the data, and to determine which is best suited to your purposes. You need to defend your choice of method vigorously in your report, which will require some research. Why did you decide to use it instead of the other criterion? Decide on the criterion *before* you analyze the data.
+
+Height of plant tillers of different cross generations can be downloaded <a href="https://www.zoology.ubc.ca/~bio501/R/data/arsenic.csv">here</a>.
+
+Height is the cube root of tiller height (in mm) when grown on arsenic-laced soil. Line refers to the parent population from the contaminated site ("high" tolerance), the parent population from the uncontaminated site ("low" tolerance), their F1 and F2 hybrids ("f1", "f2"), and the backcrosses between the F1 hybrid and each parent population ("bh" for high and "bl" for low tolerance). I'll refer to these crosses as genotypes.
+
+Analyze these data in R according to the following methods. Note that this is not a complete list of expectations. Fit linear models with fixed effects only. Assume that all the data for a given cross type are independent. Provide all necessary explanations in your report. No <i>P</i>-values are allowed in your report. Include your R commands in an appendix.
+
+* Visualise the data. What is the pattern in the data?
+* Create a table of means and standard deviations of genotypes. Design the table as you would if you were publishing it. Don't worry too much about font.
+* Add a numeric variable in the data set to represent the proportion of the genome inherited from the high-tolerance parent:
+<br>&nbsp; 1 for the high-tolerance parent genotype
+<br>&nbsp; 0 for the low-tolerance parent genotype
+<br>&nbsp; 0.5 for the F1 and F2 hybrids
+<br>&nbsp; 0.25 for the backcross to the low tolerance population
+<br>&nbsp; 0.75 for the backcross to the high tolerance population
+<br>Make sure that the variable is numeric rather than a factor or character.
+* Fit the numeric variable you created in (3) to the height data using a linear model. This is called the additive model, whereby tolerance increases linearly with the proportion of the genome inherited from the high tolerance parent. Evaluate the model fit (Remember: no <i>P</i> values!).
+* Add another numeric variable to the data set to represent dominance effects that might be present in the hybrids:
+<br>&nbsp; 0 for both parent genotypes
+<br>&nbsp; 1 for the F1 hybrid
+<br>&nbsp; 0.5 for the remaining three hybrid genotypes
+<br>Make sure that the variable is numeric rather than a factor or character.
+* Fit a second model to the same data that includes both of the numeric variables created in (3) and (5). Leave out any interaction terms. This is the additive plus dominance model. Any dominance effects present will displace the mean value of the hybrids toward one or other of the parents relative to the values predicted by the additive model. Evaluate model fit.
+* Finally, fit a third model that has the original genotype variable as the only explanatory variable. The fit of this model will deviate from the model fitted in (6) if there is interaction (epistasis) between genes inherited from the two parents.
+* Present your results, comparing model fits. Which genetic model best fit the data? Explain and summarize.
+* Explain how the procedure you used above to analyze these data differs from that of conventional null hypothesis significance testing. In your view, would a null hypothesis significance testing approach be a poorer, equivalent, or superior approach to the one used above to decide between the three models? Explain.
+* If you used an AI, include an acknowledgement at the end that explains how you used it.
+* Include your clean R code in an appendix.
+
+* Email paper to both me and Lucia as a single .pdf file: LASTNAME.FIRSTNAME.ASSIGNMENT1.PDF
+
+[//]: -->
+
+<!-- ################### ASSIGNMENT 3 - planthopper ######################################## -->
+<!-- This data set was analyzed in Sept 2014, Sept 2017, Sept 2019, Jan 2022, Jan 2025 semesters -->
+
+<!--
+***
+
+## Assignment 3: Best genetic model
+This assignment is due April 11, 2025.
+
+Clues to the genetic basis of species differences can be gained by fitting linear models to measurements of traits in parents and hybrids. In this assignment you will use model selection methods to compare the fit of alternative genetic models to oviposition preference data in two host races of the planthopper <i>Nilaparvate nugens</i> (Sezer and Butlin 1998, Proc. Roy. Soc. Lond. B 265: 2399-2405). One race occurs on cultivated rice. The other lives on the aquatic plant <i>Leersia</i>, which is probably the ancestral host.
+
+To accomplish this you will need to choose a criterion (AIC or BIC) to evaluate the fit of models to the data. You need to defend your choice of method vigorously in your report, which will require some independent research. Why did you decide to use it instead of the other criterion? Decide on the criterion *before* you analyze the data.
+
+Host oviposition preference data of females can be downloaded <a href="https://www.zoology.ubc.ca/~bio501/R/data/hopper.csv">HERE</a>.
+
+Preference is the log-transformed ratio of the number of eggs laid on rice to the number laid on <i>Leersia</i>, when both plants were provided by the experimenters. Genotype refers to the parent race on rice ("rice"), the parent race on <i>Leersia</i> ("leer"), their F1 and F2 hybrids ("f1", "f2"), and the backcrosses between the F1 hybrid and each parent race ("br" for rice and "bl" for <i>Leersia</i>).
+
+Analyze these data in R according to the following methods. Note that this is not a complete list of expectations for the assignment. Fit linear models with fixed effects only. Assume that all the data for a given cross type are independent. Provide all necessary explanations in your report. No $P$-values are allowed in your report. Include your R commands in an appendix.
+
+1. Visualize the oviposition preference of the different genotypes. What is the pattern in the data? Explain.
+2. Create a table of means and standard deviations of the genotypes. Make this a presentation quality table rather than simply computer output. Don't worry about font.
+3. Add a numeric variable in the data set to represent the proportion of the genome inherited from the rice parent:
+<br>&nbsp; 1 for the rice parent genotype
+<br>&nbsp; 0 for the <i>Leersia</i> parent genotype
+<br>&nbsp; 0.5 for the F1 and F2 hybrids
+<br>&nbsp; 0.25 for the backcross to the <i>Leersia</i> population
+<br>&nbsp; 0.75 for the backcross to the rice backcross
+<br>Make sure that the variable is numeric rather than a factor or character.
+4. Fit the numeric variable you created in (3) to the preference data using a linear model. This is called the additive model, whereby mean preference for rice increases linearly with the proportion of the genome inherited from the rice parent. Evaluate the model fit. (Remember: no <i>P</i> values!)
+5. Add another numeric variable to the data set to represent dominance effects that might be present in the hybrids:
+<br>&nbsp; 0 for both parental genotypes
+<br>&nbsp; 1 for the F1 hybrid genotype
+<br>&nbsp; 0.5 for the remaining three hybrid genotypes
+<br>Make sure that the variable is numeric rather than a factor or character.
+6. Fit a second model to the same preference data that includes both of the numeric variables created in (3) and (5). Leave out any interaction terms. This is the additive plus dominance model. Any dominance effects present will displace the mean value of the hybrids toward one or other of the parents relative to the values predicted by the additive model. Evaluate model fit.
+7. Finally, fit a third model that has the original genotype variable as the only explanatory variable. The fit of this model will deviate from the model fitted in (6) if there is interaction (epistasis) between genes inherited from the two parents.
+8. Present your results, comparing model fits. Which genetic model best fit the data? Explain and summarize.
+9. Explain how the procedure you used above to analyze these data differs from that of conventional null hypothesis significance testing. In your view, would a null hypothesis significance testing approach be a poorer, equivalent, or superior approach to the one used above to decide between the three models? Explain.
+10. If you used an AI, include an acknowledgement at the end that explains how you used it.
+11. Include your clean R code in an appendix.
+
+Email paper to me as a single pdf file: LASTNAME.FIRSTNAME.ASSIGNMENT3.PDF
+
+[//]: -->

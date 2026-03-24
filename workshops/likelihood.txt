@@ -1,0 +1,89 @@
+<h1>Likelihood</h1>
+In this workshop we will use likelihood methods to estimate parameters and test hypotheses. Likelihood methods are especially useful when modeling data having a probability distribution other than the normal distribution (e.g., binomial, exponential, etc). Refer to the "Probability" tab of the R tips web pages for instruction.
+<h3>Maximum likelihood estimate</h3>
+To estimate a parameter, we treat the data as given and vary the parameter to find that value for which the probability of obtaining the data is highest. This value is the <i>maximum likelihood estimate</i> of the parameter. The likelihood function is also used to obtain a likelihood-based confidence interval for the parameter. This confidence interval is a large-sample approximation, and may be inaccurate for small sample size, depending on the probability distribution of the data.
+<h3>Log-likelihood ratio test</h3>
+The log-likelihood ratio test can be used to compare the fits of two nested models to the same data. The "full" model fits the data using the maximum likelihood estimates for the parameter(s) of interest (for example, a proportion <i>p</i>). The "reduced" model constrains the parameter values to represent a null hypothesis (for example, that <i>p</i> = 0.5, or that <i>p</i> is equal between two treatments). The <i>G</i>  statistic is calculated as twice the difference between the log-likelihoods of the two models ("full" minus "reduced"):
+<pre>G &lt;- 2 *(loglikefull - loglikereduced)
+</pre>
+<i>G</i> is also known as the <i>deviance</i>. Under the null hypothesis, <i>G</i> has an approximate χ<sup>2</sup> distribution with degrees of freedom equal to the difference between the "full" and "reduced" models in the number of parameters estimated from data. We'll work through an example below.
+<h2><a name="warmup"></a>Warmup</h2>
+We'll start by getting familiar with the commands in R to calculate probabilities.
+<ol>
+ 	<li>The probability of heads in a coin toss is 0.5. If you flip a coin 10 times, what is the probability of obtaining exactly 5 heads and 5 tails?</li>
+ 	<li>The fraction of human babies born who are boys is about 0.512. If 20 newborn babies are randomly sampled, what is the probability that exactly 10 are boys?</li>
+ 	<li>Plot the entire probability distribution for the number of boys in families having six children. Assume the probability that any one child is a boy is 0.512.</li>
+ 	<li>If mortality is independent of age, then the probability of surviving <i>X</i> years after birth, and then dying in the <i>X</i> + 1<sup>st</sup> year, will follow a geometric distribution. <i>X</i> is any integer from 0 to infinity. If the probability of dying in any given year is 0.1, what fraction of individuals are expected to survive 10 years and then die in their 11th year?*</li>
+ 	<li>Refer to the previous question. If the probability of death in any give year is 0.1, what fraction of individuals die before they reach their 6th birthday?**</li>
+ 	<li>In an environment where prey are randomly distributed, the search time between discovered prey items will follow an exponential distribution. Imagine an environment in which the mean search time between prey items is 0.5 hours. What is the probability density corresponding to a search time of 2 hours?***</li>
+ 	<li>Refer to the previous problem. Create a line plot of the exponential probability curve over most the range of possible values for search time between items (e.g., over the range of values between 0 and 5 hours).</li>
+</ol>
+<small>   *0.03487
+**0.46856
+***0.03663
+</small>
+<h2><a name="cocaine"></a>Illegal tender</h2>
+Jenkins (2001, Forensic Sci Int 121: 189-193) collected 50 US 1-dollar bills and tested them for drug contamination. Forty six of the bills were found to contain trace amounts of cocaine (subsequent studies have corroborated this astonishing finding -- can you think of a reason?). Let's use these data to estimate the proportion of contaminated bills in the US dollar population. For the purposes of this exercise, assume that the sample of bills was a random sample (in fact, 10 bills were sampled from each of 5 cities).
+<ol>
+ 	<li>Generate a vector that includes a range of possible values for the population proportion <i>p</i>, from 0.01 to 0.99 in increments of 0.01.</li>
+ 	<li>Given the dollar bill data above, calculate the log-likelihood of each value for <i>p</i>.</li>
+ 	<li>Create a line plot of the log-likelihood against the range of values for <i>p</i>. What is the resulting curve called? Can you see approximately the value of <i>p</i> corresponding to the highest point of the curve? What is this value called?</li>
+ 	<li>To get closer to this value, repeat steps (1) to (3) using a narrower range of values for <i>p</i> surrounding the highest point in the curve.</li>
+ 	<li>Use your results to determine the maximum likelihood estimate of the proportion of US 1-dollar bills contaminated with cocaine.</li>
+ 	<li>Provide a likelihood-based 95% confidence interval for the population proportion.*</li>
+</ol>
+<small>*0.823 &lt; <i>p</i> &lt; 0.975 </small>
+<h2><a name="mark"></a>Counting elephants</h2>
+Counting elephants is more challenging than you might think, at least when they live in dense forest and feed at night. Eggert et al. (2003. Molecular Ecology 12: 1389-1402) used mark-recapture methods to estimate the total number of forest elephants inhabiting Kakum National Park in Ghana without having to see a single one. They spent about two weeks in the park collecting elephant dung, from which they extracted elephant DNA. Using five genetic markers, they generated a unique DNA fingerprint for every elephant encountered in this way. Over the first seven days of collecting they identified 27 elephant individuals. Refer to these 27 elephants as <u>marked</u>. Over the next eight days they sampled 74 individuals, of which 15 had been previously marked. Refer to these 15 elephants as <u>recaptured</u>. We would like to use these numbers to estimate the total number of elephants in the park.
+
+If we can make the following assumptions,
+<ul>
+ 	<li>There were no births, deaths, immigrants, or emigrants while the study was being carried out, and</li>
+ 	<li>The dung of every elephant, marked or unmarked, regardless of its output, had an equal chance of being sampled, and selection of each individual was independent of the others.</li>
+</ul>
+then the number of recaptured (i.e., previously marked) individuals <i>X</i> in the second sample should have a hypergeometric distribution with parameters <i>k</i> (the size of the second sample of individuals), <i>m</i> (total number of marked individuals in the population), and <i>n</i> (total number of unmarked individuals in the population).
+<ol>
+ 	<li>Using the appropriate command in R for the hypergeometric distribution, calculate the maximum likelihood estimate for the total number of elephants in the park. Note that the total number is <i>n</i> + <i>m</i>, where <i>n</i> is the unknown parameter to be estimated. Note also that only integer values for <i>n</i> are allowed, and that <i>n</i> cannot be smaller than <i>k</i> - <i>X</i>, the observed number of unmarked individuals in the second sample.*</li>
+ 	<li>Calculate a likelihood-based 95% confidence interval for the total number of elephants.**</li>
+</ol>
+<small>  * 133
+** 104 &lt; <i>N</i> &lt; 193
+</small>
+<h2><a name="left"></a>Left-handed flowers</h2>
+Individuals of most plant species are hermaphrodites (with both male and female sexual organs) and are therefore prone to inbreeding of the worst sort: having sex with themselves. The mud plantain, <i>Heteranthera multiflora</i>, has a simple mechanism to avoid such "selfing." The style deflects to the left in some individuals and to the right in others. The anther is on the opposite side. Bees visiting a left-handed plant are dusted with pollen on their right side, which then is deposited on the styles of only right-handed plants visited later. To investigate the genetics of this variation, Jesson and Barrett (2002, Proc. Roy. Soc. Lond., Ser. B, Biol. Sci. 269: 1835-1839) crossed pure strains of left- and right-handed flowers, yielding only right-handed F1 offspring, which were then crossed with one another. The expectation under a simple model of inheritance would be that their F2 offspring should consist of left- and right-handed individuals in a 1:3 ratio (i.e., 1/4 of the plants should be left-handed). The data from this cross can be downloaded <a href="../../../data/plantain.csv">here</a>.
+<ol>
+ 	<li>Calculate the log-likelihood curve and the maximum-likelihood estimate of the proportion of left-handed flowers (to the nearest hundredth). Use the data in the data frame, rather than summaries of the frequencies of left- and right-handed flowers, to calculate the likelihoods (practice with this approach will help you later below).</li>
+ 	<li>Use the same approach to calculate the likelihood-based 95% confidence interval of the population proportion.</li>
+ 	<li>We can compare the fits of two models to these same data, to test the null hypothesis that the proportion of left-handed flowers in the cross is 1/4 (i.e., the proportion predicted by the simplest genetic model for flower handedness). To begin, obtain the log-likelihood corresponding to the maximum likelihood estimate of the proportion of left-handed flowers. This represents the fit of the "full" model to the data. This model estimated one parameter from the data (<i>p</i>, estimated using maximum likelihood).</li>
+ 	<li>Now obtain the log-likelihood of the value for <i>p</i> specified by the null hypothesis. This represents the fit of the "reduced" model to the data. This reduced model estimated zero parameters from the data (instead, <i>p</i> was specified by the null hypothesis).</li>
+ 	<li>Calculate the <i>G</i> statistic for the log-likelihood ratio test*. To obtain a <i>P</i>-value for the test, calculate the tail probability from the χ<sup>2</sup> distribution as follows,
+<pre>1 - pchisq(G, df)
+</pre>
+where <code>df</code> is the degrees of freedom, calculated as the difference between the two models in the number of parameters estimated from the data.</li>
+ 	<li>Optional: How similar is the result from your log-likelihood ratio test to that from an ordinary χ<sup>2</sup> goodness of fit test? Analyze the same data using the <code>chisq.test</code> command in R and comment on the outcome.</li>
+</ol>
+<small>* 0.1133 (or 0.1140 if you find the proportion to the nearest thousandth instead of hundredth)</small>
+<h2><a name="vole"></a>Voyaging voles</h2>
+The movement or dispersal distance of organisms is often modeled using the geometric distribution, assuming steps are discrete rather than continuous. For example, M. Sandell, J. Agrell, S. Erlinge, and J. Nelson (1991. Oecologia 86: 153-158) measured the distance separating the locations where individual voles, <i>Microtus agrestis</i>, were first trapped and the locations they were caught in a subsequent trapping period, in units of the number of home ranges. The data for 145 male and female voles are <a href="../../../data/vole.csv">here</a>. The variable "dispersal" indicates the distance moved (number of home ranges) from the location of first capture. If the geometric model is adequate, then
+Pr[<i>X</i> = 0 home ranges moved] = <i>p</i>
+Pr[<i>X</i> = 1 home ranges moved] = (1-<i>p</i>)<i>p</i>
+Pr[<i>X</i> = 2 home ranges moved] = (1-<i>p</i>)<sup>2</sup><i>p</i>
+and so on. <i>p</i> is the probability of success (capture) at each distance from the location from the first capture.
+<ol>
+ 	<li>Using the appropriate commands in R, calculate the maximum-likelihood estimate of <i>p</i>, the parameter of the geometric distribution. Use the data from both sexes combined.</li>
+ 	<li>Use the appropriate R command and the maximum likelihood estimate of <i>p</i> to calculate the predicted fraction of voles dispersing 0, 1, 2, 3, 4, and 5 home ranges.</li>
+ 	<li>Use the result in (2) to calculate the expected number of voles (out of 145) dispersing 0 - 5 home ranges, assuming a geometric distribution. How does this compare with the observed frequencies*?</li>
+</ol>
+<small>* 124.41  17.67   2.51   0.36   0.05   0.01</small>
+<h2><a name="bees"></a>Life of bees</h2>
+Life spans of individuals in a population are often approximated by an exponential distribution. To estimate the mortality rate of foraging honey bees, P. K. Visscher and R. Dukas (1997. Insectes Sociaux 44: 1-5) recorded the entire foraging life span of 33 individual worker bees in a local bee population in a natural setting. The 33 life spans (in hours) are  <a href="../../../data/bees.csv">here</a>.
+<ol>
+ 	<li>Plot the frequency distribution of lifespans of the 33 bees. Choose the option to display probability density instead of raw frequency. Does the distribution of lifespans resemble an exponential distribution (make sure to try different bin widths of the histogram)?</li>
+ 	<li>Use the exponential approximation and maximum likelihood to estimate the hourly mortality rate of bees.*</li>
+ 	<li>Using the maximum likelihood estimate, calculate the probability density for the exponential distribution across a range of values for lifespan. Draw this relationship between probability and lifespan on top of the frequency distribution you plotted in (1). Comment on the fit between the data and the exponential distribution you fitted. Is the exponential distribution a good fit to these data?</li>
+ 	<li>Assume (for the purposes of this exercise) that an exponential probability model is reasonable. Calculate the likelihood-based 95% confidence interval for the mortality rate.**</li>
+ 	<li>Calculate the maximum likelihood estimate for the mean lifespan, with approximate 95% likelihood based confidence interval.***</li>
+</ol>
+<small> * 0.036 / hour
+** (0.025, 0.050) / hour
+*** 27.8 hours; 95% CI: (20, 40) hours</small>

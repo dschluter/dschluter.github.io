@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Displaying data using graphs and tables</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="workshops.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">UBC Biology 501 R workshops</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Biol 501 home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    R Workshops
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Main workshops page</a>
+    </li>
+    <li>
+      <a href="workshops-intro.html">1. Introduction to R</a>
+    </li>
+    <li>
+      <a href="graphics.html">2. Graphs and tables</a>
+    </li>
+    <li>
+      <a href="exp-design.html">3. Plan experiments</a>
+    </li>
+    <li>
+      <a href="linearmodels.html">4. Linear models</a>
+    </li>
+    <li>
+      <a href="lme.html">5. Mixed-effects models</a>
+    </li>
+    <li>
+      <a href="likelihood.html">6. Likelihood</a>
+    </li>
+    <li>
+      <a href="glm.html">7. Generalized linear models</a>
+    </li>
+    <li>
+      <a href="modelselection.html">8. Model selection</a>
+    </li>
+    <li>
+      <a href="bayes.html">9. Bayesian inference</a>
+    </li>
+    <li>
+      <a href="resampling.html">10. Bootstrap and permutation</a>
+    </li>
+    <li>
+      <a href="meta.html">11. Meta-analysis</a>
+    </li>
+    <li>
+      <a href="multivariate.html">12. Multivariate methods</a>
+    </li>
+    <li>
+      <a href="phylogenetic.html">13. Phylogeny and comparison</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~schluter/R/">R tips home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Displaying data using graphs and
+tables</h1>
+<h4 class="author"></h4>
+
+</div>
+
+
+<!--
+knitr:: seems to be the best way to control figure dimensions with ggplots. 
+It may be necessary to force a different width and height for individual plots 
+in base R, e.g., see mosaicplot() and plot() used for scatter plot of guppy data
+-->
+<p>You can draw plots using commands in base R or use
+<code>ggplot()</code> from the tidyverse. Each option has passionate
+adherents and it is pointless to argue. Try both and see which you find
+most appealing and easiest to use. If you need help, check the “Graphs
+&amp; Tables” tab at the <a
+href="https://www.zoology.ubc.ca/~schluter/R/">R tips</a> page.</p>
+<hr />
+<div id="data-set-1-mammal-body-mass" class="section level2">
+<h2>Data set 1: Mammal body mass</h2>
+<p>These data were published as a data paper in Ecology and deposited in
+the <i>Ecological Archives</i> (Smith et al. 2003. Body mass of late
+Quaternary mammals. <i>Ecology</i> 84: 3403.) See the <a
+href="http://www.esapubs.org/archive/ecol/E084/094/">metadata</a> for a
+description.</p>
+<p>Most of the variables are categorical, with multiple named
+categories. <code>continent</code> includes mammals on islands
+(“Insular” category) whereas “Oceanic” refers to marine mammals. Body
+mass (in grams) is the sole numeric variable. The <code>status</code>
+variable indicates whether species is currently present in the wild
+(extant), extinct as of late Pleistocene (extinct), extinct within the
+last 300 years (historical), or an introduced species
+(introduction).</p>
+<p><br></p>
+<div id="read-and-examine-the-data" class="section level3">
+<h3>Read and examine the data</h3>
+<p>The original data were saved in mammals.csv file on our server <a
+href="https://www.zoology.ubc.ca/~bio501/R/data/mammals.csv">here</a>.
+Download the file to your computer and open in a spreadsheet program
+(e.g., Excel, Calc) to have a look at it.</p>
+<p>Start R and read the contents of the file to a data frame.</p>
+<p>Use the <code>head()</code> function to view the first few lines of
+the data frame on the screen. You’ll see that every row represents the
+data for a different mammal species.</p>
+<p><br></p>
+</div>
+<div id="frequency-tables" class="section level3">
+<h3>Frequency tables</h3>
+<ol style="list-style-type: decimal">
+<li><p>Which continent has the greatest number of mammal species? Which
+has the least? Make a table of the frequency of cases on each continent
+(remember that the category “NA” in continent stands for North America,
+not missing data).</p></li>
+<li><p>You’ll notice that one of the continents is missing - North
+America. Yet if you open the spreadsheet you’ll see that it is in the
+data set. Can you figure out why it is missing? Answer is at the bottom
+of this page*, but see if you can figure it out yourself first. (Don’t
+waste too much time on it.)</p></li>
+<li><p>You’ll also notice in the frequency table for the variable
+<code>continent</code> that there’s a typo in the data. One case is
+shown as having the continent “Af” rather than “AF for Africa”. Fix this
+using the command line in R and recalculate the frequency
+table.</p></li>
+<li><p>How many extinct mammals are recorded in the data file? Use a
+frequency table to find out.</p></li>
+<li><p>Create a two-way frequency table (contingency table) showing the
+status of mammal species on each continent.</p></li>
+<li><p>It is easier to appreciate the relative number of extinctions on
+the continents if you also include the marginal sums in the table (to
+give the total number of species). Without doing the calculations, you
+can probably see which continent has the greatest number of extinctions
+relative to the number of extant species. Which continent?</p></li>
+</ol>
+</div>
+<div id="answers" class="section level3">
+<h3>Answers</h3>
+<p>All lines below beginning with double hashes are R output</p>
+<pre class="r"><code># Load the packages you might need
+library(tidyverse)
+
+# Read and inspect the data
+mammals &lt;- read.csv(url(&quot;https://www.zoology.ubc.ca/~bio501/R/data/mammals.csv&quot;))
+head(mammals)</code></pre>
+<pre><code>##   continent status        order  family      genus       species mass.grams
+## 1        AF extant Artiodactyla Bovidae      Addax nasomaculatus    70000.3
+## 2        AF extant Artiodactyla Bovidae  Aepyceros      melampus    52500.1
+## 3        AF extant Artiodactyla Bovidae Alcelaphus    buselaphus   171001.5
+## 4        AF extant Artiodactyla Bovidae Ammodorcas       clarkei    28049.8
+## 5        AF extant Artiodactyla Bovidae Ammotragus        lervia    48000.0
+## 6        AF extant Artiodactyla Bovidae Antidorcas   marsupialis    39049.9</code></pre>
+<ol style="list-style-type: decimal">
+<li>Number of mammal species on each continent.</li>
+</ol>
+<pre class="r"><code>table(mammals$continent)</code></pre>
+<pre><code>## 
+##      Af      AF     AUS      EA Insular Oceanic      SA 
+##       1    1033     346    1033    1484      78     977</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Fix the problem of missing North America (unfortunately coded as NA
+in the continent column).</li>
+</ol>
+<pre class="r"><code>mammals &lt;- read.csv(url(&quot;https://www.zoology.ubc.ca/~bio501/R/data/mammals.csv&quot;), 
+                na.strings = &quot;&quot;)
+
+# tidyr version
+mammals &lt;- read_csv(url(&quot;https://www.zoology.ubc.ca/~bio501/R/data/mammals.csv&quot;), 
+                na = c(&quot;&quot;))</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Fix “Af” typo.</li>
+</ol>
+<pre class="r"><code>which(mammals$continent==&quot;Af&quot;)</code></pre>
+<pre><code>## [1] 322</code></pre>
+<pre class="r"><code>mammals$continent[322]&lt;-&quot;AF&quot;
+table(mammals$continent)</code></pre>
+<pre><code>## 
+##      AF     AUS      EA Insular Oceanic      SA 
+##    1034     346    1033    1484      78     977</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>How many extinct mammals? The table shows that 242 species of mammal
+are listed as extinct.</li>
+</ol>
+<pre class="r"><code>z &lt;- table(mammals$status)
+z</code></pre>
+<pre><code>## 
+##       extant      extinct   historical introduction 
+##         5388          242           84           17</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Extinction status by continent (contingency table). Australia (AUS)
+seems to have the greatest number of extinct species relative to the
+total number. This is easier to appreciate if the row sums are included
+in the table.</li>
+</ol>
+<pre class="r"><code># Contingency table
+table(mammals$continent, mammals$status)</code></pre>
+<pre><code>##          
+##           extant extinct historical introduction
+##   AF        1017      13          4            0
+##   AUS        261      45         23           17
+##   EA        1027       0          6            0
+##   Insular   1405      29         50            0
+##   Oceanic     78       0          0            0
+##   SA         900      77          0            0</code></pre>
+<pre class="r"><code># Include row sums using base R
+mytab &lt;- table(mammals$continent, mammals$status)
+addmargins(mytab, margin = c(1,2), FUN = sum, quiet = TRUE)</code></pre>
+<pre><code>##          
+##           extant extinct historical introduction  sum
+##   AF        1017      13          4            0 1034
+##   AUS        261      45         23           17  346
+##   EA        1027       0          6            0 1033
+##   Insular   1405      29         50            0 1484
+##   Oceanic     78       0          0            0   78
+##   SA         900      77          0            0  977
+##   sum       4688     164         83           17 4952</code></pre>
+<pre class="r"><code># Include row sums using tidyverse. The last mutate command is optional and converts NA to zero.
+mytab &lt;- summarize(group_by(mammals, continent, status), n = n())
+mytab &lt;- spread(mytab, status, n)
+mytab</code></pre>
+<pre><code>## # A tibble: 7 × 5
+## # Groups:   continent [7]
+##   continent extant extinct historical introduction
+##   &lt;chr&gt;      &lt;int&gt;   &lt;int&gt;      &lt;int&gt;        &lt;int&gt;
+## 1 AF          1017      13          4           NA
+## 2 AUS          261      45         23           17
+## 3 EA          1027      NA          6           NA
+## 4 Insular     1405      29         50           NA
+## 5 Oceanic       78      NA         NA           NA
+## 6 SA           900      77         NA           NA
+## 7 &lt;NA&gt;         700      78          1           NA</code></pre>
+<pre class="r"><code>mytab &lt;- mutate(mytab, across(everything(), ~replace_na(., 0)))
+as.data.frame(mytab)</code></pre>
+<pre><code>##   continent extant extinct historical introduction
+## 1        AF   1017      13          4            0
+## 2       AUS    261      45         23           17
+## 3        EA   1027       0          6            0
+## 4   Insular   1405      29         50            0
+## 5   Oceanic     78       0          0            0
+## 6        SA    900      77          0            0
+## 7      &lt;NA&gt;    700      78          1            0</code></pre>
+<p><br></p>
+</div>
+<div id="graphing-frequency-distributions" class="section level3">
+<h3>Graphing frequency distributions</h3>
+<ol style="list-style-type: decimal">
+<li><p>Plot the number of mammal species on each continent using a
+simple bar graph. Include a label for the y axis.</p></li>
+<li><p>The plot categories are listed in alphabetical order by default,
+which is arbitrary and makes the visual display less efficient than
+other possibilities. What is the most sensible order for the categories?
+Redo the bar graph using this order.</p></li>
+<li><p>Generate a histogram of the body masses of mammal species. How
+informative is that?!</p></li>
+<li><p>Create a new variable in the mammal data frame: the log (base 10)
+of body mass. (See “Transform” on the R tips “Data” page if you need
+help with this.)</p></li>
+<li><p>Generate a histogram of log body mass. Is this more informative?
+Morphological data commonly require a log-transformation to
+analyze.</p></li>
+<li><p>Redo the previous histogram but use a bin width of 2 units. How
+much detail is lost? Redo the histogram but try a bin width of of 1;
+then try 0.5; and then 0.1. Which bin width is superior?</p></li>
+<li><p>Redo the histogram, but display probability density instead of
+frequency.</p></li>
+<li><p>How does the frequency distribution of log body mass depart from
+a normal distribution? Answer by visual examination of the histogram you
+just created. Now answer by examining a normal quantile plot instead.
+Which display is more informative? Do the data conform to a normal
+distribution?</p></li>
+<li><p>Optional: redraw the histogram of log body mass and superimpose a
+normal density curve to help visualize deviations from normality. In
+what ways do the data depart from normality?</p></li>
+</ol>
+</div>
+<div id="answers-1" class="section level3">
+<h3>Answers</h3>
+<pre class="r"><code># 1. Bar plot of mammal species by continent
+barplot(table(mammals$continent), col=&quot;firebrick&quot;, cex.names=0.8, 
+        ylim=c(0,1600), las = 1)</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-7-1.png" width="528" /></p>
+<pre class="r"><code># 2. It is best to order the categories in order of decreasing frequency.
+barplot(sort(table(mammals$continent), decreasing=TRUE), col=&quot;firebrick&quot;,   
+        cex.names=0.8, las = 1, ylim=c(0,1600), ylab=&quot;Frequency&quot;)</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-7-2.png" width="528" /></p>
+<p>Alternatively, use <code>ggplot()</code> instead of base R.</p>
+<pre class="r"><code>library(ggplot2)
+ggplot(mammals, aes(x = continent)) + 
+    geom_bar(stat = &quot;count&quot;, fill = &quot;firebrick&quot;) +
+    labs(x = &quot;Continent&quot;, y = &quot;Frequency&quot;) +
+  theme_classic()</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
+<pre class="r"><code># To order by category in ggplot, first make a new factor variable
+mammals$continent_ordered &lt;- factor(mammals$continent, 
+                levels = names(sort(table(mammals$continent), decreasing = TRUE)) )
+
+ggplot(mammals, aes(x = continent_ordered)) + 
+    geom_bar(stat = &quot;count&quot;, fill = &quot;firebrick&quot;) +
+    labs(x = &quot;Continent&quot;, y = &quot;Frequency&quot;) +
+  theme_classic()</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-8-2.png" width="480" /></p>
+<p>Histogram of body masses. Results with different bin widths not
+shown.</p>
+<pre class="r"><code># 3. Histogram
+hist(mammals$mass.grams, col=&quot;firebrick&quot;, right = FALSE, las = 1, 
+     xlab = &quot;Body mass (g)&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-9-1.png" width="528" /></p>
+<pre class="r"><code>ggplot(mammals, aes(x = mass.grams)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, boundary = 0) + 
+    labs(x = &quot;log10 body mass&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
+<pre class="r"><code># 4. Add a new variable, log10 of body mass
+mammals$logmass &lt;- log10(mammals$mass.grams)</code></pre>
+<pre class="r"><code># 5. Histogram
+hist(mammals$logmass, col=&quot;firebrick&quot;, right = FALSE, las = 1, 
+     xlab = &quot;Log10 body mass&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-12-1.png" width="528" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(mammals, aes(x = logmass)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, boundary = 0, binwidth = 0.5) + 
+    labs(x = &quot;log10 body mass&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
+<pre class="r"><code># 6. Vary bin width
+ggplot(mammals, aes(x = logmass)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 2, boundary = 0) + 
+    labs(x = &quot;log10 body mass&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
+<pre class="r"><code>ggplot(mammals, aes(x = logmass)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 1, boundary = 0) + 
+    labs(x = &quot;log10 body mass&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-14-2.png" width="480" /></p>
+<pre class="r"><code>ggplot(mammals, aes(x = logmass)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.5, boundary = 0) + 
+    labs(x = &quot;log10 body mass&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-14-3.png" width="480" /></p>
+<pre class="r"><code>ggplot(mammals, aes(x = logmass)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.1, boundary = 0) + 
+    labs(x = &quot;log10 body mass&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-14-4.png" width="480" /></p>
+<pre class="r"><code># 6. Change bin width to 2
+hist(mammals$logmass, col=&quot;firebrick&quot;, right = FALSE, las = 1, 
+     xlab = &quot;Log10 body mass&quot;, main = &quot;&quot;, breaks = seq(0, 10, by = 2))</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-15-1.png" width="528" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(mammals, aes(x = logmass)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 2, boundary = 0) + 
+    labs(x = &quot;log10 body mass&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-16-1.png" width="480" /></p>
+<ol start="7" style="list-style-type: decimal">
+<li>Plot density instead</li>
+</ol>
+<pre class="r"><code>hist(mammals$logmass, col = &quot;firebrick&quot;, right = FALSE, las = 1, prob = TRUE,
+     xlab = &quot;Log10 body mass&quot;, main = &quot;&quot;, breaks = seq(0, 8.5, by = 0.5))</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-17-1.png" width="528" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(mammals, aes(x = logmass)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.5, 
+                 boundary = 0, aes(y = after_stat(density))) + 
+    labs(x = &quot;log10 body mass&quot;, y = &quot;Density&quot;) + 
+  theme_classic()</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-18-1.png" width="480" /></p>
+<ol start="8" style="list-style-type: decimal">
+<li>Normal quantile plot.</li>
+</ol>
+<pre class="r"><code>qqnorm(mammals$logmass)
+qqline(mammals$logmass) # adds the straight line for comparison through 1st and 3rd quartiles</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-19-1.png" width="528" /></p>
+<ol start="9" style="list-style-type: decimal">
+<li>Histogram with best-fit normal curve superimposed.</li>
+</ol>
+<pre class="r"><code># The curve function is fussy about the name of the variable: must be &quot;x&quot;
+x &lt;- mammals$logmass
+hist(x, col=&quot;firebrick&quot;, right = FALSE, las = 1, prob = TRUE,
+     xlab = &quot;Log10 body mass&quot;, main = &quot;&quot;, breaks = seq(0, 8.5, by = 0.5))
+m &lt;- mean(x, na.rm = TRUE)
+s &lt;- sd(x, na.rm = TRUE)
+curve(dnorm(x, mean = m, sd = s), col=&quot;red&quot;, lwd = 2, add = TRUE)</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-20-1.png" width="528" /></p>
+<p><br></p>
+</div>
+<div id="comparing-frequency-distributions" class="section level3">
+<h3>Comparing frequency distributions</h3>
+<ol style="list-style-type: decimal">
+<li><p>Use a box plot to compare the distribution of body sizes (log
+scale most revealing) of mammals having different extinction status. Are
+extinct mammals similar to, larger than, or smaller than, extant
+mammals?</p></li>
+<li><p>Examine the previous box plot. How do the shapes of the body size
+distributions compare between extinct and extant mammals?</p></li>
+<li><p>Redo the previous box plot but make box width proportional to the
+square root of sample size. Add a title to the plot.</p></li>
+<li><p>Optional: Draw a violin plot to compare the frequency
+distribution of log body sizes of mammals having different extinction
+status. Which do you find is more revealing about the shapes of the body
+size distributions: box plot or violin plot?</p></li>
+<li><p>Use multiple histograms to compare the frequency distribution of
+log body sizes of mammals having different extinction status. Stack the
+panels one above the other. In this plot, how easy is it to visualize
+differences among treatments in the distributions compared to your
+previous plots?</p></li>
+<li><p>Make a table of the median log body mass of each
+extinction-status group of mammals. Are the values consistent with the
+plotted distributions?</p></li>
+</ol>
+</div>
+<div id="answers-2" class="section level3">
+<h3>Answers</h3>
+<p>The graphs show that extinct mammals tend to have large mass compared
+to extant mammals. The frequency distributions for these two groups also
+have opposite skew, with extinct mammals having left skew.</p>
+<pre class="r"><code># 1. Box plot to compare the distribution of body sizes
+boxplot(logmass ~ status, data = mammals, ylab = &quot;log10 body mass&quot;, 
+        col = &quot;goldenrod1&quot;, las = 1)</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-21-1.png" width="528" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(mammals, aes(x = status, y = logmass)) + 
+    geom_boxplot(fill = &quot;goldenrod1&quot;, notch = FALSE) + 
+    labs(x = &quot;Status&quot;, y = &quot;Log10 body mass&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_boxplot()`).</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-22-1.png" width="480" /></p>
+<pre class="r"><code># 3. Box width proportional to the square root of sample size
+boxplot(logmass ~ status, data = mammals, ylab = &quot;log10 body mass&quot;, 
+        col = &quot;goldenrod1&quot;, las = 1, varwidth = TRUE, 
+        main = &quot;Body sizes of mammals by status&quot;)</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-23-1.png" width="528" /></p>
+<pre class="r"><code># 4. Violin plot
+ggplot(mammals, aes(x = status, y = logmass)) + 
+    geom_violin(fill = &quot;goldenrod1&quot;) + 
+    labs(x = &quot;Status&quot;, y = &quot;Log10 body mass&quot;) + 
+    stat_summary(fun = mean,  geom = &quot;point&quot;, color = &quot;black&quot;) +
+  theme_classic()</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_ydensity()`).</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_summary()`).</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-24-1.png" width="528" /></p>
+<pre class="r"><code># 5. Multiple histograms
+ggplot(mammals, aes(x = logmass)) + 
+    geom_histogram(fill = &quot;goldenrod1&quot;, col = &quot;black&quot;, 
+             binwidth = 0.2, boundary = 0) +
+    labs(x = &quot;log10 body mass&quot;, y = &quot;Frequency&quot;) + 
+    facet_wrap(~status, ncol = 1, scales = &quot;free_y&quot;, strip.position = &quot;right&quot;) +
+  theme_classic()</code></pre>
+<pre><code>## Warning: Removed 1372 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-25-1.png" width="480" /></p>
+<pre class="r"><code># 6. Table of median log mass by status
+
+# Base R
+median.log10.mass &lt;- tapply(mammals$logmass, mammals$status, median, na.rm=TRUE)
+cbind(median.log10.mass)</code></pre>
+<pre><code>##              median.log10.mass
+## extant                1.949390
+## extinct               5.176091
+## historical            3.326606
+## introduction          4.799341</code></pre>
+<pre class="r"><code># Tidyverse
+mytab &lt;- summarize(group_by(mammals, status), meanlogMass = median(logmass, na.rm = TRUE))
+mytab</code></pre>
+<pre><code>## # A tibble: 4 × 2
+##   status       meanlogMass
+##   &lt;chr&gt;              &lt;dbl&gt;
+## 1 extant              1.95
+## 2 extinct             5.18
+## 3 historical          3.33
+## 4 introduction        4.80</code></pre>
+<p><br></p>
+</div>
+<div id="paired-data" class="section level3">
+<h3>Paired data</h3>
+<p>Paired data, such as repeated measures, require special plotting
+techniques to visualize the patterns while preserving information on
+pairing.</p>
+<p>Here we construct a paired data plot for the frequency of extant and
+extinct mammal species on each continent.</p>
+<ol style="list-style-type: decimal">
+<li>Create a new variable in the mammal data frame that combines the
+extinct and historical status categories into a single category called
+“gone”. Remove the Insular and Oceanic continents from the data set so
+we are working only with the continents. Finally, drop the introduction
+category. To get us more quickly to the plotting step, here’s some code
+to make the new data set:<br />
+<br>Keep only actual continents and drop the “introduction” category
+from status.
+<pre class="fakechunk">
+newmammals <- subset(mammals, continent != "Insular" & continent != "Oceanic" & 
+                 (status == "extinct" | status == "extant" | status == "historical")  )
+</pre>
+Make a new status variable that combines the two extinction categories.
+<pre class="fakechunk">
+newmammals$newstatus <- newmammals$status # initialize the new variable
+newmammals$newstatus[newmammals$status %in% c("extinct", "historical")] <- "gone"
+</pre>
+Make a frequency table of the number of species by continent and
+newstatus.
+<pre class="fakechunk">
+mytab <- table(newmammals$continent, newmammals$newstatus, 
+                 dnn = c("continent", "newstatus"))
+</pre>
+We want it in long format, so convert to a “flat” frequency table.
+<pre class="fakechunk">
+mydata <- data.frame(mytab)
+</pre>
+Notice it is in long format, which R prefers.
+<pre class="fakechunk">
+mydata
+</pre></li>
+<li>Make a paired data plot showing the log10 frequency of species for
+the two categories of the newstatus variable. What pattern do you
+notice?</li>
+</ol>
+</div>
+<div id="answers-3" class="section level3">
+<h3>Answers</h3>
+<p>There is a tendency for the continents with the fewest mammal species
+to have relatively more species that have lately disappeared.</p>
+<pre class="r"><code># 1. The data set you made
+print(mydata)</code></pre>
+<pre><code>##   continent newstatus Freq
+## 1        AF    extant 1017
+## 2       AUS    extant  261
+## 3        EA    extant 1027
+## 4        SA    extant  900
+## 5        AF      gone   17
+## 6       AUS      gone   68
+## 7        EA      gone    6
+## 8        SA      gone   77</code></pre>
+<pre class="r"><code># 2. Paired data plot in base R
+interaction.plot(response = log10(mydata$Freq), x.factor = mydata$newstatus, trace.factor = mydata$continent,
+    legend = FALSE, lty = 1, xlab = &quot;&quot;, ylab = &quot;log10 frequency&quot;, 
+    type = &quot;b&quot;, pch = 16, las = 1, col = &quot;firebrick&quot;)</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-28-1.png" width="528" /></p>
+<pre class="r"><code># Or use ggplot
+
+ggplot(mydata, aes(y = log10(Freq), x = newstatus)) +  
+    geom_line(aes(group = continent)) +
+    geom_point(size = 3, col = &quot;firebrick&quot;, alpha = 0.5) + 
+    labs(x = &quot;&quot;, y = &quot;log10 frequency&quot;) +
+    theme_classic() + 
+    theme(text = element_text(size = 14))</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-29-1.png" width="480" /></p>
+<hr />
+</div>
+</div>
+<div id="data-set-2-fly-sex-and-longevity" class="section level2">
+<h2>Data set 2: Fly sex and longevity</h2>
+<p>The data are from L. Partridge and M. Farquhar (1981), Sexual
+activity and the lifespan of male fruitflies, <it>Nature</it> 294:
+580-581. The experiment placed male fruit flies with varying numbers of
+previously-mated or virgin females to investigate how mating activity
+affects male lifespan. The data are in the file fruitflies.csv file on
+our server <a
+href="https://www.zoology.ubc.ca/~bio501/R/data/fruitflies.csv">here</a>.</p>
+<p><br></p>
+<div id="download-and-inspect" class="section level3">
+<h3>Download and inspect</h3>
+<p>Download the file to your computer and open in a spreadsheet program
+to have a look at it. View the first few lines of the data frame on the
+screen, and familiarize yourself with the variable names.</p>
+<p>Our goal here is to find a plot type that clearly and efficiently
+visualizes the patterns in the data, especially the differences among
+groups.</p>
+<p><br></p>
+</div>
+<div id="analyze" class="section level3">
+<h3>Analyze</h3>
+<ol style="list-style-type: decimal">
+<li><p>Read the data file into a new data frame.</p></li>
+<li><p>Use a strip chart to examine the distribution of longevities in
+the treatment groups. Try the jitter method to reduce overlap between
+points. If needed, adjust the size or rotation of the treatment labels
+so that they all fit on the graph. What pattern of differences between
+treatments in longevity is revealed? Males from which treatments have
+the highest longevity? Which have the lowest longevity?</p></li>
+<li><p>Compare the strip chart to a box plot of the same data. Is the
+pattern in the data as clear in both types of plot?</p></li>
+<li><p>The variable <code>thorax</code> stands for thorax length, which
+was used as a measure of body size. The measurement was included in case
+body size also affected longevity. Using <code>ggplot()</code>, produce
+a scatter plot of thorax length and longevity. Make
+<code>longevity</code> the response variable (i.e., plot it on the
+vertical axis). Is there a relationship?</p></li>
+<li><p>Redraw the scatter plot using <code>ggplot()</code> but this time
+use different symbols and/or colors for the different treatment groups.
+Add a legend to identify the symbols. After controlling for differences
+among males in size, males from which treatments have the highest
+longevity on average? Which have the lowest longevity?</p></li>
+<li><p>Redraw, adding regression lines to your figure, separately for
+each group.</p></li>
+<li><p>You can see how it can be fiendishly difficult to build a clean
+visual showing the pattern in the data when there are multiple groups.
+Redraw the figure again using just one color and symbol, but this time
+use <code>facet_wrap()</code> to plot the data in multiple panels, one
+per treatment group. Compare your results with those from (6). Which
+method shows the differences between groups most clearly?</p></li>
+</ol>
+</div>
+<div id="answers-4" class="section level3">
+<h3>Answers</h3>
+<pre class="r"><code># 1. Read nd inspect data
+x &lt;- read.csv(url(&quot;https://www.zoology.ubc.ca/~bio501/R/data/fruitflies.csv&quot;),
+              stringsAsFactors = FALSE)
+head(x)</code></pre>
+<pre><code>##   Npartners          treatment longevity.days thorax.mm
+## 1         8 8 pregnant females             35      0.64
+## 2         8 8 pregnant females             37      0.68
+## 3         8 8 pregnant females             49      0.68
+## 4         8 8 pregnant females             46      0.72
+## 5         8 8 pregnant females             63      0.72
+## 6         8 8 pregnant females             39      0.76</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Strip chart in base R.</li>
+</ol>
+<pre class="r"><code># base R
+stripchart(longevity.days ~ treatment, data = x, vertical = TRUE,  
+                method = &quot;jitter&quot;, pch=16, col = &quot;firebrick&quot;, cex.axis=0.7, 
+                ylab=&quot;Longevity (days)&quot;)</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-31-1.png" width="528" /></p>
+<p>or using <code>ggplot()</code></p>
+<pre class="r"><code># Using ggplot
+ggplot(x, aes(x = treatment, y = longevity.days)) +
+    geom_jitter(color = &quot;firebrick&quot;, size = 3, width = 0.15) +
+    labs(x = &quot;Treatment&quot;, y = &quot;Longevity (days)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-32-1.png" width="480" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Box plot.</li>
+</ol>
+<pre class="r"><code>boxplot(longevity.days ~ treatment, data = x, cex.axis = 0.7, 
+    ylab = &quot;Longevity (days)&quot;, boxwex = 0.5, col = &quot;goldenrod1&quot;)</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-33-1.png" width="528" /></p>
+<p>or using <code>ggplot()</code></p>
+<pre class="r"><code>ggplot(x, aes(x = treatment, y = longevity.days)) +
+    geom_boxplot(fill = &quot;goldenrod1&quot;, width = 0.5) +
+    labs(x = &quot;Treatment&quot;, y = &quot;Longevity (days)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-34-1.png" width="480" /></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Scatter plot</li>
+</ol>
+<pre class="r"><code># base R
+plot(longevity.days ~ thorax.mm, data = x, pch = 16, col = &quot;firebrick&quot;, las = 1,
+     xlab = &quot;Thorax length (mm)&quot;, ylab = &quot;Longevity (days)&quot;)</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-35-1.png" width="528" /></p>
+<p>or using <code>ggplot()</code></p>
+<pre class="r"><code>ggplot(x, aes(x = thorax.mm, y = longevity.days)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x = &quot;Thorax length (mm)&quot;, y = &quot;Longevity (days)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-36-1.png" width="480" /></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Scatter plot with separate colors for each group using
+<code>ggplot()</code></li>
+</ol>
+<pre class="r"><code>ggplot(x, aes(x = thorax.mm, y = longevity.days, colour = treatment, 
+            shape = treatment)) + 
+    geom_point(size = 2) + 
+    labs(x = &quot;Thorax length (mm)&quot;, y = &quot;Longevity (days)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p>Here’s how you would draw a scatter plot with separate colors and
+symbols for each group using base R. After executing, touch the plot
+frame with the cursor.</p>
+<pre class="r"><code>plot(longevity.days ~ thorax.mm, data=x, pch=as.numeric(factor(treatment)), 
+        col = as.numeric(factor(treatment)), las = 1, 
+        xlab = &quot;Thorax length (mm)&quot;, ylab = &quot;Longevity (days)&quot;)
+legend( locator(1), legend = as.character(levels(factor(x$treatment))),
+        pch=1:length(levels(factor(x$treatment))), 
+        col=1:length(levels(factor(x$treatment))) )</code></pre>
+<pre class="r"><code># 6. Add lines using ggplot()
+ggplot(x, aes(x=thorax.mm, y=longevity.days, colour = treatment, 
+            shape = treatment)) + 
+    geom_point(size = 2) +
+    geom_smooth(method = lm, linewidth = 1, se = FALSE) +
+    labs(x = &quot;Thorax length (mm)&quot;, y = &quot;Longevity (days)&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<ol start="7" style="list-style-type: decimal">
+<li>Using <code>facet_wrap()</code> to plot treatment groups in separate
+panels.</li>
+</ol>
+<pre class="r"><code>ggplot(x, aes(x = thorax.mm, y = longevity.days)) + 
+  facet_wrap(~ treatment, strip.position = &quot;top&quot;) +
+    geom_point(size = 2) +
+    geom_smooth(method = lm, linewidth = 1, se = FALSE) +
+    labs(x = &quot;Thorax length (mm)&quot;, y = &quot;Longevity (days)&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="graphics_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p><br />
+* <small> In this mammal data set, the symbol “NA” is used to indicate
+North America in the <code>continent</code> column. But in R, NA means
+missing data. To read properly, you will need to add an argument to your
+<code>read.csv()</code> command that changes the missing data code:
+<code>na.strings=““</code> (or <code>na=”“</code> if you are using
+<code>read_csv()</code> from the <code>readr</code> package).
+</small></p>
+</div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2026 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

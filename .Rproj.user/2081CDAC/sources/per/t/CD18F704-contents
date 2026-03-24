@@ -1,0 +1,317 @@
+---
+title: "Lectures 2025/2026 (January 2026 term)"
+author:
+
+<!--  output: html_document -->
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+<!-- 
+setwd("/Users/schluter/zoologyCloud/Courses/bio 501 - stats/www-biol501")
+rmarkdown::render("lectures.Rmd", "html_document")
+-->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This page is under continuous revision, with new information added as the term proceeds. Click the refresh button on your browser to make sure you are seeing the latest version of this page.
+
+Below is an approximate list of lecture topics and contents. Links to the lecture slides will be added before each lecture. 
+
+Lecture overheads and videos from previous years are [below](#lectures_previous).
+
+***
+
+## Introduction 
+[Lecture overheads](lecturepdf/01.introduction.pdf)\
+About the course\
+Course objectives\
+About the instructor\
+Why we use R\
+Organizing data for use in R\
+Review of basic concepts in statistics\
+\
+
+## Graphics
+[Lecture overheads](lecturepdf/02.Graphics.pdf)\
+The purpose of graphs\
+Principles of effective display\
+Types of graphs to achieve these principles\
+How some graphs fail, and what can be done\
+What about tables?\
+Interactive and moving graphs\
+\
+
+## Design of experiments
+[Lecture overheads](lecturepdf/03.Design.pdf)\
+Plan your sample size\
+Experiments vs observational studies\
+Why do experiments\
+Clinical trials: experiments on people\
+Design to minimize bias and effects of sampling error\
+<i>Analysis Follows Design</i>\
+What if you can’t do experiments\
+\
+
+## Linear models
+[Lecture overheads](lecturepdf/04.Linear models.pdf)\
+What is a linear model\
+Several examples\
+Estimating parameters vs testing hypotheses\
+Model comparison: full vs reduced models\
+Sequential vs marginal testing of terms\
+The lure of model simplification\
+Perils of correcting for covariates\
+Assumptions of linear models\
+Other related methods in R\
+\
+
+## Mixed effects models
+[Lecture overheads](lecturepdf/05.Models with random effects.pdf)\
+Random vs fixed effects\
+Two-factor ANOVA example\
+Why the calculations are different with random effects\
+Unbalanced designs with random effects\
+Examples of experiments with random effects\
+Linear mixed-effects models\
+Example: Estimating repeatability of a measurement\
+Other designs with random effects, briefly\
+Assumptions of linear mixed-effects models\
+Repeated measures over time\
+\
+
+## Likelihood
+[Lecture overheads](lecturepdf/06.Likelihood.pdf)\
+Probability and likelihood\
+Maximum likelihood estimation\
+Example: estimate a proportion\
+Likelihood works backward from probability\
+Likelihood-based confidence intervals\
+Example: estimate survival rates in Game of Thrones\
+Log-likelihood ratio test\
+Example: test a proportion\
+\
+
+## Generalized linear models
+[Lecture overheads](lecturepdf/07.Glm.pdf)\
+What is a generalized linear model\
+Linear predictors and link functions\
+Example: estimate a proportion\
+Analysis of deviance table\
+Example: fit dose-response data using logistic regression\
+Example: fit count data using a log-linear model\
+Advantages and assumptions of glm\
+Quasi-likelihood modeling when there is excessive variance\
+Example: model contingency tables\
+\
+
+## Model selection
+[Lecture overheads](lecturepdf/08.Modelselection.pdf)\
+What is model selection\
+Example: polynomial regression\
+The problem of model selection\
+Choose among models using an explicit criterion\
+Goals of model selection\
+Search strategies: dredge(), stepAIC()\
+Criterion: AIC\
+Example: predicting ant species richness\
+Several models may fit about equally well\
+The science part: formulate a set of candidate models\
+Example: adaptive evolution in the fossil record\
+\
+
+## Bayesian data analysis
+[Lecture overheads](lecturepdf/09.Bayes.pdf)\
+What is probability\
+Another concept of probability\
+Bayes Theorem\
+Prior probability and posterior probability\
+How Bayesian inference is different from what we usually do\
+Example: one species or two\
+Example: estimate a proportion\
+Credible intervals\
+Bayes factor\
+Bayesian model selection\
+\
+
+## Bootstrap and resampling
+[Lecture overheads](lecturepdf/10.Bootstrap.pdf)\
+Estimation and hypothesis testing\
+Permutation test\
+Estimation\
+The sampling distribution\
+The bootstrap standard error\
+The bootstrap confidence interval\
+Comparing two groups\
+\
+
+## Meta-analysis
+[Lecture overheads](lecturepdf/11.Meta-analysis.pdf)\
+Meta-analysis as part of a systematic review\
+Meta-analysis compared with traditional review article\
+How to carry out a meta-analysis\
+Effect size\
+Fixed and mixed effects meta-analysis\
+Associating effect sizes with relevant variables\
+Publication bias\
+Make your own results accessible to meta-analysis\
+Consider a meta-analysis for your first thesis chapter\
+Current best practices\
+\
+
+## Multivariate statistics
+<!-- [Lecture overheads](lecturepdf/12.Multivariate.pdf)\ -->
+Why do a multivariate analysis\
+Ordination, classification, model fitting\
+Principal component analysis\
+Species presence/absence data\
+Discriminant analysis\
+Machine learning, quickly\
+\
+
+## Species as data points
+<!-- [Lecture overheads](lecturepdf/13.Phylogenetic.pdf)\ -->
+Example: the problem with species data\
+Phylogenetic signal in ecological traits\
+Why phylogeny matters in comparative study\
+Phylogenetically independent contrasts\
+A linear model (general least squares) approach\
+Discrete data
+Phylogenetic methods have many applications
+R: An embarrassment of riches\
+Use R!\
+\
+
+*** 
+
+## Lectures from previous years {#lectures_previous}
+
+\
+
+### Lecture overheads 2025 {#lectures2025}
+
+[Introduction](lecturepdf/2025/01.introduction.pdf)
+<br>[Graphics](lecturepdf/2025/02.Graphics.pdf)
+<br>[Design of experiments](lecturepdf/2025/03.Design.pdf)
+<br>[Linear models](lecturepdf/2025/04.Linear models.pdf) 
+<br>[Mixed effects models](lecturepdf/2025/05.Models with random effects.pdf)
+<br>[Likelihood](lecturepdf/2025/06.Likelihood.pdf) 
+<br>[Generalized linear models](lecturepdf/2025/07.Glm.pdf)
+<br>[Model selection](lecturepdf/2025/08.Modelselection.pdf) 
+<br>[Bayesian data analysis](lecturepdf/2025/09.Bayes.pdf)
+<br>[Bootstrap and resampling](lecturepdf/2025/10.Bootstrap.pdf)
+<br>[Meta-analysis](lecturepdf/2025/11.Meta-analysis.pdf)
+<br>[Multivariate statistics](lecturepdf/2025/12.Multivariate.pdf)
+<br>[Species as data points](lecturepdf/2025/13.Phylogenetic.pdf) 
+
+<!--
+<br>
+
+### Lecture overheads 2024 {#lectures2024}
+
+[Introduction](lecturepdf/2024/01.introduction.pdf)
+<br>[Graphics](lecturepdf/2024/02.Graphics.pdf)
+<br>[Design of experiments](lecturepdf/2024/03.Design.pdf)
+<br>[Linear models](lecturepdf/2024/04.Linear models.pdf) 
+<br>[Mixed effects models](lecturepdf/2024/05.Models with random effects.pdf)
+<br>[Likelihood](lecturepdf/2024/06.Likelihood.pdf) 
+<br>[Generalized linear models](lecturepdf/2024/07.Glm.pdf)
+<br>[Model selection](lecturepdf/2024/08.Modelselection.pdf) 
+<br>[Bayesian data analysis](lecturepdf/2024/09.Bayes.pdf)
+<br>[Bootstrap and resampling](lecturepdf/2024/10.Bootstrap.pdf)
+<br>[Meta-analysis](lecturepdf/2024/11.Meta-analysis.pdf)
+<br>[Multivariate statistics](lecturepdf/2024/12.Multivariate.pdf)
+<br>[Species as data points](lecturepdf/2024/13.Phylogenetic.pdf) 
+
+<br>
+
+### Lecture overheads 2022 {#lectures2022}
+
+[Introduction](lecturepdf/2022/01.introduction.pdf)
+<br>[Graphics](lecturepdf/2022/02.Graphics.pdf)
+<br>[Design of experiments](lecturepdf/2022/03.Design.pdf)
+<br>[Linear models](lecturepdf/2022/04.Linear models.pdf) 
+<br>[Mixed effects models](lecturepdf/2022/05.Models with random effects.pdf)
+<br>[Likelihood](lecturepdf/2022/06.Likelihood.pdf) 
+<br>[Generalized linear models](lecturepdf/2022/07.Glm.pdf)
+<br>[Model selection](lecturepdf/2022/08.Modelselection.pdf) 
+<br>[Bayesian data analysis](lecturepdf/2022/09.Bayes.pdf)
+<br>[Bootstrap and resampling](lecturepdf/2022/10.Bootstrap.pdf)
+<br>[Meta-analysis](lecturepdf/2022/11.Meta-analysis.pdf)
+<br>[Multivariate statistics](lecturepdf/2022/12.Multivariate.pdf)
+<br>[Species as data points](lecturepdf/2022/13.Phylogenetic.pdf) 
+
+<br>
+
+### Lecture videos 2022 {#videos2022}
+
+[Introduction](lecturepdf/2022/01.Introduction_video.mp4)
+<br>[Graphics](lecturepdf/2022/02.Graphics_video.mp4)
+<br>[Design of experiments](lecturepdf/2022/03.Design_video.mp4)
+<br>[Linear models](lecturepdf/2022/04.Linear models_video.mp4)
+<br>[Mixed effects models (2024 lecture)](lecturepdf/2024/05.Models with random effects_video.mp4)
+<br>[Likelihood](lecturepdf/2022/06.Likelihood_video.mp4)
+<br>[Generalized linear models](lecturepdf/2022/07.Glm_video.mp4)
+<br>[Model selection](lecturepdf/2022/08.Modelselection_video.mp4)
+<br>[Bayesian data analysis](lecturepdf/2022/09.Bayes_video.mp4)
+<br>[Bootstrap and resampling](lecturepdf/2022/10.Bootstrap_video.mp4)
+<br>[Meta-analysis](lecturepdf/2022/11.Meta-analysis_video.mp4)
+<br>[Multivariate statistics](lecturepdf/2022/12.Multivariate_video.mp4)
+<br>[Species as data points](lecturepdf/2022/13.Phylogenetic_video.mp4)
+
+<br>
+
+### Lecture overheads 2023 {#lectures2023}
+
+The course in 2023 was taught by Beth Volpov
+
+[Introduction](lecturepdf/2023/01_Introduction.pdf)
+<br>[Graphics](lecturepdf/2023/02_Graphics.pdf)
+<br>[Design of experiments](lecturepdf/2023/03_Experimental Design.pdf)
+<br>[Linear models](lecturepdf/2023/04_Linear Models.pdf) 
+<br>[Mixed effects models](lecturepdf/2023/05_Mixed-Effects Models.pdf)
+<br>[Likelihood](lecturepdf/2023/06_Likelihood.pdf) 
+<br>[Generalized linear models](lecturepdf/2023/07_GLM.pdf)
+<br>[Model selection](lecturepdf/2023/08_Model Selection.pdf) 
+<br>[Bayesian data analysis](lecturepdf/2023/09_Bayesian.pdf)
+<br>[Bootstrap and resampling](lecturepdf/2023/10_Computer Intensive.pdf)
+<br>[Meta-analysis](lecturepdf/2023/11_Meta Analysis.pdf)
+<br>[Multivariate statistics](lecturepdf/2023/12_Multivariate Methods.pdf)
+<br>[Students' choice](lecturepdf/2022/13_Students Choice.pdf) 
+
+## 2020 videos of lectures {#videos2020}
+
+<a href="lecturepdf/2020/02%20Graphics%20-%20zoom%20video.mp4?dl=0">Graphics</a>
+<br><a href="https://youtu.be/27b-qZKkraU">Design of experiments (2019 lecture)</a>
+<br><a href="lecturepdf/2020/04.Linear%20models%20-%20zoom%20video.mp4">Linear models</a>
+<br><a href="lecturepdf/2020/05.Models with random effects video.mp4">Mixed effects models</a>
+<br><a href="lecturepdf/2020/06.Likelihood - zoom_video.mp4">Likelihood</a>
+<br><a href="lecturepdf/2020/07.Glm - zoom_video.mp4">Generalized linear models</a>
+<br><a href="lecturepdf/2020/08.Modelselection - zoom_video.mp4">Model selection</a>
+<br><a href="lecturepdf/2020/09.Bayes - zoom_video.mp4">Bayesian data analysis</a>
+<br><a href="lecturepdf/2020/10.Bootstrap - zoom_video.mp4">Bootstrap and resampling</a>
+<br><a href="lecturepdf/2020/11.Meta-analysis - zoom_video.mp4">Meta-analysis</a>
+<br><a href="lecturepdf/2020/12.Multivariate zoom_0.mp4">Multivariate statistics</a>
+<br><a href="lecturepdf/2020/13.Phylogenetic zoom_0.mp4">Species as data points</a>
+
+## 2019 videos of lectures {#videos2019}
+<a href="https://youtu.be/UFABvRzxFt0">Introduction</a>
+<a href="https://youtu.be/b9oRMiy-CNk">Graphics</a>
+<a href="https://youtu.be/27b-qZKkraU">Design of experiments</a>
+<a href="https://youtu.be/WYKBgzDjpbs">Linear Models</a>
+<a href="https://youtu.be/nhjNQ2RFZD8">Mixed effects models</a>
+<a href="https://www.youtube.com/watch?v=0boae1DxjZ8&feature=youtu.be">Likelihood</a>
+<a href="https://youtu.be/Ds3fajlfZJs">Generalized linear models</a> (Because of a technical glitch, this is the 2017 lecture)
+<a href="https://youtu.be/qYSWp3XpDRw">Model selection</a>
+<a href="https://youtu.be/0FAeusbGdbU">Bayesian data analysis</a>
+<a href="https://youtu.be/83HvfuBNsGE">Bootstrap and resampling</a>
+<a href="https://youtu.be/SrPtJ8cTowY">Meta-analysis</a>
+<a href="https://youtu.be/I66NDLrJhWA">Multivariate statistics</a>
+<a href="https://youtu.be/ASZy3PUcALg">Species as data points</a>
+-->

@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Lectures 2025/2026 (January 2026 term)</title>
+
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<link rel="stylesheet" href="biol501.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Biology 501 &mdash; The University of British Columbia</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Biol 501 pages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="index.html">Home page</a>
+    </li>
+    <li>
+      <a href="lectures.html">Lectures</a>
+    </li>
+    <li>
+      <a href="handouts.html">Handouts</a>
+    </li>
+    <li>
+      <a href="calendar.html">Calendar</a>
+    </li>
+    <li>
+      <a href="homework.html">Homework</a>
+    </li>
+    <li>
+      <a href="books.html">Books</a>
+    </li>
+    <li>
+      <a href="workshops/index.html">R workshops page</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="workshops/index.html">R workshops home</a>
+</li>
+<li>
+  <a href="https://www.zoology.ubc.ca/~schluter/R/">R tips home</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lectures 2025/2026 (January 2026 term)</h1>
+<h4 class="author"></h4>
+
+</div>
+
+
+<!-- 
+setwd("/Users/schluter/zoologyCloud/Courses/bio 501 - stats/www-biol501")
+rmarkdown::render("lectures.Rmd", "html_document")
+-->
+<p>This page is under continuous revision, with new information added as
+the term proceeds. Click the refresh button on your browser to make sure
+you are seeing the latest version of this page.</p>
+<p>Below is an approximate list of lecture topics and contents. Links to
+the lecture slides will be added before each lecture.</p>
+<p>Lecture overheads and videos from previous years are <a
+href="#lectures_previous">below</a>.</p>
+<hr />
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p><a href="lecturepdf/01.introduction.pdf">Lecture overheads</a><br />
+About the course<br />
+Course objectives<br />
+About the instructor<br />
+Why we use R<br />
+Organizing data for use in R<br />
+Review of basic concepts in statistics<br />
+<br />
+</p>
+</div>
+<div id="graphics" class="section level2">
+<h2>Graphics</h2>
+<p><a href="lecturepdf/02.Graphics.pdf">Lecture overheads</a><br />
+The purpose of graphs<br />
+Principles of effective display<br />
+Types of graphs to achieve these principles<br />
+How some graphs fail, and what can be done<br />
+What about tables?<br />
+Interactive and moving graphs<br />
+<br />
+</p>
+</div>
+<div id="design-of-experiments" class="section level2">
+<h2>Design of experiments</h2>
+<p><a href="lecturepdf/03.Design.pdf">Lecture overheads</a><br />
+Plan your sample size<br />
+Experiments vs observational studies<br />
+Why do experiments<br />
+Clinical trials: experiments on people<br />
+Design to minimize bias and effects of sampling error<br />
+<i>Analysis Follows Design</i><br />
+What if you can’t do experiments<br />
+<br />
+</p>
+</div>
+<div id="linear-models" class="section level2">
+<h2>Linear models</h2>
+<p><a href="lecturepdf/04.Linear%20models.pdf">Lecture
+overheads</a><br />
+What is a linear model<br />
+Several examples<br />
+Estimating parameters vs testing hypotheses<br />
+Model comparison: full vs reduced models<br />
+Sequential vs marginal testing of terms<br />
+The lure of model simplification<br />
+Perils of correcting for covariates<br />
+Assumptions of linear models<br />
+Other related methods in R<br />
+<br />
+</p>
+</div>
+<div id="mixed-effects-models" class="section level2">
+<h2>Mixed effects models</h2>
+<p><a href="lecturepdf/05.Models%20with%20random%20effects.pdf">Lecture
+overheads</a><br />
+Random vs fixed effects<br />
+Two-factor ANOVA example<br />
+Why the calculations are different with random effects<br />
+Unbalanced designs with random effects<br />
+Examples of experiments with random effects<br />
+Linear mixed-effects models<br />
+Example: Estimating repeatability of a measurement<br />
+Other designs with random effects, briefly<br />
+Assumptions of linear mixed-effects models<br />
+Repeated measures over time<br />
+<br />
+</p>
+</div>
+<div id="likelihood" class="section level2">
+<h2>Likelihood</h2>
+<p><a href="lecturepdf/06.Likelihood.pdf">Lecture overheads</a><br />
+Probability and likelihood<br />
+Maximum likelihood estimation<br />
+Example: estimate a proportion<br />
+Likelihood works backward from probability<br />
+Likelihood-based confidence intervals<br />
+Example: estimate survival rates in Game of Thrones<br />
+Log-likelihood ratio test<br />
+Example: test a proportion<br />
+<br />
+</p>
+</div>
+<div id="generalized-linear-models" class="section level2">
+<h2>Generalized linear models</h2>
+<p><a href="lecturepdf/07.Glm.pdf">Lecture overheads</a><br />
+What is a generalized linear model<br />
+Linear predictors and link functions<br />
+Example: estimate a proportion<br />
+Analysis of deviance table<br />
+Example: fit dose-response data using logistic regression<br />
+Example: fit count data using a log-linear model<br />
+Advantages and assumptions of glm<br />
+Quasi-likelihood modeling when there is excessive variance<br />
+Example: model contingency tables<br />
+<br />
+</p>
+</div>
+<div id="model-selection" class="section level2">
+<h2>Model selection</h2>
+<p><a href="lecturepdf/08.Modelselection.pdf">Lecture
+overheads</a><br />
+What is model selection<br />
+Example: polynomial regression<br />
+The problem of model selection<br />
+Choose among models using an explicit criterion<br />
+Goals of model selection<br />
+Search strategies: dredge(), stepAIC()<br />
+Criterion: AIC<br />
+Example: predicting ant species richness<br />
+Several models may fit about equally well<br />
+The science part: formulate a set of candidate models<br />
+Example: adaptive evolution in the fossil record<br />
+<br />
+</p>
+</div>
+<div id="bayesian-data-analysis" class="section level2">
+<h2>Bayesian data analysis</h2>
+<p><a href="lecturepdf/09.Bayes.pdf">Lecture overheads</a><br />
+What is probability<br />
+Another concept of probability<br />
+Bayes Theorem<br />
+Prior probability and posterior probability<br />
+How Bayesian inference is different from what we usually do<br />
+Example: one species or two<br />
+Example: estimate a proportion<br />
+Credible intervals<br />
+Bayes factor<br />
+Bayesian model selection<br />
+<br />
+</p>
+</div>
+<div id="bootstrap-and-resampling" class="section level2">
+<h2>Bootstrap and resampling</h2>
+<p><a href="lecturepdf/10.Bootstrap.pdf">Lecture overheads</a><br />
+Estimation and hypothesis testing<br />
+Permutation test<br />
+Estimation<br />
+The sampling distribution<br />
+The bootstrap standard error<br />
+The bootstrap confidence interval<br />
+Comparing two groups<br />
+<br />
+</p>
+</div>
+<div id="meta-analysis" class="section level2">
+<h2>Meta-analysis</h2>
+<p><a href="lecturepdf/11.Meta-analysis.pdf">Lecture overheads</a><br />
+Meta-analysis as part of a systematic review<br />
+Meta-analysis compared with traditional review article<br />
+How to carry out a meta-analysis<br />
+Effect size<br />
+Fixed and mixed effects meta-analysis<br />
+Associating effect sizes with relevant variables<br />
+Publication bias<br />
+Make your own results accessible to meta-analysis<br />
+Consider a meta-analysis for your first thesis chapter<br />
+Current best practices<br />
+<br />
+</p>
+</div>
+<div id="multivariate-statistics" class="section level2">
+<h2>Multivariate statistics</h2>
+<!-- [Lecture overheads](lecturepdf/12.Multivariate.pdf)\ -->
+<p>Why do a multivariate analysis<br />
+Ordination, classification, model fitting<br />
+Principal component analysis<br />
+Species presence/absence data<br />
+Discriminant analysis<br />
+Machine learning, quickly<br />
+<br />
+</p>
+</div>
+<div id="species-as-data-points" class="section level2">
+<h2>Species as data points</h2>
+<!-- [Lecture overheads](lecturepdf/13.Phylogenetic.pdf)\ -->
+<p>Example: the problem with species data<br />
+Phylogenetic signal in ecological traits<br />
+Why phylogeny matters in comparative study<br />
+Phylogenetically independent contrasts<br />
+A linear model (general least squares) approach<br />
+Discrete data Phylogenetic methods have many applications R: An
+embarrassment of riches<br />
+Use R!<br />
+<br />
+</p>
+<hr />
+</div>
+<div id="lectures_previous" class="section level2">
+<h2>Lectures from previous years</h2>
+<p><br />
+</p>
+<div id="lectures2025" class="section level3">
+<h3>Lecture overheads 2025</h3>
+<p><a href="lecturepdf/2025/01.introduction.pdf">Introduction</a> <br><a
+href="lecturepdf/2025/02.Graphics.pdf">Graphics</a> <br><a
+href="lecturepdf/2025/03.Design.pdf">Design of experiments</a> <br><a
+href="lecturepdf/2025/04.Linear%20models.pdf">Linear models</a> <br><a
+href="lecturepdf/2025/05.Models%20with%20random%20effects.pdf">Mixed
+effects models</a> <br><a
+href="lecturepdf/2025/06.Likelihood.pdf">Likelihood</a> <br><a
+href="lecturepdf/2025/07.Glm.pdf">Generalized linear models</a> <br><a
+href="lecturepdf/2025/08.Modelselection.pdf">Model selection</a> <br><a
+href="lecturepdf/2025/09.Bayes.pdf">Bayesian data analysis</a> <br><a
+href="lecturepdf/2025/10.Bootstrap.pdf">Bootstrap and resampling</a>
+<br><a href="lecturepdf/2025/11.Meta-analysis.pdf">Meta-analysis</a>
+<br><a href="lecturepdf/2025/12.Multivariate.pdf">Multivariate
+statistics</a> <br><a href="lecturepdf/2025/13.Phylogenetic.pdf">Species
+as data points</a></p>
+<!--
+<br>
+
+### Lecture overheads 2024 {#lectures2024}
+
+[Introduction](lecturepdf/2024/01.introduction.pdf)
+<br>[Graphics](lecturepdf/2024/02.Graphics.pdf)
+<br>[Design of experiments](lecturepdf/2024/03.Design.pdf)
+<br>[Linear models](lecturepdf/2024/04.Linear models.pdf) 
+<br>[Mixed effects models](lecturepdf/2024/05.Models with random effects.pdf)
+<br>[Likelihood](lecturepdf/2024/06.Likelihood.pdf) 
+<br>[Generalized linear models](lecturepdf/2024/07.Glm.pdf)
+<br>[Model selection](lecturepdf/2024/08.Modelselection.pdf) 
+<br>[Bayesian data analysis](lecturepdf/2024/09.Bayes.pdf)
+<br>[Bootstrap and resampling](lecturepdf/2024/10.Bootstrap.pdf)
+<br>[Meta-analysis](lecturepdf/2024/11.Meta-analysis.pdf)
+<br>[Multivariate statistics](lecturepdf/2024/12.Multivariate.pdf)
+<br>[Species as data points](lecturepdf/2024/13.Phylogenetic.pdf) 
+
+<br>
+
+### Lecture overheads 2022 {#lectures2022}
+
+[Introduction](lecturepdf/2022/01.introduction.pdf)
+<br>[Graphics](lecturepdf/2022/02.Graphics.pdf)
+<br>[Design of experiments](lecturepdf/2022/03.Design.pdf)
+<br>[Linear models](lecturepdf/2022/04.Linear models.pdf) 
+<br>[Mixed effects models](lecturepdf/2022/05.Models with random effects.pdf)
+<br>[Likelihood](lecturepdf/2022/06.Likelihood.pdf) 
+<br>[Generalized linear models](lecturepdf/2022/07.Glm.pdf)
+<br>[Model selection](lecturepdf/2022/08.Modelselection.pdf) 
+<br>[Bayesian data analysis](lecturepdf/2022/09.Bayes.pdf)
+<br>[Bootstrap and resampling](lecturepdf/2022/10.Bootstrap.pdf)
+<br>[Meta-analysis](lecturepdf/2022/11.Meta-analysis.pdf)
+<br>[Multivariate statistics](lecturepdf/2022/12.Multivariate.pdf)
+<br>[Species as data points](lecturepdf/2022/13.Phylogenetic.pdf) 
+
+<br>
+
+### Lecture videos 2022 {#videos2022}
+
+[Introduction](lecturepdf/2022/01.Introduction_video.mp4)
+<br>[Graphics](lecturepdf/2022/02.Graphics_video.mp4)
+<br>[Design of experiments](lecturepdf/2022/03.Design_video.mp4)
+<br>[Linear models](lecturepdf/2022/04.Linear models_video.mp4)
+<br>[Mixed effects models (2024 lecture)](lecturepdf/2024/05.Models with random effects_video.mp4)
+<br>[Likelihood](lecturepdf/2022/06.Likelihood_video.mp4)
+<br>[Generalized linear models](lecturepdf/2022/07.Glm_video.mp4)
+<br>[Model selection](lecturepdf/2022/08.Modelselection_video.mp4)
+<br>[Bayesian data analysis](lecturepdf/2022/09.Bayes_video.mp4)
+<br>[Bootstrap and resampling](lecturepdf/2022/10.Bootstrap_video.mp4)
+<br>[Meta-analysis](lecturepdf/2022/11.Meta-analysis_video.mp4)
+<br>[Multivariate statistics](lecturepdf/2022/12.Multivariate_video.mp4)
+<br>[Species as data points](lecturepdf/2022/13.Phylogenetic_video.mp4)
+
+<br>
+
+### Lecture overheads 2023 {#lectures2023}
+
+The course in 2023 was taught by Beth Volpov
+
+[Introduction](lecturepdf/2023/01_Introduction.pdf)
+<br>[Graphics](lecturepdf/2023/02_Graphics.pdf)
+<br>[Design of experiments](lecturepdf/2023/03_Experimental Design.pdf)
+<br>[Linear models](lecturepdf/2023/04_Linear Models.pdf) 
+<br>[Mixed effects models](lecturepdf/2023/05_Mixed-Effects Models.pdf)
+<br>[Likelihood](lecturepdf/2023/06_Likelihood.pdf) 
+<br>[Generalized linear models](lecturepdf/2023/07_GLM.pdf)
+<br>[Model selection](lecturepdf/2023/08_Model Selection.pdf) 
+<br>[Bayesian data analysis](lecturepdf/2023/09_Bayesian.pdf)
+<br>[Bootstrap and resampling](lecturepdf/2023/10_Computer Intensive.pdf)
+<br>[Meta-analysis](lecturepdf/2023/11_Meta Analysis.pdf)
+<br>[Multivariate statistics](lecturepdf/2023/12_Multivariate Methods.pdf)
+<br>[Students' choice](lecturepdf/2022/13_Students Choice.pdf) 
+
+## 2020 videos of lectures {#videos2020}
+
+<a href="lecturepdf/2020/02%20Graphics%20-%20zoom%20video.mp4?dl=0">Graphics</a>
+<br><a href="https://youtu.be/27b-qZKkraU">Design of experiments (2019 lecture)</a>
+<br><a href="lecturepdf/2020/04.Linear%20models%20-%20zoom%20video.mp4">Linear models</a>
+<br><a href="lecturepdf/2020/05.Models with random effects video.mp4">Mixed effects models</a>
+<br><a href="lecturepdf/2020/06.Likelihood - zoom_video.mp4">Likelihood</a>
+<br><a href="lecturepdf/2020/07.Glm - zoom_video.mp4">Generalized linear models</a>
+<br><a href="lecturepdf/2020/08.Modelselection - zoom_video.mp4">Model selection</a>
+<br><a href="lecturepdf/2020/09.Bayes - zoom_video.mp4">Bayesian data analysis</a>
+<br><a href="lecturepdf/2020/10.Bootstrap - zoom_video.mp4">Bootstrap and resampling</a>
+<br><a href="lecturepdf/2020/11.Meta-analysis - zoom_video.mp4">Meta-analysis</a>
+<br><a href="lecturepdf/2020/12.Multivariate zoom_0.mp4">Multivariate statistics</a>
+<br><a href="lecturepdf/2020/13.Phylogenetic zoom_0.mp4">Species as data points</a>
+
+## 2019 videos of lectures {#videos2019}
+<a href="https://youtu.be/UFABvRzxFt0">Introduction</a>
+<a href="https://youtu.be/b9oRMiy-CNk">Graphics</a>
+<a href="https://youtu.be/27b-qZKkraU">Design of experiments</a>
+<a href="https://youtu.be/WYKBgzDjpbs">Linear Models</a>
+<a href="https://youtu.be/nhjNQ2RFZD8">Mixed effects models</a>
+<a href="https://www.youtube.com/watch?v=0boae1DxjZ8&feature=youtu.be">Likelihood</a>
+<a href="https://youtu.be/Ds3fajlfZJs">Generalized linear models</a> (Because of a technical glitch, this is the 2017 lecture)
+<a href="https://youtu.be/qYSWp3XpDRw">Model selection</a>
+<a href="https://youtu.be/0FAeusbGdbU">Bayesian data analysis</a>
+<a href="https://youtu.be/83HvfuBNsGE">Bootstrap and resampling</a>
+<a href="https://youtu.be/SrPtJ8cTowY">Meta-analysis</a>
+<a href="https://youtu.be/I66NDLrJhWA">Multivariate statistics</a>
+<a href="https://youtu.be/ASZy3PUcALg">Species as data points</a>
+-->
+</div>
+</div>
+
+&nbsp;
+<hr />
+<p style="text-align: left;">
+&copy; 2009-2026 Dolph Schluter
+</p>
+&nbsp;
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
